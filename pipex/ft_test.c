@@ -9,109 +9,121 @@
 /*   Updated: 2022/02/11 03:24:49 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "minishell.h"
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include "libft.h"
-
-void	child_process(int f1, char **paths, char **cmd_args, char *envp[])
+void	child_process(char **paths, char **cmd_args, char *envp[])
 {
 	int		i;
 	char	*tmp;
 	char	*filename;
 
 	i = 0;
+	if (access(cmd_args[0], F_OK | X_OK) == 0) // si chemin absolu donné, checker les erreurs (si existe pas)
+		execve(cmd_args[0], cmd_args, envp);
+	// perror("execve : ");
 	while (paths[i])
 	{
-		tmp = ft_strjoin(paths[i], "/");
-		filename = ft_strjoin(tmp, cmd_args[0]);
-		free(tmp);
+		filename = ft_strjoin(paths[i], cmd_args[0]);
 		if (!filename)
 			exit(0) ; // on verra plus tard
-		execve(filename, cmd_args, envp);
-		free (filename);
+		if (access(filename, F_OK | X_OK) == 0)
+			execve(filename, cmd_args, envp);
+		//perror("execve ");
+		free(filename);
 		i++;
 	}
-	printf("command not found\n"); // a voir plus tard
+	printf("%s command not found\n", cmd_args[0]); // a voir plus tard
 }
 
-// void    pipex(int f1, int f2, char **paths, char *cmd1, char *cmd2)
-// {
-// 	int   end[2];
-// 	pid_t parent;
-// 	char	*cmd_args1;
-
-// 	cmd_args1 = ft_split(cmd, ' '); // faudra le changer pour tout ce qui est espace je pense
-// 	if (!cmd_args1)
-// 		exit ; // on verra plus tard
-
-// 	pipe(end);
-// 	parent = fork();
-// 	if (parent < 0)
-// 		return (perror("Fork: "));
-
-// 	if (!parent) // if fork() returns 0, we are in the child process
-// 		child_process(f1, paths, cmd1, cmd_args1);
-// 	else
-// 		parent_process(f2, cmd2);
-// }
-
-// je me demande si on peut faire une recherche de which au début
-// comme ça si il y est, le path des commandes est rapide à trouver
-
-char	*where_is_da_way(char *envp[])
+void	child_process2(char **paths, char **cmd_args, char *envp[])
 {
-	int	i;
+	int		i;
+	char	*tmp;
+	char	*filename;
 
 	i = 0;
-	while (envp[i])
+	if (access(cmd_args[0], F_OK | X_OK) == 0) // si chemin absolu donné, checker les erreurs (si existe pas)
+		execve(cmd_args[0], cmd_args, envp);
+	// perror("execve : ");
+	while (paths[i])
 	{
-		if (strncmp(envp[i], "PATH=", 5) == 0) //fonction systeme
-			return (envp[i] + 5);
+		filename = ft_strjoin(paths[i], cmd_args[0]);
+		if (!filename)
+			exit(0) ; // on verra plus tard
+		if (access(filename, F_OK | X_OK) == 0)
+			execve(filename, cmd_args, envp);
+		//perror("execve ");
+		free(filename);
 		i++;
 	}
-	return (NULL);
+	printf("%s command not found\n", cmd_args[0]); // a voir plus tard
 }
 
-char	**what_are_the_paths(char *envp[])
+void    pipex(int fd_in, int fd_out, char **cmd1, char **cmd2, char *envp[])
 {
-	char	*da_way;
+	int   	end[2];
+	pid_t	child1;
+	pid_t	child2;
+	int		status;
+	char	**paths;
 
-	da_way = where_is_da_way(envp);
-	if (da_way == NULL)
+	paths = what_are_the_paths(envp);
+	if (paths == NULL)
+		return ; // a voir
+		
+	if (pipe(end) == -1)
+		return (perror("pipe"));
+
+	child1 = fork();
+	if (child1 < 0)
+		return (perror("Fork: "));
+	if (child1 == 0) // if fork() returns 0, we are in the child process
 	{
-		printf("Environnement variable PATH not found.\n");
-		return (NULL);
+		dup2(end[1], 1);
+		close(end[0]);
+		dup2(fd_in, 0);
+		child_process(paths, cmd1, envp);
+
 	}
-	return(ft_split(da_way, ':'));
+	child2 = fork();
+	if (child2 < 0)
+		return (perror("Fork: "));
+	if (child2 == 0)
+	{
+		dup2(end[0], 0);
+		close(end[1]);
+		dup2(fd_out, 1);	
+		child_process(paths, cmd2, envp);
+	}
+
+	close(end[0]);
+	close(end[1]);
+	waitpid(child1, &status, 0);
+	waitpid(child2, &status, 0);
 }
 
 int main(int ac, char **av, char *envp[])
 {
+	char	**paths;
 	int	fd1;
 	int	fd2;
-	char	**paths;
 
 	if (ac != 5)
 		return (printf("Error: %s infile cm1 cm2 outfile\n %i\n", av[0], ac));
 	fd1 = open(av[1], O_RDONLY);
+	if (fd1)
 	fd2 = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644); //trunc pour >; append pour >>
-
-	paths = what_are_the_paths(envp);
+	// voir pour un fichier qui existe mais dont on a pas les droits
 
 	char	**cmd_args1;
+	char	**cmd_args2;
 
-	cmd_args1 = ft_split(av[2], ' '); // faudra le changer pour tout ce qui est espace je pense
-	if (!cmd_args1)
-		exit(1) ; // on verra plus tard (erreur toussa)
+	ft_set_cmd1_cmd2(&cmd_args1, &cmd_args2, av); // provisoire
 
-	child_process(fd1, paths, cmd_args1, envp);
+	pipex(fd1, fd2, cmd_args1, cmd_args2, envp);
+
+	//child_process(fd1, paths, cmd_args1, envp);
 	free(cmd_args1);
+	free(cmd_args2);
 
-	//pipex(fd1, fd2, paths);
-	
 }

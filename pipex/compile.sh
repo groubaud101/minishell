@@ -1,2 +1,7 @@
-gcc ft_test.c -L. -lft -I./libft/include
-./a.out infile "ls -la" "echo toto" outfile
+gcc *.c -L. -lft -I./libft/include
+
+echo './a.out infile "ls -la" "grep a.out" outfile\n'
+./a.out infile "ls -la" "grep a.out" outfile
+
+echo "cat outfile :"
+cat outfile
