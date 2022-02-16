@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_set_cmd1_cmd2.c                                 :+:      :+:    :+:   */
+/*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/16 05:15:30 by groubaud          #+#    #+#             */
-/*   Updated: 2022/02/16 05:15:30 by groubaud         ###   ########.fr       */
+/*   Created: 2022/02/16 11:30:01 by groubaud          #+#    #+#             */
+/*   Updated: 2022/02/16 11:30:01 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_set_cmd1_cmd2(char ***cmd1, char ***cmd2, char **av)
+void	ft_pipe(t_minishell mini, char **cmd1, char **cmd2, char *envp[])
 {
-	*cmd1 = ft_split(av[2], ' '); // faudra le changer pour tout ce qui est espace je pense
-	if (!(*cmd1))
-		return (-1);
-	*cmd2 = ft_split(av[3], ' '); // faudra le changer pour tout ce qui est espace je pense
-	if (!(*cmd2))
-		return (-1);
-	return (CHECK_OK);	
+	int   	end[2];
+	pid_t	child1;
+	pid_t	child2;
+	int		status;
+		
+	if (pipe(end) == -1)
+		return (perror("pipe: "));
+	child1 = ft_child1(mini, end, cmd1, envp);
+	child2 = ft_child2(mini, end, cmd2, envp);	
+	close(end[0]);
+	close(end[1]);
+	waitpid(child1, &status, 0);
+	waitpid(child2, &status, 0);
 }

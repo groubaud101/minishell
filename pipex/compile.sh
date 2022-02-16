@@ -5,3 +5,6 @@ echo './a.out infile "ls -la" "grep a.out" outfile\n'
 
 echo "cat outfile :"
 cat outfile
+
+echo '\nrm a.out outfile'
+rm -rf a.out outfile
