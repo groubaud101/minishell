@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:10:43 by jrobert           #+#    #+#             */
-/*   Updated: 2022/01/27 16:31:25 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/02/15 16:34:59 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	fail(char *err)
 {
-	printf("%s\n", err);
+	ft_putstr_fd("Minishell: ", 2);
+	ft_putstr_fd(err, 2);
 	return (1);
 }
