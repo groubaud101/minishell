@@ -14,7 +14,10 @@
 
 int	ft_redir_in(int *fd_in, char *infile)
 {
-	*fd_in = open(infile, O_RDONLY);
+	if (infile == NULL)
+		*fd_in = 0;
+	else
+		*fd_in = open(infile, O_RDONLY);
 	if (*fd_in == -1)
 	{
 		printf("could not open the infile blah blah blah\n");
@@ -25,7 +28,9 @@ int	ft_redir_in(int *fd_in, char *infile)
 
 int	ft_double_redir_in(int *fd_in, char *infile)
 {
-	// je n'ai pas trop compris ce que ça faisait, on verra plus tard
+	// a faire
+	// <<EXPRESSION indique à une lecture sur l'entrée standard (?)
+	//  de continuer jusqu'à EXPRESSION non incluse
 	*fd_in = open(infile, O_RDONLY);
 	if (*fd_in == -1)
 	{

@@ -21,6 +21,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include "libft.h"
+# include "ft_printf.h"
 
 # define CHECK_OK 0
 # define CHECK_ERR -1
