@@ -40,7 +40,7 @@ static size_t	ft_count_word(char const *s, char c)
 	return (ct);
 }
 
-static char	**ft_free_tab(char **tab, int len)
+static char	**ft_free_tab_split(char **tab, int len)
 {
 	while (len)
 		free(tab[--len]);
@@ -63,7 +63,7 @@ static char	**ft_split_two(char const *s, char c, char **tab)
 			len = ft_special_strlen(s, 0, c);
 			tab[index] = (char *)ft_calloc(sizeof(**tab), len + 1);
 			if (!(tab[index]))
-				return (ft_free_tab(tab, index));
+				return (ft_free_tab_split(tab, index));
 			ft_strlcpy(tab[index], s, len + 1);
 			s = s + len;
 			index++;
