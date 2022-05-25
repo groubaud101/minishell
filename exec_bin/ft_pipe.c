@@ -65,6 +65,7 @@ int	ft_exec_process(char *expression, t_mini *mini, bool to_exit)
 	char	**cmd;
 	int		ret_value;
 
+	ft_convert_env_list_to_tab(mini);
 	cmd = ft_split(expression, ' ');
 	ret_value = ft_execve(cmd, mini->paths, mini->envp_tab);
 	ft_free_tab(cmd);

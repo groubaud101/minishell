@@ -42,12 +42,11 @@ char	**ft_convert_env_list_to_tab(t_mini *mini)
 		envp_tab[i] = ft_strjoin_gnl(NULL, env->name);
 		envp_tab[i] = ft_strjoin_gnl(envp_tab[i], "=");
 		envp_tab[i] = ft_strjoin_gnl(envp_tab[i], env->value);
-		printf("envp_tab[%i] : |%s|\n", i, envp_tab[i]);
 		i++;
 		env = env->next;
 	}
 	envp_tab[i] = NULL;
-	ft_puttab(envp_tab, " COUCOU\n");
+	mini->envp_tab = envp_tab;
 	mini->env_has_changed = 0;
 	return (NULL);
 }
