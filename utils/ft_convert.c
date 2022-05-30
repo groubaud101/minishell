@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+/*
+** t_env *env : the first element of the list
+**
+** Count the number of element in the list
+*/
+
 static int	ft_list_len(t_env *env)
 {
 	int	len;
@@ -25,6 +31,16 @@ static int	ft_list_len(t_env *env)
 	return (len);
 }
 
+/*
+** t_mini *mini : the general structure with everything
+**
+** Convert the environnement list into a char ** to be like envp
+**  it's needed for excve
+** It will be stocked in mini as 'envp_tab'
+** If it hasn't changed, it won't be reconvert
+**  else the previous is freed and envp_tab is (re)made
+*/
+
 char	**ft_convert_env_list_to_tab(t_mini *mini)
 {
 	t_env	*env;
@@ -33,7 +49,7 @@ char	**ft_convert_env_list_to_tab(t_mini *mini)
 
 	if (mini->env_has_changed == 0)
 		return (mini->envp_tab);
-	ft_free_envp_tab(mini->envp_tab);
+	ft_free_tab(mini->envp_tab);
 	env = mini->env;
 	envp_tab = malloc(sizeof(*envp_tab) * (ft_list_len(env) + 1));
 	i = 0;

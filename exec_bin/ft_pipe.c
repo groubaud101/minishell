@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/*
+** cmd : tab of the command + args (ex : 'cd', '/home/user')
+** paths : tab of the paths in the env variable PATH
+** envp : tab of the environment
+**
+** Execute the command if possible
+**  first, try if absolute or relative path
+**  then, try concat every paths[i] with '/' with cmd[0]
+**   (ex : '/usr/bin', '/', 'cd' -> /usr/bin/cd)
+*/
+
 int	ft_execve(char **cmd, char **paths, char *envp[])
 {
 	int		i;
@@ -22,6 +33,8 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 	pid = fork();
 	if (pid == 0)
 	{
+		if (access(cmd[0], X_OK) == 0)
+			execve(cmd[0], cmd, envp);
 		while (paths[i])
 		{
 			tmp_path = ft_strjoin(paths[i], "/");
@@ -35,8 +48,12 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 	}
 	else
 		waitpid(pid, NULL, 0);
-	return (CHECK_ERR);
+	return (CHECK_ERR); // exit ?
 }
+
+/* TODO add t_mini *mini
+** Create the parent/child process and link fd_in and fd_out
+*/
 
 int		ft_kind_of_pipe(void)
 {
@@ -60,6 +77,14 @@ int		ft_kind_of_pipe(void)
 	}
 }
 
+/* TODO add the call to BUILTIN check before ft_execve
+** expression : command + args in a string (ex : "echo 'coucou'")
+** mini : the master structure
+** to_exit : a booleen to know if we need ti add an exit (for pipe)
+**
+** Prepare and execute the command given by 'expression'
+*/
+
 int	ft_exec_process(char *expression, t_mini *mini, bool to_exit)
 {
 	char	**cmd;
@@ -71,8 +96,15 @@ int	ft_exec_process(char *expression, t_mini *mini, bool to_exit)
 	ft_free_tab(cmd);
 	if (to_exit == TO_EXIT)
 		exit (1); // faudra changer cette valeur
-	return (ret_value);
+	return (ret_value); // ca aussi
 }
+
+/*
+** cmds : a tab of the strings between pipe or just one if there is no pipe
+** mini : the master structure
+**
+** Call the previous function to make the magic pipe happens.
+*/
 
 int ft_pipe(char **cmds, t_mini *mini)
 {

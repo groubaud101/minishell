@@ -12,13 +12,18 @@
 
 #include "minishell.h"
 
-int	ft_redir_in(int *fd_in, char *infile)
+/*
+** TODO
+** It must be that in theory but I don't know how to test it
+*/
+
+int	ft_redir_in(t_mini *mini, char *infile)
 {
 	if (infile == NULL)
-		*fd_in = 0;
+		mini->fd_in = STDIN;
 	else
-		*fd_in = open(infile, O_RDONLY);
-	if (*fd_in == -1)
+		mini->fd_in = open(infile, O_RDONLY);
+	if (mini->fd_in == -1)
 	{
 		printf("could not open the infile blah blah blah\n");
 		return (CHECK_ERR);
@@ -26,13 +31,18 @@ int	ft_redir_in(int *fd_in, char *infile)
 	return (CHECK_OK);	
 }
 
-int	ft_double_redir_in(int *fd_in, char *infile)
+/*
+** TODO
+** it's the <<END thing
+*/
+
+int	ft_double_redir_in(t_mini *mini, char *infile)
 {
 	// a faire
 	// <<EXPRESSION indique à une lecture sur l'entrée standard (?)
 	//  de continuer jusqu'à EXPRESSION non incluse
-	*fd_in = open(infile, O_RDONLY);
-	if (*fd_in == -1)
+	mini->fd_in = open(infile, O_RDONLY);
+	if (mini->fd_in == -1)
 	{
 		printf("could not open the infile blah blah blah\n");
 		return (CHECK_ERR);
@@ -40,10 +50,21 @@ int	ft_double_redir_in(int *fd_in, char *infile)
 	return (CHECK_OK);	
 }
 
-int	ft_redir_out(int *fd_out, char *outfile)
+/*
+** TO TEST
+** mini : the master structure
+** outfile : the path of the output file
+**
+** Attribute the 'fd_out' to the outfile called by '>'
+**  create a new if not exist
+**  give read ??? and write privileges
+**  will replace content
+*/
+
+int	ft_redir_out(t_mini *mini, char *outfile)
 {
-	*fd_out = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (*fd_out == -1)
+	mini->fd_out = open(outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (mini->fd_out == -1)
 	{
 		printf("could not open the outfile blah blah blah\n");
 		return (CHECK_ERR);
@@ -52,10 +73,21 @@ int	ft_redir_out(int *fd_out, char *outfile)
 	return (CHECK_OK);
 }
 
-int	ft_double_redir_out(int *fd_out, char *outfile)
+/*
+** TO TEST
+** mini : the master structure
+** outfile : the path of the output file
+**
+** Attribute the 'fd_out' to the outfile called by '>>'
+**  create a new if not exist
+**  give read and write privileges
+**  will append new content
+*/
+
+int	ft_double_redir_out(t_mini *mini, char *outfile)
 {
-	*fd_out = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0644);
-	if (*fd_out == -1)
+	mini->fd_out = open(outfile, O_CREAT | O_RDWR | O_APPEND, 0644);
+	if (mini->fd_out == -1)
 	{
 		printf("could not open the outfile blah blah blah\n");
 		return (CHECK_ERR);

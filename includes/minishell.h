@@ -54,16 +54,15 @@ typedef struct s_mini
 
 
 /* exec */
-int		ft_redir_in(int *fd_in, char *infile);
-int		ft_redir_out(int *fd_out, char *outfile);
-int		ft_double_redir_in(int *fd_in, char *infile);
-int		ft_double_redir_out(int *fd_out, char *outfile);
+int		ft_redir_in(t_mini *mini, char *infile);
+int		ft_redir_out(t_mini *mini, char *outfile);
+int		ft_double_redir_in(t_mini *mini, char *infile);
+int		ft_double_redir_out(t_mini *mini, char *outfile);
 int		ft_pipe(char **cmds, t_mini *mini);
 
 /* utils */
 void	ft_init_mini(t_mini *mini, char **envp);
 char	**ft_convert_env_list_to_tab(t_mini *mini);
-void	ft_free_envp_tab(char **envp_tab);
 
 /* builtins */
 void	ft_aff_env(t_env *env);

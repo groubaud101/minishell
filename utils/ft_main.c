@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+/*
+** ac/av/envp : number of arg / tab of arg / tab of the environnement
+**
+** Initialize the master structure mini
+*/
+
 int main(int ac, char **av, char *envp[])
 {
 	t_mini	mini;
@@ -19,4 +25,6 @@ int main(int ac, char **av, char *envp[])
 	ft_init_mini(&mini, envp);
 	if (ac > 1)
 	 	ft_pipe(av + 1, &mini);
+
+	ft_printf("\n\nThis is the end, hold your breath and count to ten\n");
 }

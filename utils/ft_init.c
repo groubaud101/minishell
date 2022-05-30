@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+/*
+** str :  the string to split
+** c : the caracter of separation ('=' here)
+**
+** ft_split but just once.
+** For the environment, to get the name and the value in two string
+**  the value could have several '=' in it
+*/
+
 static char	**ft_split_once(char *str, char c)
 {
 	int		i;
@@ -35,6 +44,16 @@ static char	**ft_split_once(char *str, char c)
 	return (tab);
 }// a voir pour les fail malloc
 
+/*
+** envp : tab[i] of the environment ('name=value') 
+**
+** Create a node of the list 'env' 
+**  'name' is the left part of the '=' (ex : HOME)
+**  'len_name' is the len of the name (ex for HOME : 4)
+**   (it's used later in ft_getenv)
+**  'value' the right part of the '=' (ex : /home/user)
+*/
+
 static t_env	*ft_attribute_elem_env(char *envp)
 {
 	t_env	*lst;
@@ -52,6 +71,12 @@ static t_env	*ft_attribute_elem_env(char *envp)
 	lst->next = NULL;
 	return (lst);
 }
+
+/*
+** envp : the tab of the environment given by the main
+**
+** Create the chain list 't_env' of the environment 
+*/
 
 static t_env	*ft_init_env(char *envp[])
 {
@@ -73,6 +98,19 @@ static t_env	*ft_init_env(char *envp[])
 	}
 	return (start);
 }
+
+/*
+** mini : adress of mini given by the main
+** envp : the tab of the environment given by the main
+**
+** Create the master structure 'mini'
+**  'fd_in' : file descriptor input
+**  'fd_out' : file descriptor output
+**  'env' : chain list of the environment
+**  'env_has_changed' : a bool to know if it's needed to remake envp_tab
+**  'envp_tab' : a tab version of 'env' (== envp)
+**  'paths' : a tab of every paths in the env variable PATH
+*/
 
 void	ft_init_mini(t_mini *mini, char **envp)
 {

@@ -5,21 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/25 23:32:09 by groubaud          #+#    #+#             */
-/*   Updated: 2022/05/25 23:32:09 by groubaud         ###   ########.fr       */
+/*   Created: 2022/05/30 08:06:35 by groubaud          #+#    #+#             */
+/*   Updated: 2022/05/30 08:06:35 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free_envp_tab(char **envp_tab)
-{
-	int	i;
+/*
+** 
+**
+** will be used to free everything
+*/
 
-	i = 0;
-	if (envp_tab == NULL)
-		return ;
-	while (envp_tab[i])
-		free(envp_tab[i++]);
-	free(envp_tab);
+void	ft_free_env(t_env *env)
+{
+	free(env); // don't do that
 }

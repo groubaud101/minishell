@@ -27,7 +27,7 @@ INCLUDE	=	$(D_INC)minishell.h
 I_INC	=	-I $(D_INC_L) -I $(D_INC)
 
 S_EXEC	=	pipe redir_in_out
-S_UTILS	=	main init convert free
+S_UTILS	=	main init convert
 S_BUILT	=	env getenv
 
 SRCS	=	$(addprefix $(D_EXEC)ft_, $(addsuffix .c, $(S_EXEC))) \
