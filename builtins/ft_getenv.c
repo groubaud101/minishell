@@ -16,19 +16,19 @@
 ** name : the name of the env variable you are looking for (ex : HOME)
 ** env : environment chain list
 **
-** Search throught the env chain list and return the 'value' of the 'name'
+** Search throught the env chain list and return the node of the 'name'
 **  check every node to get the most accurate
-**  ex : > setenv va=hi
-**       > setenv var=hello
+**  ex : > export va=hi
+**       > export var=hello
 **       > echo $variable
 **       > helloiable
 ** Return NULL if not found
 */
 
-char	*ft_getenv(char *name, t_env *env)
+t_env	*ft_getenv(char *name, t_env *env)
 {
 	int		len;
-	char	*match;
+	t_env	*match;
 
 	len = 0;
 	while (env)
@@ -36,7 +36,7 @@ char	*ft_getenv(char *name, t_env *env)
 		if (len < env->len_name &&
 			ft_strncmp(env->name, name, env->len_name) == 0)
 		{
-			match = env->value;
+			match = env;
 			len = env->len_name;
 		}
 		env = env->next;

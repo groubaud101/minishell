@@ -60,6 +60,8 @@ static t_env	*ft_attribute_elem_env(char *envp)
 	char	**name_value;
 
 	lst = malloc(sizeof(t_env));
+	if (lst == NULL)
+		exit (0); // malloc fail
 	name_value = ft_split_once(envp, '=');
 	if (!name_value)
 		exit (0); // malloc fail
@@ -114,12 +116,16 @@ static t_env	*ft_init_env(char *envp[])
 
 void	ft_init_mini(t_mini *mini, char **envp)
 {
+	t_env	*env_path;
+
 	mini->fd_in = STDIN;
 	mini->fd_out = STDOUT;
-	mini->env = ft_init_env(envp);
+	mini->env = ft_init_env(envp); //check malloc ?
 	//ft_aff_env(mini->env);
 	mini->env_has_changed = 1;
 	mini->envp_tab = NULL;
 
-	mini->paths = ft_split(ft_getenv("PATH", mini->env), ':');
+	env_path = ft_getenv("PATH", mini->env);
+	if (env_path)
+		mini->paths = ft_split(env_path->value, ':');
 }

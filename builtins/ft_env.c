@@ -18,7 +18,7 @@
 ** Display the environment
 */
 
-void	ft_aff_env(t_env *env)
+void	ft_env(t_env *env)
 {
 	while(env)
 	{

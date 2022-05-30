@@ -21,6 +21,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <stdbool.h>
+# include <stdint.h>
 # include "libft.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
@@ -65,7 +66,11 @@ void	ft_init_mini(t_mini *mini, char **envp);
 char	**ft_convert_env_list_to_tab(t_mini *mini);
 
 /* builtins */
-void	ft_aff_env(t_env *env);
-char	*ft_getenv(char *name, t_env *env);
+void	ft_env(t_env *env);
+t_env	*ft_getenv(char *name, t_env *env);
+int		ft_cd(t_mini *mini, char *path);
+char	*ft_getcwd(void);
+int		ft_pwd(void);
+int		ft_export(t_mini *mini, char *name, char *value);
 
 #endif
