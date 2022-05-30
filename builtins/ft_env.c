@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+/*
+** env : the environment chain list
+**
+** Display the environment
+*/
+
 void	ft_aff_env(t_env *env)
 {
 	while(env)

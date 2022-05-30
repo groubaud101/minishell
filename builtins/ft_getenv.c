@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+/*
+** name : the name of the env variable you are looking for (ex : HOME)
+** env : environment chain list
+**
+** Search throught the env chain list and return the 'value' of the 'name'
+**  check every node to get the most accurate
+**  ex : > setenv va=hi
+**       > setenv var=hello
+**       > echo $variable
+**       > helloiable
+** Return NULL if not found
+*/
+
 char	*ft_getenv(char *name, t_env *env)
 {
 	int		len;
