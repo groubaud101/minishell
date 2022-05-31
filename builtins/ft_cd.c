@@ -19,30 +19,22 @@
 ** man chdir
 ** Move the current working directory to 'path'
 ** Change the PWD and OLDPWD (if exist ?)
-** Set env_has_changed to 1
+** Set env_has_changed to 1 if 'path' is diff than '.' 
 */
 
 int	ft_cd(t_mini *mini, char *path)
 {
-	t_env	*env_pwd;
 	char	*name;
 	char	*value;
 
-	ft_printf("\nENV avant :\n");
-	ft_env(mini->env);
-
 	if (chdir(path) == -1)
 		return (CHECK_ERR);
+	if (ft_strcmp(path, ".") != 0)
+		mini->env_has_changed = 1;
 	name = ft_strdup("PWD");
 	if (name == NULL)
 		exit (0); // error malloc
-	env_pwd = ft_getenv(name, mini->env);
 	value = ft_getcwd();
-	if (env_pwd)
-		free(env_pwd->value);
-	ft_export(mini, name, value);
-
-	ft_printf("\nENV après :\n");
-	ft_env(mini->env);
+	ft_export_to_env(mini, name, value);
 	return (CHECK_OK);
 }

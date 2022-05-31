@@ -24,7 +24,7 @@ int main(int ac, char **av, char *envp[])
 
 	ft_init_mini(&mini, envp);
 	if (ac > 1)
-	 	ft_pipe(av + 1, &mini);
-	ft_cd(&mini, ".");
+	//	ft_pipe(av + 1, &mini);
+		ft_cd(&mini, av[1]);
 	ft_printf("\n\nThis is the end, hold your breath and count to ten\n");
 }

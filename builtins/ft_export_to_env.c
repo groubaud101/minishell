@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export.c                                        :+:      :+:    :+:   */
+/*   ft_export_to_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/30 13:48:27 by groubaud          #+#    #+#             */
-/*   Updated: 2022/05/30 13:48:27 by groubaud         ###   ########.fr       */
+/*   Created: 2022/05/31 14:00:08 by groubaud          #+#    #+#             */
+/*   Updated: 2022/05/31 14:00:09 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_env	*ft_add_new_elem_env(t_env *env, char *name, char *value)
 	return (start);
 }
 
-int		ft_export(t_mini *mini, char *name, char *value) 
+int		ft_export_to_env(t_mini *mini, char *name, char *value) 
 {
 	t_env	*env_export;
 
