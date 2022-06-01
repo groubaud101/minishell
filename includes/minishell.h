@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include <stdint.h>
+# include <errno.h>
 # include "libft.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
@@ -43,6 +44,14 @@ typedef struct s_env
 	struct s_env	*next;
 }t_env;
 
+typedef struct s_bash
+{
+	char			*name;
+	int				len_name;
+	char			*value;
+	struct s_bash	*next;
+}t_bash;
+
 typedef struct s_mini
 {
 	int		fd_in;
@@ -50,6 +59,7 @@ typedef struct s_mini
 	char	**paths;
 	t_env	*env;
 	bool	env_has_changed;
+	t_bash	*var_bash;
 	char	**envp_tab;
 }t_mini;
 

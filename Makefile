@@ -28,7 +28,7 @@ I_INC	=	-I $(D_INC_L) -I $(D_INC)
 
 S_EXEC	=	pipe redir_in_out
 S_UTILS	=	main init convert
-S_BUILT	=	env getenv cd pwd export
+S_BUILT	=	env getenv cd pwd export_to_env
 
 SRCS	=	$(addprefix $(D_EXEC)ft_, $(addsuffix .c, $(S_EXEC))) \
 			$(addprefix $(D_UTILS)ft_, $(addsuffix .c, $(S_UTILS))) \

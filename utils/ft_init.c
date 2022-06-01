@@ -124,6 +124,7 @@ void	ft_init_mini(t_mini *mini, char **envp)
 	//ft_aff_env(mini->env);
 	mini->env_has_changed = 1;
 	mini->envp_tab = NULL;
+	mini->var_bash = NULL;
 
 	env_path = ft_getenv("PATH", mini->env);
 	if (env_path)

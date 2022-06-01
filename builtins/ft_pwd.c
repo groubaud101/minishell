@@ -21,17 +21,16 @@ char	*ft_getcwd(void)
 	buff = malloc(sizeof(*buff) * (size + 1));
 	if (buff == NULL)
 		return (NULL); // erreur malloc
-	// while (errno == ERANGE)
-	// {
-	// 	free(buff);
-		// size *= 2;
-		// if (size >= SIZE_MAX / 2)
-		// 	exit (1); // attention overflow
-		// buff = malloc(sizeof(*buff) * (size + 1));
-		// if (buff == NULL)
-		// 	return (NULL); // erreur malloc
-		getcwd(buff, size);
-	// }
+	while (getcwd(buff, size) == NULL && errno == ERANGE)
+	{
+		free(buff);
+		size *= 2;
+		if (size >= SIZE_MAX / 2)
+			exit (1); // attention overflow
+		buff = malloc(sizeof(*buff) * (size + 1));
+		if (buff == NULL)
+			return (NULL); // erreur malloc
+	}
 	return (buff);
 }
 
