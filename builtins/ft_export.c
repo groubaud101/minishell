@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/07 05:20:19 by groubaud          #+#    #+#             */
-/*   Updated: 2022/05/07 05:20:19 by groubaud         ###   ########.fr       */
+/*   Created: 2022/06/01 15:55:20 by groubaud          #+#    #+#             */
+/*   Updated: 2022/06/01 15:55:20 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-** ac/av/envp : number of arg / tab of arg / tab of the environnement
-**
-** Initialize the master structure mini
-*/
-
-int main(int ac, char **av, char *envp[])
+int	ft_export(t_mini *mini, char *name, char *value)
 {
-	t_mini	mini;
-
-	ft_init_mini(&mini, envp);
-	if (ac > 1)
-	//	ft_pipe(av + 1, &mini);
-		ft_cd(&mini, av[1]);
-	ft_display_export(mini.env);
-	ft_printf("\n\nThis is the end, hold your breath and count to ten\n");
+	if (name == NULL && value == NULL)
+		ft_display_export(mini->env);
+	return (CHECK_OK);
 }

@@ -82,5 +82,7 @@ int		ft_cd(t_mini *mini, char *path);
 char	*ft_getcwd(void);
 int		ft_pwd(void);
 int		ft_export_to_env(t_mini *mini, char *name, char *value);
+void	ft_display_export(t_env *env);
+int		ft_export(t_mini *mini, char *name, char *value);
 
 #endif
