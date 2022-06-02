@@ -22,7 +22,7 @@ int main(int ac, char **av, char *envp[])
 {
 	t_mini	mini;
 
-	ft_init_mini(&mini, envp);
+	ft_init_mini(&mini, av, envp);
 	if (ac > 1)
 	//	ft_pipe(av + 1, &mini);
 		ft_cd(&mini, av[1]);

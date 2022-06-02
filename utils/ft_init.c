@@ -114,10 +114,11 @@ static t_env	*ft_init_env(char *envp[])
 **  'paths' : a tab of every paths in the env variable PATH
 */
 
-void	ft_init_mini(t_mini *mini, char **envp)
+void	ft_init_mini(t_mini *mini, char **av, char **envp)
 {
 	t_env	*env_path;
 
+	mini->binary_name = av[0];
 	mini->fd_in = STDIN;
 	mini->fd_out = STDOUT;
 	mini->env = ft_init_env(envp); //check malloc ?

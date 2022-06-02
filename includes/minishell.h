@@ -54,6 +54,7 @@ typedef struct s_bash
 
 typedef struct s_mini
 {
+	char	*binary_name;
 	int		fd_in;
 	int		fd_out;
 	char	**paths;
@@ -72,7 +73,7 @@ int		ft_double_redir_out(t_mini *mini, char *outfile);
 int		ft_pipe(char **cmds, t_mini *mini);
 
 /* utils */
-void	ft_init_mini(t_mini *mini, char **envp);
+void	ft_init_mini(t_mini *mini, char **av, char **envp);
 char	**ft_convert_env_list_to_tab(t_mini *mini);
 
 /* builtins */
