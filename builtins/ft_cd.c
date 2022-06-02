@@ -14,27 +14,45 @@
 
 /*
 ** mini : master structure
+** name : PWD or OLDPWD non memory allocated
+** absolute_path : allocated absolute path get by ft_getcwd
+**
+** Create OLDPWD and PWD if doesn't exist
+** Then change them
+*/
+
+static int	ft_update_pwd_env(t_mini *mini, char *name, char *absolute_path)
+{
+	char	*tmp_pwd;
+	t_env	*tmp_env;
+
+	tmp_env = ft_getenv(name, mini->env);
+	if (tmp_env)
+		tmp_pwd = tmp_env->name;
+	else
+		tmp_pwd = ft_strdup(name);
+	if (tmp_pwd == NULL)
+		exit (0); // error malloc
+	ft_export_to_env(mini, tmp_pwd, absolute_path);
+	return (CHECK_OK);
+}
+
+/*
+** mini : master structure
 ** path : relative or absolute path of where do you want to go
 **
 ** man chdir
 ** Move the current working directory to 'path'
-** Change the PWD and OLDPWD (if exist ?)
 ** Set env_has_changed to 1 if 'path' is diff than '.' 
 */
 
 int	ft_cd(t_mini *mini, char *path)
 {
-	char	*name;
-	char	*value;
-
+	ft_update_pwd_env(mini, "OLDPWD", ft_getcwd());
 	if (chdir(path) == -1)
 		return (CHECK_ERR);
+	ft_update_pwd_env(mini, "PWD", ft_getcwd());
 	if (ft_strcmp(path, ".") != 0)
 		mini->env_has_changed = 1;
-	name = ft_strdup("PWD");
-	if (name == NULL)
-		exit (0); // error malloc
-	value = ft_getcwd();
-	ft_export_to_env(mini, name, value);
 	return (CHECK_OK);
 }

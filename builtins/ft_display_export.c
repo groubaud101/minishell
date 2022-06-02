@@ -12,24 +12,37 @@
 
 #include "minishell.h"
 
-void	ft_display_export(t_env *env)
-{
-	t_env	*start;
-	t_env	*your_turn;
-	t_env	*previous;
-	t_env	*last;
+/*
+** env : first node of the environment chain list
+**
+** Return the first (in alphanum sort) element of env
+*/
 
-	start = env;
-	previous = env;
+static t_env	*ft_first_env(t_env *env)
+{
+	t_env	*first;
+
+	first = env;
 	while (env)
 	{
 		if (ft_strcmp("_", env->name) != 0
-			&& ft_strcmp(previous->name, env->name) > 0)
-			previous = env;
+			&& ft_strcmp(first->name, env->name) > 0)
+			first = env;
 		env = env->next;
 	}
+	return (first);
+}
 
-	env = start;
+/*
+** env : first node of the environment chain list
+**
+** Return the last (in alphanum sort) element of env
+*/
+
+static t_env	*ft_last_env(t_env *env)
+{
+	t_env	*last;
+
 	last = env;
 	while (env)
 	{
@@ -38,7 +51,30 @@ void	ft_display_export(t_env *env)
 			last = env;
 		env = env->next;
 	}
+	return (last);
+}
 
+/*
+** env : first node of the environment chain list
+**
+** Display env view by export (alphanum sort and "value") 
+*/
+
+// Peut-être que je vais faire une liste t_export
+//  si je trouve une différence notable entre export et env
+//
+// Il me semblait avoir vu des variables dans export mais pas dans env
+//  mais je ne suis pas arriver à reproduire le phénomène donc pour le moment c'est un myth
+void	ft_display_export(t_env *env)
+{
+	t_env	*start;
+	t_env	*your_turn;
+	t_env	*previous;
+	t_env	*last;
+
+	start = env;
+	last = ft_last_env(env);
+	previous = ft_first_env(env);
 	your_turn = previous;
 	while (your_turn != last)
 	{
