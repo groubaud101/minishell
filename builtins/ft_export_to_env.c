@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static t_env	*ft_find_the_insert_spot(t_env *env)
+static t_env	*ft_find_the_insert_spot(t_env *env) // a del
 {
 	t_env	*tmp_env;
 
@@ -50,13 +50,13 @@ static t_env	*ft_add_new_elem_env(t_env *env, char *name, char *value)
 		return (env_new);
 	start = env;
 
-	// option 1 on incruste au milieu si possible sinon à la fin
-	env = ft_find_the_insert_spot(env);
-	env_new->next = env->next;
+	// // option 1 on incruste au milieu si possible sinon à la fin
+	// env = ft_find_the_insert_spot(env);
+	// env_new->next = env->next;
 
-	// // option 2 on incruste à la fin
-	// while (env->next)
-	// 	env = env->next;
+	// option 2 on incruste à la fin
+	while (env->next)
+		env = env->next;
 	
 	env->next = env_new;
 	return (start);

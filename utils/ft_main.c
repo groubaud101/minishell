@@ -23,9 +23,11 @@ int main(int ac, char **av, char *envp[])
 	t_mini	mini;
 
 	ft_init_mini(&mini, av, envp);
+	ft_display_export(mini.env);
+	ft_printf("\nnew env :\n");
 	if (ac > 1)
-	//	ft_pipe(av + 1, &mini);
+		// ft_pipe(av + 1, &mini);
 		ft_cd(&mini, av[1]);
 	ft_display_export(mini.env);
-	ft_printf("\n\nThis is the end, hold your breath and count to ten\n");
+	// ft_printf("\n\nThis is the end, hold your breath and count to ten\n");
 }

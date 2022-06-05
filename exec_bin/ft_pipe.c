@@ -51,10 +51,10 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 	return (CHECK_ERR); // exit ?
 }
 
-/* TODO add t_mini *mini
+/*
 ** Create the parent/child process and link fd_in and fd_out
 */
-
+// TODO add t_mini *mini
 int		ft_kind_of_pipe(void)
 {
 	pid_t	pid;
@@ -77,14 +77,14 @@ int		ft_kind_of_pipe(void)
 	}
 }
 
-/* TODO add the call to BUILTIN check before ft_execve
+/*
 ** expression : command + args in a string (ex : "echo 'coucou'")
 ** mini : the master structure
 ** to_exit : a booleen to know if we need ti add an exit (for pipe)
 **
 ** Prepare and execute the command given by 'expression'
 */
-
+// TODO add the call to BUILTIN check before ft_exec_process
 int	ft_exec_process(char *expression, t_mini *mini, bool to_exit)
 {
 	char	**cmd;
