@@ -1,45 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   bi_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/27 15:10:43 by jrobert           #+#    #+#             */
-/*   Updated: 2022/03/16 19:01:02 by jrobert          ###   ########.fr       */
+/*   Created: 2022/04/06 12:15:26 by jrobert           #+#    #+#             */
+/*   Updated: 2022/04/11 15:26:58 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	clear_tknlst(t_token **head, void (*del)(void *))
-{
-	t_token	*temp;
-	t_token	*ptr;
 
-	if (!head || !del)
-		return ;
-	ptr = NULL;
-	temp = *head;
-	while (temp)
-	{
-		(*del)(temp->content);
-		ptr = temp;
-		temp = temp->next;
-		free(ptr);
-	}
-	*head = NULL;
+int	env_len(char **envp)
+{
+	int len;
+
+	len = 0;
+	while (envp[len])
+		len++;
+	return (len);
 }
 
-int	free_all(t_token **head)
+int	bi_export(t_shell *shell, int i)
 {
-	clear_tknlst(head, free);
-	return (0);
-}
+	char	**tmp;
+	int		j;
 
-int	fail(char *err)
-{
-	ft_putstr_fd("Minishell: ", 2);
-	ft_putendl_fd(err, 2);
-	return (0);
+	tmp = (char **)malloc(sizeof(char *) * (env_len(shell->envp) + 1));
+	if (!tmp)
+		return (0);
+	j = -1;
+	while (shell->envp[++j])
+		tmp[j] = ft_strdup(shell->envp[j]);
+	tmp[j] = shell->cmds[i].args[1];
+	tmp[++j] = NULL;
+	free(shell->envp);
+	shell->envp = tmp;
+	return (1);
 }

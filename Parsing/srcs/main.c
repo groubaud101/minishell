@@ -6,31 +6,11 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:48:31 by jrobert           #+#    #+#             */
-/*   Updated: 2022/02/15 16:29:54 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/06/05 22:28:52 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	is_cmd(char *word)
-{
-	if (ft_strncmp(word, "echo", 0)
-		|| ft_strncmp(word, "cd", 0)
-		|| ft_strncmp(word, "pwd", 0)
-		|| ft_strncmp(word, "export", 0)
-		|| ft_strncmp(word, "unset", 0)
-		|| ft_strncmp(word, "env", 0)
-		|| ft_strncmp(word, "exit", 0))
-		return (1);
-	else
-		return (0);
-}
-
-int	free_all(t_shell *shell)
-{
-	(void)shell;
-	return (1);
-}
 
 void	tkn_add_back(t_token **alst, t_token *new)
 {
@@ -81,14 +61,159 @@ t_spec	find_spec(char *s)
 	return (nil);
 }
 
-int	tokenize(char *input, t_token **head)
+int	valid_quotes(char *input)
+{
+	while (*input++)
+	{
+		if (*input == '\'')
+		{
+			input++;
+			while (*input && *input != '\'')
+				input++;
+			if (!*input)
+				return (0);
+		}
+		if (*input == '\"')
+		{
+			input++;
+			while (*input && *input != '\"')
+				input++;
+			if (!*input)
+				return (0);
+		}
+	}
+	return (1);
+}
+
+void	handle_quotes(char **input, int *i)
+{
+	char c;
+
+	c = (*input)[(*i)++];
+	while ((*input)[*i] && (*input)[*i] != c)
+		++*i;
+	++*i;
+}
+
+int	is_open_quote(char *str, int len)
+{
+	char	c;
+	int		n;
+	int		i;
+
+	c = str[len];
+	n = 0;
+	i = 0;
+	while (str[i] && i < len)
+		if (str[i++] == c)
+			n++;
+	if (n % 2)
+		return (0);
+	return (1);
+}
+
+int		len_wo_quotes(char *str)
+{
+	int		len;
+	int		i;
+	char	c;
+
+	len = ft_strlen(str);
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			c = str[i++];
+			while (str[i] != c)
+				i++;
+			len -= 2;
+		}
+	}
+	return (len);
+}
+
+void	cpy_in_quotes(char *content, int *i, int *j, char *new)
+{
+	char c;
+	
+	if (content[*i] == '\'' || content[*i] == '\"')
+	{
+		c = content[(*i)++];
+		while (content[*i] != c)
+			new[(*j)++] = content[(*i)++];
+	}
+	else
+		new[(*j)++] = content[*i];
+}
+
+int	remove_quotes(t_token **head)
+{
+	t_token	*tmp;
+	int		i;
+	int		j;
+	char	*new;
+
+	tmp = *head;
+	while (tmp)
+	{
+		new = malloc(sizeof(char) * (len_wo_quotes(tmp->content) + 1));
+		if (!new)
+			return (0);
+		i = -1;
+		j = 0;
+		while (tmp->content[++i])
+			cpy_in_quotes(tmp->content, &i, &j, new);
+		new[j] = '\0';
+		free(tmp->content);
+		tmp->content = new;
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+int	replace_var(t_shell *shell, t_token **head)
+{	
+	t_token	*tmp;
+	int		i;
+	int		len;
+	char	*var;
+
+	(void)shell;
+	tmp = *head;
+	var = NULL;
+	while (tmp)
+	{
+		i = -1;
+		while (tmp->content[++i])
+		{
+			if (tmp->content[i] == '$')
+			{
+				len = 0;
+				while (tmp->content[i] && tmp->content[i] != '$')
+				{
+					i++;
+					len++;
+				}
+			}
+		}
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
+int	tokenize(t_shell *shell, char *input, t_token **head)
 {
 	int		i;
 	t_spec	spec;
 
+	if (!valid_quotes(input))
+		return (0);
 	i = -1;
 	while (input[++i])
 	{
+		if (input[i] == '\'' || input[i] == '\"')
+			handle_quotes(&input, &i);
 		spec = find_spec(&input[i]);
 		if (spec.spec)
 		{
@@ -104,15 +229,22 @@ int	tokenize(char *input, t_token **head)
 	}
 	if (&input[i] != input)
 		tkn_add_back(head, new_tkn(input, i, "WORD"));
+	
+	if (!remove_quotes(head))
+		return (0);
+	if (!replace_var(shell, head))
+		return (0);
 	// /* printer 4 test */
 	// i = 0;
-	// while (*head)
+	// t_token *tmp;
+	// tmp = *head;
+	// while (tmp)
 	// {
 	// 	printf("- ID %-2d =>", i);
-	// 	printf("  Type: %-6s |", (*head)->type);
-	// 	printf("  Size: %-2d |", (*head)->size);
-	// 	printf("  Cont: \"%s\" \n", (*head)->content);
-	// 	*head = (*head)->next;
+	// 	printf("  Type: %-8s |", (tmp)->type);
+	// 	printf("  Size: %-2d |", (tmp)->size);
+	// 	printf("  Cont: [%s] \n", (tmp)->content);
+	// 	tmp = (tmp)->next;
 	// 	i++;
 	// }
 	return (1);
@@ -143,10 +275,17 @@ int	count_args(t_token *tkn)
 	n = 0;
 	while (tkn && ft_strncmp(tkn->type, "PIPE", 4))
 	{
-		if (ft_strncmp(tkn->type, "SPACE", 4))
+		if (!ft_strncmp(tkn->type, "WORD", 4))
 			n++;
+		else if (!ft_strncmp(tkn->type, "CHEV_L", 6)
+			|| !ft_strncmp(tkn->type, "CHEV_LL", 7)
+			|| !ft_strncmp(tkn->type, "CHEV_R", 6)
+			|| !ft_strncmp(tkn->type, "CHEV_RR", 7))
+			while (tkn && ft_strncmp(tkn->type, "WORD", 4))
+				tkn = tkn->next;
 		tkn = tkn->next;
 	}
+	// printf("ARGS = %d\n", n);
 	return (n);
 }
 
@@ -194,23 +333,43 @@ int	parse_cmds(t_shell *shell, t_token *tkn)
 	i = -1;
 	while (++i < shell->cmds_count)
 	{
+		shell->cmds[i].cmd = NULL;
 		j = -1;
 		while (tkn && ft_strncmp(tkn->type, "PIPE", 4))
 		{
-			if (ft_strncmp(tkn->type, "SPACE", 4))
-				shell->cmds[i].args[++j] = tkn->content;
-			// else if (ft_strncmp(tkn->type, "RDIR", 4))
+			if (!ft_strncmp(tkn->type, "CHEV_LL", 7))
+				shell->cmds[i].left.target = "EOF";
 			else if (!ft_strncmp(tkn->type, "CHEV_L", 6))
 			{
-				shell->cmds[i].left.target = tkn->next->content;
-				shell->cmds[i].left.flag = O_RDONLY;
+				tkn = tkn->next;
+				while (tkn && !ft_strncmp(tkn->type, "SPACE", 4))
+					tkn = tkn->next;
+				shell->cmds[i].left.target = tkn->content;
+				shell->cmds[i].left.oflag = O_RDONLY;
 			}
-			else if (!ft_strncmp(tkn->type, "CHEV_LL", 6))
+			else if (!ft_strncmp(tkn->type, "CHEV_RR", 7))
 			{
-				shell->cmds[i].left.file_name = tkn->content;
-				shell->cmds[i].left.flag = O_RDONLY;
+
+				tkn = tkn->next;
+				while (tkn && !ft_strncmp(tkn->type, "SPACE", 4))
+					tkn = tkn->next;
+				shell->cmds[i].right.target = tkn->content;
+				shell->cmds[i].right.oflag = O_CREAT | O_APPEND | O_RDWR;
 			}
-				
+			else if (!ft_strncmp(tkn->type, "CHEV_R", 6))
+			{
+				tkn = tkn->next;
+				while (tkn && !ft_strncmp(tkn->type, "SPACE", 4))
+					tkn = tkn->next;
+				shell->cmds[i].right.target = tkn->content;
+				shell->cmds[i].right.oflag = O_CREAT | O_TRUNC | O_RDWR;
+			}
+			else if (!ft_strncmp(tkn->type, "WORD", 4))
+			{
+				shell->cmds[i].args[++j] = tkn->content;
+				if (!shell->cmds[i].cmd)
+					shell->cmds[i].cmd = tkn->content;
+			}
 			tkn = tkn->next;
 		}
 		shell->cmds[i].args[++j] = NULL;
@@ -218,15 +377,140 @@ int	parse_cmds(t_shell *shell, t_token *tkn)
 			tkn = tkn->next;
 	}
 	
-	// /* printer for tests */
+	// /* printer for tests */ //
 	// i = -1;
 	// while (++i < shell->cmds_count)
 	// {
 	// 	j = -1;
+		
+	// 	printf("---------------\n# LEFT TARGET = %s\n", shell->cmds[i].left.target);
+	// 	printf("# LEFT oflag = %d\n", shell->cmds[i].left.oflag);
+	// 	printf("# LEFT HEREDOC = %s\n", shell->cmds[i].left.heredoc);
+	// 	printf("# RIGHT TARGET = %s\n", shell->cmds[i].right.target);
+	// 	printf("# RIGHT oflag = %d\n", shell->cmds[i].right.oflag);
+	// 	printf("# RIGHT HEREDOC = %s\n---------------\n", shell->cmds[i].right.heredoc);
+		
 	// 	while (++j < shell->cmds[i].argc)
 	// 		printf("%d:%d = %s\n", i, j, shell->cmds[i].args[j]);
+	// 	printf("---------------\n");
 	// }
 	
+	return (1);
+}
+
+int	exec_builtin(t_shell *shell, int i, int bi)
+{
+	//printf("BUILD IN DETECTED\n");
+	if (bi == 1)
+		bi_echo(shell, i);
+	else if (bi == 4)
+		bi_export(shell, i);
+	else if (bi == 6)
+		bi_env(shell);
+	return (1);
+}
+
+int	is_builtin(char *cmd)
+{
+	if (!ft_strncmp(cmd, "echo", 4))
+		return (1);
+	else if (!ft_strncmp(cmd, "cd", 2))
+		return (2);
+	else if (!ft_strncmp(cmd, "pwd", 3))
+		return (3);
+	else if (!ft_strncmp(cmd, "export", 6))
+		return (4);
+	else if (!ft_strncmp(cmd, "unset", 5))
+		return (5);
+	else if (!ft_strncmp(cmd, "env", 3))
+		return (6);
+	else if (!ft_strncmp(cmd, "exit", 4))
+		return (7);
+	else
+		return (0);
+}
+
+int	exec_other(t_shell *shell, int i, char *path)
+{
+	int	fd;
+	int pid;
+
+	if (!path)
+		return (0);
+	pid = fork();
+	if (pid == -1)
+		return (0);
+	if (pid == 0)
+	{
+		if (shell->cmds[i].left.target)
+		{
+			fd = open(shell->cmds[i].left.target, shell->cmds[i].left.oflag);
+			if (fd == -1)
+				return (0);
+			if (dup2(fd, STDIN_FILENO) == -1)
+			{
+				close(fd);
+				return (0);
+			}
+		}
+		if (shell->cmds[i].right.target)
+		{
+			fd = open(shell->cmds[i].right.target, shell->cmds[i].right.oflag);
+			if (fd == -1)
+				return (0);
+			if (dup2(fd, STDOUT_FILENO) == -1)
+			{
+				close(fd);
+				return (0);
+			}
+		}
+		close(fd);
+		execve(path, shell->cmds[i].args, shell->envp);
+	}
+	wait(NULL);
+	free(path);
+	return (1);
+}
+
+char	*get_path(char *cmd)
+{
+	char	**paths;
+	char	*path;
+	char	*tmp;
+	int		ret;
+
+	paths = ft_split(getenv("PATH"), ':');
+	ret = -1;
+	while (ret == -1 && *paths++)
+	{
+		tmp = ft_strjoin(*paths, "/");
+		path = ft_strjoin(tmp, cmd);
+		ret = access(path, R_OK);
+		// printf("RET = %d - ", ret);
+		// printf("PATH = %s\n", path);
+		free(tmp);
+		if (ret == -1)
+			free(path);
+		else
+			return (path);
+	}
+	return (NULL);
+}
+
+int	exec(t_shell *shell)
+{
+	int i;
+	int bi;
+
+	i = -1;
+	while (++i < shell->cmds_count)
+	{
+		bi = is_builtin(shell->cmds[i].cmd);
+		if (bi)
+			exec_builtin(shell, i, bi);
+		else
+			exec_other(shell, i, get_path(shell->cmds[i].cmd));
+	}
 	return (1);
 }
 
@@ -235,12 +519,34 @@ int	parse(t_shell *shell, char *input)
 	t_token	*tkn;
 
 	tkn = NULL;
-	if (!tokenize(input, &tkn))
-		return (fail("Fail to Tokenize"));
+	if (!tokenize(shell, input, &tkn))
+		return (free_all(&tkn) && fail("Error - Syntax"));
 	if (!init_parser(shell, tkn))
-		return (fail("Fail to Init Parser"));
+		return (free_all(&tkn) && fail("Error - Init Parser"));
 	if (!parse_cmds(shell, tkn))
-		return (fail("Fail to Parse Cmds"));
+		return (free_all(&tkn) && fail("Error - Parse Cmds"));
+	return (1);
+}
+
+int	copy_envp(t_shell *shell, char **envp)
+{
+	char **my_envp;
+	int	i;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	my_envp = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!my_envp)
+		return (0);
+	i = 0;
+	while (envp[i])
+	{
+		my_envp[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	my_envp[i] = NULL;
+	shell->envp = my_envp;
 	return (1);
 }
 
@@ -251,15 +557,17 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	(void)envp;
 	shell = (t_shell){0};
+	if (!copy_envp(&shell, envp))
+		return (fail("Error - Malloc Envp"));
 	while (1)
 	{
 		input = readline("\033[1;32mMiniShell >> \033[0m");
 		add_history(input);
 		if (!ft_strncmp(input, "exit", 4))
 			break ;
-		parse(&shell, input);
+		if (parse(&shell, input))
+			exec(&shell);
 	}
 	free_mallocs(&shell, shell.cmds_count);
 	return (0);

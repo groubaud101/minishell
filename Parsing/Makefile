@@ -6,12 +6,15 @@
 #    By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/27 12:34:07 by jrobert           #+#    #+#              #
-#    Updated: 2022/01/27 19:43:45 by jrobert          ###   ########.fr        #
+#    Updated: 2022/04/11 15:23:01 by jrobert          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS_FILES	= 	main.c \
-				utils.c
+				utils.c \
+				bi_echo.c \
+				bi_env.c \
+				bi_export.c
 				
 SRCS_DIR	= 	srcs/
 SRCS		=	$(addprefix $(SRCS_DIR),$(SRCS_FILES))

@@ -1,45 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   bi_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/27 15:10:43 by jrobert           #+#    #+#             */
-/*   Updated: 2022/03/16 19:01:02 by jrobert          ###   ########.fr       */
+/*   Created: 2022/04/11 15:18:05 by jrobert           #+#    #+#             */
+/*   Updated: 2022/04/11 15:26:35 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	clear_tknlst(t_token **head, void (*del)(void *))
+int	bi_env(t_shell *shell)
 {
-	t_token	*temp;
-	t_token	*ptr;
+	int i;
 
-	if (!head || !del)
-		return ;
-	ptr = NULL;
-	temp = *head;
-	while (temp)
-	{
-		(*del)(temp->content);
-		ptr = temp;
-		temp = temp->next;
-		free(ptr);
-	}
-	*head = NULL;
-}
-
-int	free_all(t_token **head)
-{
-	clear_tknlst(head, free);
-	return (0);
-}
-
-int	fail(char *err)
-{
-	ft_putstr_fd("Minishell: ", 2);
-	ft_putendl_fd(err, 2);
-	return (0);
+	i = 0;
+	while (shell->envp[i])
+		ft_putendl_fd(shell->envp[i++], 1);
+	return (1);
 }

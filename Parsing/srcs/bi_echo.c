@@ -1,45 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   bi_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/27 15:10:43 by jrobert           #+#    #+#             */
-/*   Updated: 2022/03/16 19:01:02 by jrobert          ###   ########.fr       */
+/*   Created: 2022/04/11 15:17:44 by jrobert           #+#    #+#             */
+/*   Updated: 2022/04/28 08:08:25 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	clear_tknlst(t_token **head, void (*del)(void *))
+int	bi_echo(t_shell *shell, int i)
 {
-	t_token	*temp;
-	t_token	*ptr;
+	int j;
 
-	if (!head || !del)
-		return ;
-	ptr = NULL;
-	temp = *head;
-	while (temp)
+	j = 0;
+	while (++j < shell->cmds[i].argc)
 	{
-		(*del)(temp->content);
-		ptr = temp;
-		temp = temp->next;
-		free(ptr);
+		ft_putstr_fd(shell->cmds[i].args[j], 1);
+		if (j < shell->cmds[i].argc)
+			write(1, " ", 1);
 	}
-	*head = NULL;
-}
-
-int	free_all(t_token **head)
-{
-	clear_tknlst(head, free);
-	return (0);
-}
-
-int	fail(char *err)
-{
-	ft_putstr_fd("Minishell: ", 2);
-	ft_putendl_fd(err, 2);
-	return (0);
+	write(1, "\n", 1);
+	return (1);
 }
