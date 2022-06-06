@@ -55,24 +55,24 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 ** Create the parent/child process and link fd_in and fd_out
 */
 // TODO add t_mini *mini
-int		ft_kind_of_pipe(void)
+int		ft_kind_of_pipe(t_mini *mini)
 {
 	pid_t	pid;
 	int		pipefd[2];
 
 	pipe(pipefd);
 	pid = fork();
-	//dprintf(2, "pid : %i\n", pid);
+	dprintf(2, "pid : %i\n", pid);
 	if (pid == 0) // fils
 	{
 		close(pipefd[1]); // close la sortie
-		dup2(pipefd[0], STDIN); // redirige l'entrée std sur l'entrée du tuyau
+		dup2(pipefd[0], mini->fd_in); // redirige l'entrée std sur l'entrée du tuyau
 		return (pid);
 	}
 	else // père
 	{
 		close(pipefd[0]); // close l'entrée
-		dup2(pipefd[1], STDOUT); // redirige la sortie std sur la sortie du tuyau
+		dup2(pipefd[1], mini->fd_out); // redirige la sortie std sur la sortie du tuyau
 		return (pid);
 	}
 }
@@ -116,7 +116,7 @@ int ft_pipe(char **cmds, t_mini *mini)
 		return (CHECK_ERR);
 	while (cmds[i + 1] != NULL)
 	{
-		pid = ft_kind_of_pipe();
+		pid = ft_kind_of_pipe(mini);
 		if (pid != 0) // process père
 			ft_exec_process(cmds[i], mini, TO_EXIT);
 		else
