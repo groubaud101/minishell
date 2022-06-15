@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS_FILES	= 	main.c \
+SRCS_FILES	= 	jrobert.c \
 				utils.c \
 				bi_echo.c \
 				bi_env.c \

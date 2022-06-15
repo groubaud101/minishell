@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	tkn_add_back(t_token **alst, t_token *new)
 {
@@ -398,78 +398,24 @@ int	parse_cmds(t_shell *shell, t_token *tkn)
 	return (1);
 }
 
-int	exec_builtin(t_shell *shell, int i, int bi)
-{
-	//printf("BUILD IN DETECTED\n");
-	if (bi == 1)
-		bi_echo(shell, i);
-	else if (bi == 4)
-		bi_export(shell, i);
-	else if (bi == 6)
-		bi_env(shell);
-	return (1);
-}
-
 int	is_builtin(char *cmd)
 {
 	if (!ft_strncmp(cmd, "echo", 4))
-		return (1);
+		return (ECHO);
 	else if (!ft_strncmp(cmd, "cd", 2))
-		return (2);
+		return (CD);
 	else if (!ft_strncmp(cmd, "pwd", 3))
-		return (3);
+		return (PWD);
 	else if (!ft_strncmp(cmd, "export", 6))
-		return (4);
+		return (EXPORT);
 	else if (!ft_strncmp(cmd, "unset", 5))
-		return (5);
+		return (UNSET);
 	else if (!ft_strncmp(cmd, "env", 3))
-		return (6);
+		return (ENV);
 	else if (!ft_strncmp(cmd, "exit", 4))
-		return (7);
+		return (EXIT);
 	else
 		return (0);
-}
-
-int	exec_other(t_shell *shell, int i, char *path)
-{
-	int	fd;
-	int pid;
-
-	if (!path)
-		return (0);
-	pid = fork();
-	if (pid == -1)
-		return (0);
-	if (pid == 0)
-	{
-		if (shell->cmds[i].left.target)
-		{
-			fd = open(shell->cmds[i].left.target, shell->cmds[i].left.oflag);
-			if (fd == -1)
-				return (0);
-			if (dup2(fd, STDIN_FILENO) == -1)
-			{
-				close(fd);
-				return (0);
-			}
-		}
-		if (shell->cmds[i].right.target)
-		{
-			fd = open(shell->cmds[i].right.target, shell->cmds[i].right.oflag);
-			if (fd == -1)
-				return (0);
-			if (dup2(fd, STDOUT_FILENO) == -1)
-			{
-				close(fd);
-				return (0);
-			}
-		}
-		close(fd);
-		execve(path, shell->cmds[i].args, shell->envp);
-	}
-	wait(NULL);
-	free(path);
-	return (1);
 }
 
 char	*get_path(char *cmd)
@@ -495,23 +441,6 @@ char	*get_path(char *cmd)
 			return (path);
 	}
 	return (NULL);
-}
-
-int	exec(t_shell *shell)
-{
-	int i;
-	int bi;
-
-	i = -1;
-	while (++i < shell->cmds_count)
-	{
-		bi = is_builtin(shell->cmds[i].cmd);
-		if (bi)
-			exec_builtin(shell, i, bi);
-		else
-			exec_other(shell, i, get_path(shell->cmds[i].cmd));
-	}
-	return (1);
 }
 
 int	parse(t_shell *shell, char *input)
@@ -548,27 +477,4 @@ int	copy_envp(t_shell *shell, char **envp)
 	my_envp[i] = NULL;
 	shell->envp = my_envp;
 	return (1);
-}
-
-int	main(int ac, char **av, char **envp)
-{
-	t_shell	shell;
-	char	*input;
-
-	(void)ac;
-	(void)av;
-	shell = (t_shell){0};
-	if (!copy_envp(&shell, envp))
-		return (fail("Error - Malloc Envp"));
-	while (1)
-	{
-		input = readline("\033[1;32mMiniShell >> \033[0m");
-		add_history(input);
-		if (!ft_strncmp(input, "exit", 4))
-			break ;
-		if (parse(&shell, input))
-			exec(&shell);
-	}
-	free_mallocs(&shell, shell.cmds_count);
-	return (0);
 }
