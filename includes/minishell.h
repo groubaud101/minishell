@@ -128,6 +128,7 @@ int		ft_pipe(char **cmds, t_mini *mini);
 
 /* utils */
 void	ft_init_mini(t_mini *mini, char **av, char **envp);
+char	**ft_split_once(char *str, char c);
 char	**ft_convert_env_list_to_tab(t_mini *mini);
 
 /* builtins */

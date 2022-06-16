@@ -110,6 +110,7 @@ int ft_pipe(char **cmds, t_mini *mini)
 {
 	int		i;
 	int		pid;
+	// int		bin;
 
 	i = 0;
 	if (mini->paths == NULL || cmds == NULL || cmds[i] == NULL)
@@ -118,7 +119,12 @@ int ft_pipe(char **cmds, t_mini *mini)
 	{
 		pid = ft_kind_of_pipe(mini);
 		if (pid != 0) // process père
+		{
+			// bin = is_builtin(shell->cmds[i].cmd);
+			// if (bin)
+			// 	exec_builtin(shell, i, bin, mini);
 			ft_exec_process(cmds[i], mini, TO_EXIT);
+		}
 		else
 			waitpid(pid, NULL, 0);
 		i++;

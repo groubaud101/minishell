@@ -54,13 +54,20 @@ int	exec_other(t_shell *shell, int i, char *path)
 	return (1);
 }
 
-int	ft_transi_export(t_mini *mini, t_shell *shell)
+int	ft_transi_export(t_mini *mini, t_shell *shell, int i)
 {
-	if (shell->cmds && shell->cmds[0].args[0])
+	char	**name_value;
+
+	ft_puttab(shell->cmds[i].args, "___");
+	if (shell->cmds && shell->cmds[i].args[1])
 	{
-		if (shell->cmds[0].args[1])
-			return (ft_export(mini, shell->cmds[0].args[0], shell->cmds[0].args[1]));
-		return (ft_export(mini, shell->cmds[0].args[0], NULL));	
+		name_value = ft_split_once(shell->cmds[i].args[1], '=');
+		if (name_value[1])
+			ft_export(mini, name_value[0], name_value[1]);
+		else
+			ft_export(mini, name_value[0], NULL);
+		ft_free_tab(name_value);
+		return (CHECK_OK);
 	}
 	return (ft_export(mini, NULL, NULL));
 }
@@ -72,7 +79,7 @@ int	exec_builtin(t_shell *shell, int i, int bi, t_mini *mini)
 		bi_echo(shell, i);
 	else if (bi == EXPORT)
 		// bi_export(shell, i);
-		ft_transi_export(mini, shell);
+		ft_transi_export(mini, shell, i);
 	else if (bi == ENV)
 		bi_env(shell);
 	return (1);

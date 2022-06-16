@@ -21,7 +21,7 @@
 **  the value could have several '=' in it
 */
 
-static char	**ft_split_once(char *str, char c)
+char	**ft_split_once(char *str, char c)
 {
 	int		i;
 	char	**tab;
