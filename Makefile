@@ -46,21 +46,21 @@ OBJS	=	$(addprefix $(D_EXEC)ft_, $(addsuffix .o, $(S_EXEC))) \
 			$(addprefix $(D_PARS), $(addsuffix .o, $(S_PARS))) \
 			$(addprefix $(D_TRAN)ft_, $(addsuffix .o, $(S_TRAN))) \
 
-CFLAGS	=	-Wall -Wextra -Werror -lreadline
+CFLAGS	=	-Wall -Wextra -Werror
 
 CC		=	gcc
 
 all		:	$(NAME)
 
 %.o		:	%.c $(INCLUDE)
-			$(CC) $(CFLAGS) $(I_INC) -c -o $@ $<
+			$(CC) $(CFLAGS) $(I_INC) -c -lreadline -o $@ $<
 
 lib		:
 			make -C $(D_LIBFT)
 
 $(NAME)	:	$(OBJS) $(INCLUDE)
 			make lib
-			$(CC) $(CFLAGS) $(I_INC) $(OBJS) $(LIBFT) -o $(NAME)
+			$(CC) $(CFLAGS) $(I_INC) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
 clean	:
 			rm -rf $(OBJS)

@@ -54,13 +54,13 @@ int	exec_other(t_shell *shell, int i, char *path)
 	return (1);
 }
 
-int	ft_transi_export(mini, shell);
+int	ft_transi_export(t_mini *mini, t_shell *shell)
 {
-	if (shell->args && shell->args[0])
+	if (shell->cmds && shell->cmds[0].args[0])
 	{
-		if (shell->args[1])
-			return (ft_export(mini, shell->args[0], shell->args[1]));
-		return (ft_export(mini, shell->args[0], NULL));	
+		if (shell->cmds[0].args[1])
+			return (ft_export(mini, shell->cmds[0].args[0], shell->cmds[0].args[1]));
+		return (ft_export(mini, shell->cmds[0].args[0], NULL));	
 	}
 	return (ft_export(mini, NULL, NULL));
 }
@@ -79,6 +79,8 @@ int	exec_builtin(t_shell *shell, int i, int bi, t_mini *mini)
 }
 
 // int	exec(t_shell *shell)
+// sera remplacé par l'appel à ft_pipe, c'est dans ft_pipe qu'on fera le tri
+
 int	ft_choose_the_exec(t_shell *shell, t_mini *mini)
 {
 	int i;

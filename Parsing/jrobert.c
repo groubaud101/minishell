@@ -177,11 +177,9 @@ int	replace_var(t_shell *shell, t_token **head)
 	t_token	*tmp;
 	int		i;
 	int		len;
-	char	*var;
 
 	(void)shell;
 	tmp = *head;
-	var = NULL;
 	while (tmp)
 	{
 		i = -1;

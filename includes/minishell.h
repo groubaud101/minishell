@@ -146,6 +146,11 @@ void	clear_tknlst(t_token **head, void (*del)(void *));
 int		bi_export(t_shell *shell, int i);
 int		bi_echo(t_shell *shell, int i);
 int		bi_env(t_shell *shell);
+int		copy_envp(t_shell *shell, char **envp);
+int		parse(t_shell *shell, char *input);
+int		free_mallocs(t_shell *shell, int i);
+int		is_builtin(char *cmd);
+char	*get_path(char *cmd);
 
 /* transition */
 int	ft_choose_the_exec(t_shell *shell, t_mini *mini);
