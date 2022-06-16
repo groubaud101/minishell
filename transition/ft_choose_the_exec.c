@@ -93,7 +93,8 @@ int	ft_choose_the_exec(t_shell *shell, t_mini *mini)
 		if (bi)
 			exec_builtin(shell, i, bi, mini);
 		else
-			exec_other(shell, i, get_path(shell->cmds[i].cmd));
+			ft_exec_process(shell->cmds[i].cmd, mini, NO_EXIT);
+			// exec_other(shell, i, get_path(shell->cmds[i].cmd));
 	}
 	return (1);
 }

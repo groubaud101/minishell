@@ -123,6 +123,7 @@ int		ft_redir_in(t_mini *mini, char *infile);
 int		ft_redir_out(t_mini *mini, char *outfile);
 int		ft_double_redir_in(t_mini *mini, char *infile);
 int		ft_double_redir_out(t_mini *mini, char *outfile);
+int		ft_exec_process(char *expression, t_mini *mini, bool to_exit);
 int		ft_pipe(char **cmds, t_mini *mini);
 
 /* utils */

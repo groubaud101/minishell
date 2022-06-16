@@ -30,7 +30,10 @@ int	main(int ac, char **av, char **envp)
 		if (!ft_strncmp(input, "exit", 4))
 			break ;
 		if (parse(&shell, input))
+		{
+			printf("let's choose the exec\n");
 			ft_choose_the_exec(&shell, &mini);
+		}
 	}
 	free_mallocs(&shell, shell.cmds_count);
 	return (0);
