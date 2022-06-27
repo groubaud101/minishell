@@ -16,15 +16,15 @@ int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
 	char	*input;
-	int		pid;
+	// int		pid;
 
 	ft_init_mini(&shell, av, envp);
 	(void)ac;
 	// if (!copy_envp(&shell, envp))
 	// 	return (fail("Error - Malloc Envp"));
-	pid = fork();
-	if (pid == 0)
-	{
+	// pid = fork();
+	// if (pid == 0)
+	// {
 		while (1)
 		{
 			input = readline("\033[1;32mMiniShell >> \033[0m");
@@ -35,9 +35,9 @@ int	main(int ac, char **av, char **envp)
 				ft_choose_the_exec(&shell);
 		}
 		free_mallocs(&shell, shell.cmds_count);	
-	}
-	else
-		waitpid(pid, NULL, 0);
+	// }
+	// else
+	// 	waitpid(pid, NULL, 0);
 	return (0);
 }
 

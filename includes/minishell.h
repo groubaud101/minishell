@@ -145,7 +145,6 @@ int		is_builtin(char *cmd);
 char	*get_path(char *cmd);
 
 /* transition */
-
 int	ft_choose_the_exec(t_shell *shell);
 
 #endif
