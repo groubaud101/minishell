@@ -61,12 +61,13 @@ int	ft_transi_export(t_mini *mini, t_shell *shell, int i)
 	ft_puttab(shell->cmds[i].args, "___");
 	if (shell->cmds && shell->cmds[i].args[1])
 	{
-		name_value = ft_split_once(shell->cmds[i].args[1], '=');
+		name_value = ft_split_once(shell->cmds[i].args[1], '='); // check malloc
+		ft_puttab(name_value, "===");
 		if (name_value[1])
 			ft_export(mini, name_value[0], name_value[1]);
 		else
-			ft_export(mini, name_value[0], NULL);
-		ft_free_tab(name_value);
+			ft_export(mini, name_value[0], NULL);	
+		//ft_free_tab(name_value);
 		return (CHECK_OK);
 	}
 	return (ft_export(mini, NULL, NULL));
@@ -74,7 +75,7 @@ int	ft_transi_export(t_mini *mini, t_shell *shell, int i)
 
 int	exec_builtin(t_shell *shell, int i, int bi, t_mini *mini)
 {
-	//printf("BUILD IN DETECTED\n");
+	//printf("BUILT IN DETECTED\n");
 	if (bi == ECHO)
 		bi_echo(shell, i);
 	else if (bi == EXPORT)

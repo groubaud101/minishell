@@ -87,7 +87,6 @@ typedef struct s_shell
 	t_cmd		*cmds;
 }				t_shell;
 
-
 typedef struct s_env
 {
 	char			*name;

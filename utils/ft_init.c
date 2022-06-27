@@ -27,20 +27,21 @@ char	**ft_split_once(char *str, char c)
 	char	**tab;
 
 	i = 0;
-	tab = malloc(sizeof(*tab) * 2);
+	tab = (char **)malloc(sizeof(*tab) * 3);
 	if (!tab)
 		return (NULL);
 	while (str[i] && str[i] != c)
 		i++;
 	tab[0] = ft_strndup(str, i);
 	tab[1] = NULL;
+	tab[2] = NULL;
 	if (str[i] == '\0')
 		return (tab);
 	str = str + i + 1;
-	i = 0;
-	while (str[i])
-		i++;
-	tab[1] = ft_strndup(str, i);
+	if (str[0] == '\0')
+		tab[1] = ft_calloc(sizeof(*tab[1]), 1);
+	else
+		tab[1] = ft_strdup(str);
 	return (tab);
 }// a voir pour les fail malloc
 
