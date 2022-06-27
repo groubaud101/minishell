@@ -12,97 +12,66 @@
 
 #include "minishell.h"
 
-int	exec_other(t_shell *shell, int i, char *path)
-{
-	int	fd;
-	int pid;
+// int	exec_other(t_shell *shell, int i, char *path)
+// {
+// 	int	fd;
+// 	int pid;
 
-	if (!path)
-		return (0);
-	pid = fork();
-	if (pid == -1)
-		return (0);
-	if (pid == 0)
-	{
-		if (shell->cmds[i].left.target)
-		{
-			fd = open(shell->cmds[i].left.target, shell->cmds[i].left.oflag);
-			if (fd == -1)
-				return (0);
-			if (dup2(fd, STDIN_FILENO) == -1)
-			{
-				close(fd);
-				return (0);
-			}
-		}
-		if (shell->cmds[i].right.target)
-		{
-			fd = open(shell->cmds[i].right.target, shell->cmds[i].right.oflag);
-			if (fd == -1)
-				return (0);
-			if (dup2(fd, STDOUT_FILENO) == -1)
-			{
-				close(fd);
-				return (0);
-			}
-		}
-		close(fd);
-		execve(path, shell->cmds[i].args, shell->envp);
-	}
-	wait(NULL);
-	free(path);
-	return (1);
-}
-
-int	ft_transi_export(t_mini *mini, t_shell *shell, int i)
-{
-	char	**name_value;
-
-	ft_puttab(shell->cmds[i].args, "___");
-	if (shell->cmds && shell->cmds[i].args[1])
-	{
-		name_value = ft_split_once(shell->cmds[i].args[1], '='); // check malloc
-		ft_puttab(name_value, "===");
-		if (name_value[1])
-			ft_export(mini, name_value[0], name_value[1]);
-		else
-			ft_export(mini, name_value[0], NULL);	
-		//ft_free_tab(name_value);
-		return (CHECK_OK);
-	}
-	return (ft_export(mini, NULL, NULL));
-}
-
-int	exec_builtin(t_shell *shell, int i, int bi, t_mini *mini)
-{
-	//printf("BUILT IN DETECTED\n");
-	if (bi == ECHO)
-		bi_echo(shell, i);
-	else if (bi == EXPORT)
-		// bi_export(shell, i);
-		ft_transi_export(mini, shell, i);
-	else if (bi == ENV)
-		bi_env(shell);
-	return (1);
-}
+// 	if (!path)
+// 		return (0);
+// 	pid = fork();
+// 	if (pid == -1)
+// 		return (0);
+// 	if (pid == 0)
+// 	{
+// 		if (shell->cmds[i].left.target)
+// 		{
+// 			fd = open(shell->cmds[i].left.target, shell->cmds[i].left.oflag);
+// 			if (fd == -1)
+// 				return (0);
+// 			if (dup2(fd, STDIN_FILENO) == -1)
+// 			{
+// 				close(fd);
+// 				return (0);
+// 			}
+// 		}
+// 		if (shell->cmds[i].right.target)
+// 		{
+// 			fd = open(shell->cmds[i].right.target, shell->cmds[i].right.oflag);
+// 			if (fd == -1)
+// 				return (0);
+// 			if (dup2(fd, STDOUT_FILENO) == -1)
+// 			{
+// 				close(fd);
+// 				return (0);
+// 			}
+// 		}
+// 		close(fd);
+// 		execve(path, shell->cmds[i].args, shell->envp_tab);
+// 	}
+// 	wait(NULL);
+// 	free(path);
+// 	return (1);
+// }
 
 // int	exec(t_shell *shell)
 // sera remplacé par l'appel à ft_pipe, c'est dans ft_pipe qu'on fera le tri
 
-int	ft_choose_the_exec(t_shell *shell, t_mini *mini)
+int	ft_choose_the_exec(t_shell *shell)
 {
-	int i;
-	int bi;
+	ft_pipe(shell->cmds, shell);
+	// int i;
+	// // int bi;
 
-	i = -1;
-	while (++i < shell->cmds_count)
-	{
-		bi = is_builtin(shell->cmds[i].cmd);
-		if (bi)
-			exec_builtin(shell, i, bi, mini);
-		else
-			ft_exec_process(shell->cmds[i].cmd, mini, NO_EXIT);
-			// exec_other(shell, i, get_path(shell->cmds[i].cmd));
-	}
+	// i = -1;
+	// while (++i < shell->cmds_count)
+	// {
+	// 	ft_convert_env_list_to_tab(shell);
+	// 	// bi = is_builtin(shell->cmds[i].cmd);
+	// 	// if (bi)
+	// 	// if (ft_exec_builtin(shell, shell->cmds[i].args[0], i) == CHECK_ERR)
+	// 	ft_exec_process(shell, shell->cmds[i], NO_EXIT);
+	// 		// exec_other(shell, i, get_path(shell->cmds[i].cmd));
+	// }
 	return (1);
 }

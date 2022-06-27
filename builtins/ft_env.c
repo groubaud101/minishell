@@ -20,6 +20,7 @@
 
 void	ft_env(t_env *env)
 {
+	printf("ft_env\n");
 	while(env)
 	{
 		ft_printf("%s=%s\n", env->name, env->value);

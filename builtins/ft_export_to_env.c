@@ -33,13 +33,13 @@ static t_env	*ft_add_new_elem_env(t_env *env, char *name, char *value)
 	return (start);
 }
 
-int		ft_export_to_env(t_mini *mini, char *name, char *value) 
+int		ft_export_to_env(t_shell *shell, char *name, char *value) 
 {
 	t_env	*env_export;
 
-	env_export = ft_getenv(name, mini->env);
+	env_export = ft_getenv(name, shell->env);
 	if (env_export == NULL)
-		mini->env = ft_add_new_elem_env(mini->env, name, value);
+		shell->env = ft_add_new_elem_env(shell->env, name, value);
 	else
 	{
 		free(env_export->value);

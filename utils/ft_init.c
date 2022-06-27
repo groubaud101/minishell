@@ -103,10 +103,10 @@ static t_env	*ft_init_env(char *envp[])
 }
 
 /*
-** mini : adress of mini given by the main
+** shell : adress of shell given by the main
 ** envp : the tab of the environment given by the main
 **
-** Create the master structure 'mini'
+** Create the master structure 'shell'
 **  'fd_in' : file descriptor input
 **  'fd_out' : file descriptor output
 **  'env' : chain list of the environment
@@ -115,20 +115,20 @@ static t_env	*ft_init_env(char *envp[])
 **  'paths' : a tab of every paths in the env variable PATH
 */
 
-void	ft_init_mini(t_mini *mini, char **av, char **envp)
+void	ft_init_mini(t_shell *shell, char **av, char **envp)
 {
 	t_env	*env_path;
 
-	mini->binary_name = av[0];
-	mini->fd_in = STDIN;
-	mini->fd_out = STDOUT;
-	mini->env = ft_init_env(envp); //check malloc ?
-	//ft_aff_env(mini->env);
-	mini->env_has_changed = 1;
-	mini->envp_tab = NULL;
-	mini->var_bash = NULL;
+	shell->binary_name = av[0];
+	shell->fd_in = STDIN;
+	shell->fd_out = STDOUT;
+	shell->env = ft_init_env(envp); //check malloc ?
+	//ft_aff_env(shell->env);
+	shell->env_has_changed = 1;
+	shell->envp_tab = NULL;
+	shell->var_bash = NULL;
 
-	env_path = ft_getenv("PATH", mini->env); // a rajouter quand ya update
+	env_path = ft_getenv("PATH", shell->env); // a rajouter quand ya update
 	if (env_path)
-		mini->paths = ft_split(env_path->value, ':');
+		shell->paths = ft_split(env_path->value, ':');
 }

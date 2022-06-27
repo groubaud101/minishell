@@ -455,24 +455,24 @@ int	parse(t_shell *shell, char *input)
 	return (1);
 }
 
-int	copy_envp(t_shell *shell, char **envp)
-{
-	char **my_envp;
-	int	i;
+// int	copy_envp(t_shell *shell, char **envp_tab)
+// {
+// 	char **my_envp;
+// 	int	i;
 
-	i = 0;
-	while (envp[i])
-		i++;
-	my_envp = (char **)malloc(sizeof(char *) * (i + 1));
-	if (!my_envp)
-		return (0);
-	i = 0;
-	while (envp[i])
-	{
-		my_envp[i] = ft_strdup(envp[i]);
-		i++;
-	}
-	my_envp[i] = NULL;
-	shell->envp = my_envp;
-	return (1);
-}
+// 	i = 0;
+// 	while (envp_tab[i])
+// 		i++;
+// 	my_envp = (char **)malloc(sizeof(char *) * (i + 1));
+// 	if (!my_envp)
+// 		return (0);
+// 	i = 0;
+// 	while (envp_tab[i])
+// 	{
+// 		my_envp[i] = ft_strdup(envp_tab[i]);
+// 		i++;
+// 	}
+// 	my_envp[i] = NULL;
+// 	shell->envp_tab = my_envp;
+// 	return (1);
+// }

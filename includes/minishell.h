@@ -79,14 +79,6 @@ typedef struct s_cmd
 	t_chevron	right;
 }				t_cmd;
 
-typedef struct s_shell
-{
-	char		**envp;
-	int			exit_status;
-	int			cmds_count;
-	t_cmd		*cmds;
-}				t_shell;
-
 typedef struct s_env
 {
 	char			*name;
@@ -103,8 +95,11 @@ typedef struct s_bash
 	struct s_bash	*next;
 }t_bash;
 
-typedef struct s_mini
+typedef struct s_shell
 {
+	int		exit_status;
+	int		cmds_count;
+	t_cmd	*cmds;
 	char	*binary_name;
 	int		fd_in;
 	int		fd_out;
@@ -113,39 +108,36 @@ typedef struct s_mini
 	bool	env_has_changed;
 	t_bash	*var_bash;
 	char	**envp_tab;
-}t_mini;
-
+}t_shell;
 
 /* exec */
-int		ft_redir_in(t_mini *mini, char *infile);
-int		ft_redir_out(t_mini *mini, char *outfile);
-int		ft_double_redir_in(t_mini *mini, char *infile);
-int		ft_double_redir_out(t_mini *mini, char *outfile);
-int		ft_exec_process(char *expression, t_mini *mini, bool to_exit);
-int		ft_pipe(char **cmds, t_mini *mini);
+int		ft_redir_in(t_shell *shell, char *infile);
+int		ft_redir_out(t_shell *shell, char *outfile);
+int		ft_double_redir_in(t_shell *shell, char *infile);
+int		ft_double_redir_out(t_shell *shell, char *outfile);
+int		ft_exec_process(t_shell *shell, t_cmd cmd, bool to_exit);
+int		ft_pipe(t_cmd *cmds, t_shell *shell);
 
 /* utils */
-void	ft_init_mini(t_mini *mini, char **av, char **envp);
+void	ft_init_mini(t_shell *shell, char **av, char **envp);
 char	**ft_split_once(char *str, char c);
-char	**ft_convert_env_list_to_tab(t_mini *mini);
+char	**ft_convert_env_list_to_tab(t_shell *shell);
 
 /* builtins */
+int		ft_exec_builtin(t_shell *shell, t_cmd cmd);
 void	ft_env(t_env *env);
 t_env	*ft_getenv(char *name, t_env *env);
-int		ft_cd(t_mini *mini, char *path);
+int		ft_cd(t_shell *shell, char *path);
 char	*ft_getcwd(void);
 int		ft_pwd(void);
-int		ft_export_to_env(t_mini *mini, char *name, char *value);
+int		ft_export_to_env(t_shell *shell, char *name, char *value);
 void	ft_display_export(t_env *env);
-int		ft_export(t_mini *mini, char *name, char *value);
+int		ft_export(t_shell *shell, char *name, char *value);
 
 /* parsing */
 int		fail(char *err);
 int		free_all(t_token **head);
 void	clear_tknlst(t_token **head, void (*del)(void *));
-int		bi_export(t_shell *shell, int i);
-int		bi_echo(t_shell *shell, int i);
-int		bi_env(t_shell *shell);
 int		copy_envp(t_shell *shell, char **envp);
 int		parse(t_shell *shell, char *input);
 int		free_mallocs(t_shell *shell, int i);
@@ -153,7 +145,7 @@ int		is_builtin(char *cmd);
 char	*get_path(char *cmd);
 
 /* transition */
-int	ft_choose_the_exec(t_shell *shell, t_mini *mini);
 
+int	ft_choose_the_exec(t_shell *shell);
 
 #endif

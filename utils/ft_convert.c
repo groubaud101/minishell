@@ -32,7 +32,7 @@ static int	ft_list_len(t_env *env)
 }
 
 /*
-** t_mini *mini : the general structure with everything
+** t_shell *mini : the general structure with everything
 **
 ** Convert the environnement list into a char ** to be like envp
 **  it's needed for excve
@@ -41,7 +41,7 @@ static int	ft_list_len(t_env *env)
 **  else the previous is freed and envp_tab is (re)made
 */
 
-char	**ft_convert_env_list_to_tab(t_mini *mini)
+char	**ft_convert_env_list_to_tab(t_shell *mini)
 {
 	t_env	*env;
 	char	**envp_tab;

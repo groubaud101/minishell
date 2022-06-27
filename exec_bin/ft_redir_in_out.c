@@ -17,13 +17,13 @@
 ** It must be that in theory but I don't know how to test it
 */
 
-int	ft_redir_in(t_mini *mini, char *infile)
+int	ft_redir_in(t_shell *shell, char *infile)
 {
 	if (infile == NULL)
-		mini->fd_in = STDIN;
+		shell->fd_in = STDIN;
 	else
-		mini->fd_in = open(infile, O_RDONLY);
-	if (mini->fd_in == -1)
+		shell->fd_in = open(infile, O_RDONLY);
+	if (shell->fd_in == -1)
 	{
 		printf("could not open the infile blah blah blah\n");
 		return (CHECK_ERR);
@@ -36,13 +36,13 @@ int	ft_redir_in(t_mini *mini, char *infile)
 ** it's the <<END thing
 */
 
-int	ft_double_redir_in(t_mini *mini, char *infile)
+int	ft_double_redir_in(t_shell *shell, char *infile)
 {
 	// a faire
 	// <<EXPRESSION indique à une lecture sur l'entrée standard (?)
 	//  de continuer jusqu'à EXPRESSION non incluse
-	mini->fd_in = open(infile, O_RDONLY);
-	if (mini->fd_in == -1)
+	shell->fd_in = open(infile, O_RDONLY);
+	if (shell->fd_in == -1)
 	{
 		printf("could not open the infile blah blah blah\n");
 		return (CHECK_ERR);
@@ -52,7 +52,7 @@ int	ft_double_redir_in(t_mini *mini, char *infile)
 
 /*
 ** TO TEST
-** mini : the master structure
+** shell : the master structure
 ** outfile : the path of the output file
 **
 ** Attribute the 'fd_out' to the outfile called by '>'
@@ -61,10 +61,10 @@ int	ft_double_redir_in(t_mini *mini, char *infile)
 **  will replace content
 */
 
-int	ft_redir_out(t_mini *mini, char *outfile)
+int	ft_redir_out(t_shell *shell, char *outfile)
 {
-	mini->fd_out = open(outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (mini->fd_out == -1)
+	shell->fd_out = open(outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (shell->fd_out == -1)
 	{
 		printf("could not open the outfile blah blah blah\n");
 		return (CHECK_ERR);
@@ -75,7 +75,7 @@ int	ft_redir_out(t_mini *mini, char *outfile)
 
 /*
 ** TO TEST
-** mini : the master structure
+** shell : the master structure
 ** outfile : the path of the output file
 **
 ** Attribute the 'fd_out' to the outfile called by '>>'
@@ -84,10 +84,10 @@ int	ft_redir_out(t_mini *mini, char *outfile)
 **  will append new content
 */
 
-int	ft_double_redir_out(t_mini *mini, char *outfile)
+int	ft_double_redir_out(t_shell *shell, char *outfile)
 {
-	mini->fd_out = open(outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (mini->fd_out == -1)
+	shell->fd_out = open(outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (shell->fd_out == -1)
 	{
 		printf("could not open the outfile blah blah blah\n");
 		return (CHECK_ERR);

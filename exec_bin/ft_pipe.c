@@ -54,8 +54,8 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 /*
 ** Create the parent/child process and link fd_in and fd_out
 */
-// TODO add t_mini *mini
-int		ft_kind_of_pipe(t_mini *mini)
+// TODO add t_shell *shell
+int		ft_kind_of_pipe(t_shell *shell)
 {
 	pid_t	pid;
 	int		pipefd[2];
@@ -66,70 +66,67 @@ int		ft_kind_of_pipe(t_mini *mini)
 	if (pid == 0) // fils
 	{
 		close(pipefd[1]); // close la sortie
-		dup2(pipefd[0], mini->fd_in); // redirige l'entrée std sur l'entrée du tuyau
+		dup2(pipefd[0], shell->fd_in); // redirige l'entrée std sur l'entrée du tuyau
 		return (pid);
 	}
 	else // père
 	{
 		close(pipefd[0]); // close l'entrée
-		dup2(pipefd[1], mini->fd_out); // redirige la sortie std sur la sortie du tuyau
+		dup2(pipefd[1], shell->fd_out); // redirige la sortie std sur la sortie du tuyau
 		return (pid);
 	}
 }
 
 /*
 ** expression : command + args in a string (ex : "echo 'coucou'")
-** mini : the master structure
+** shell : the master structure
 ** to_exit : a booleen to know if we need ti add an exit (for pipe)
 **
 ** Prepare and execute the command given by 'expression'
 */
 // TODO add the call to BUILTIN check before ft_exec_process
-int	ft_exec_process(char *expression, t_mini *mini, bool to_exit)
+int	ft_exec_process(t_shell *shell, t_cmd cmd, bool to_exit)
 {
-	char	**cmd;
 	int		ret_value;
 
-	ft_convert_env_list_to_tab(mini);
-	cmd = ft_split(expression, ' ');
-	ret_value = ft_execve(cmd, mini->paths, mini->envp_tab);
-	ft_free_tab(cmd);
+	ft_convert_env_list_to_tab(shell);
+	ret_value = 0;
+	if (ft_exec_builtin(shell, cmd) == CHECK_ERR)
+		ret_value = ft_execve(cmd.args, shell->paths, shell->envp_tab);
 	if (to_exit == TO_EXIT)
 		exit (1); // faudra changer cette valeur
 	return (ret_value); // ca aussi
 }
 
 /*
-** cmds : a tab of the strings between pipe or just one if there is no pipe
-** mini : the master structure
+** cmds : a tab of a structure with the commands between pipe or just one if there is no pipe
+** shell : the master structure
 **
 ** Call the previous function to make the magic pipe happens.
 */
 
-int ft_pipe(char **cmds, t_mini *mini)
+int ft_pipe(t_cmd *cmds, t_shell *shell)
 {
 	int		i;
 	int		pid;
 	// int		bin;
 
 	i = 0;
-	if (mini->paths == NULL || cmds == NULL || cmds[i] == NULL)
+	if (shell->paths == NULL || cmds == NULL)
 		return (CHECK_ERR);
-	while (cmds[i + 1] != NULL)
+	// while (cmds[i + 1] != NULL)
+	while (i + 1 < shell->cmds_count)
 	{
-		pid = ft_kind_of_pipe(mini);
+		pid = ft_kind_of_pipe(shell);
 		if (pid != 0) // process père
 		{
-			// bin = is_builtin(shell->cmds[i].cmd);
-			// if (bin)
-			// 	exec_builtin(shell, i, bin, mini);
-			ft_exec_process(cmds[i], mini, TO_EXIT);
+			ft_exec_process(shell, cmds[i], TO_EXIT);
 		}
 		else
 			waitpid(pid, NULL, 0);
 		i++;
 	}
-	ft_exec_process(cmds[i], mini, NO_EXIT);
+	ft_exec_process(shell, cmds[i], NO_EXIT);
 
 	return (CHECK_OK);
 }

@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int	ft_export(t_mini *mini, char *name, char *value)
+int	ft_export(t_shell *shell, char *name, char *value)
 {
 	if (name == NULL && value)
 		return (printf("-%s: export: '=%s': not a valid identifier\n",
-			mini->binary_name, value)); // erreur
+			shell->binary_name, value)); // erreur
 	if (name == NULL && value == NULL)
-		ft_display_export(mini->env);
+		ft_display_export(shell->env);
 	else
-		ft_export_to_env(mini, name, value);
+		ft_export_to_env(shell, name, value);
 	return (CHECK_OK);
 }
