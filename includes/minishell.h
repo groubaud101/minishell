@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/02/16 04:46:05 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/06/27 11:39:24 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@
 # define STDIN STDIN_FILENO
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
-
 
 # include <readline/readline.h>
 # include <readline/history.h>

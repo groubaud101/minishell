@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+         #
+#    By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/31 15:34:29 by user42            #+#    #+#              #
-#    Updated: 2021/12/05 15:06:18 by groubaud         ###   ########.fr        #
+#    Updated: 2022/06/27 11:46:45 by jrobert          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ CC		=	gcc
 all		:	$(NAME)
 
 %.o		:	%.c $(INCLUDE)
-			$(CC) $(CFLAGS) $(I_INC) -c -lreadline -o $@ $<
+			$(CC) $(CFLAGS) $(I_INC) -c -o $@ $<
 
 lib		:
 			make -C $(D_LIBFT)
