@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   jrobert.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:48:31 by jrobert           #+#    #+#             */
-/*   Updated: 2022/06/05 22:28:52 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/06/28 11:28:38 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,6 +323,55 @@ int	init_parser(t_shell *shell, t_token *tkn)
 	return (1);
 }
 
+int	trim_tkn(t_token **tkn)
+{
+	if (*tkn)
+		*tkn = (*tkn)->next;
+	while (*tkn && !ft_strncmp((*tkn)->type, "SPACE", 4))
+		*tkn = (*tkn)->next;
+	return (1);
+}
+
+int	parse_chev_l(t_shell *shell, t_token **tkn, int i)
+{
+	trim_tkn(tkn);
+	shell->cmds[i].left.target = (*tkn)->content;
+	shell->cmds[i].left.oflag = O_RDONLY;
+	return (1);
+}
+
+int	parse_chev_r(t_shell *shell, t_token **tkn, int i)
+{
+	trim_tkn(tkn);
+	shell->cmds[i].right.target = (*tkn)->content;
+	shell->cmds[i].right.oflag = O_CREAT | O_TRUNC | O_RDWR;
+	return (1);
+}
+
+int	parse_chev_rr(t_shell *shell, t_token **tkn, int i)
+{
+	trim_tkn(tkn);
+	shell->cmds[i].right.target = (*tkn)->content;
+	shell->cmds[i].right.oflag = O_CREAT | O_APPEND | O_RDWR;
+	return (1);
+}
+
+int	parse_arg(t_shell *shell, t_token **tkn, int i, int *j)
+{
+	shell->cmds[i].args[++*j] = (*tkn)->content;
+	if (!shell->cmds[i].cmd)
+		shell->cmds[i].cmd = (*tkn)->content;
+	return (1);
+}
+
+int	end_parse(t_shell *shell, t_token **tkn, int i, int j)
+{
+	shell->cmds[i].args[++j] = NULL;
+	if (*tkn)
+		*tkn = (*tkn)->next;
+	return (1);
+}
+
 int	parse_cmds(t_shell *shell, t_token *tkn)
 {
 	int	i;
@@ -338,44 +387,19 @@ int	parse_cmds(t_shell *shell, t_token *tkn)
 			if (!ft_strncmp(tkn->type, "CHEV_LL", 7))
 				shell->cmds[i].left.target = "EOF";
 			else if (!ft_strncmp(tkn->type, "CHEV_L", 6))
-			{
-				tkn = tkn->next;
-				while (tkn && !ft_strncmp(tkn->type, "SPACE", 4))
-					tkn = tkn->next;
-				shell->cmds[i].left.target = tkn->content;
-				shell->cmds[i].left.oflag = O_RDONLY;
-			}
+				parse_chev_l(shell, &tkn, i);
 			else if (!ft_strncmp(tkn->type, "CHEV_RR", 7))
-			{
-
-				tkn = tkn->next;
-				while (tkn && !ft_strncmp(tkn->type, "SPACE", 4))
-					tkn = tkn->next;
-				shell->cmds[i].right.target = tkn->content;
-				shell->cmds[i].right.oflag = O_CREAT | O_APPEND | O_RDWR;
-			}
+				parse_chev_rr(shell, &tkn, i);
 			else if (!ft_strncmp(tkn->type, "CHEV_R", 6))
-			{
-				tkn = tkn->next;
-				while (tkn && !ft_strncmp(tkn->type, "SPACE", 4))
-					tkn = tkn->next;
-				shell->cmds[i].right.target = tkn->content;
-				shell->cmds[i].right.oflag = O_CREAT | O_TRUNC | O_RDWR;
-			}
+				parse_chev_r(shell, &tkn, i);
 			else if (!ft_strncmp(tkn->type, "WORD", 4))
-			{
-				shell->cmds[i].args[++j] = tkn->content;
-				if (!shell->cmds[i].cmd)
-					shell->cmds[i].cmd = tkn->content;
-			}
+				parse_arg(shell, &tkn, i, &j);
 			tkn = tkn->next;
 		}
-		shell->cmds[i].args[++j] = NULL;
-		if (tkn)
-			tkn = tkn->next;
+		end_parse(shell, &tkn, i, j);
 	}
 	
-	// /* printer for tests */ //
+	/* printer for tests */ //
 	// i = -1;
 	// while (++i < shell->cmds_count)
 	// {
