@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:48:31 by jrobert           #+#    #+#             */
-/*   Updated: 2022/06/28 11:28:38 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/06/28 12:09:03 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ int	replace_var(t_shell *shell, t_token **head)
 	t_token	*tmp;
 	int		i;
 	int		len;
+	//char	*var;
 
 	(void)shell;
 	tmp = *head;
@@ -193,6 +194,14 @@ int	replace_var(t_shell *shell, t_token **head)
 					i++;
 					len++;
 				}
+				
+				// var = (char *)malloc(sizeof(char) * (len + 1));
+				// if (!var)	
+				// 	return (0);
+				
+				// free(tmp->content);
+				// tmp->content = var;
+				printf("len of var = %d\n", len);
 			}
 		}
 		tmp = tmp->next;
@@ -227,7 +236,6 @@ int	tokenize(t_shell *shell, char *input, t_token **head)
 	}
 	if (&input[i] != input)
 		tkn_add_back(head, new_tkn(input, i, "WORD"));
-	
 	if (!remove_quotes(head))
 		return (0);
 	if (!replace_var(shell, head))
