@@ -31,7 +31,7 @@ I_INC	=	-I $(D_INC_L) -I $(D_INC)
 S_EXEC	=	pipe redir_in_out
 S_UTILS	=	main init convert
 S_BUILT	=	env getenv cd pwd export_to_env export display_export \
-			exec_builtin
+			exec_builtin unset
 S_PARS	=	jrobert utils
 S_TRAN	=	choose_the_exec
 

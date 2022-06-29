@@ -22,9 +22,13 @@
 
 t_env	*ft_getenv(char *name, t_env *env)
 {
+	int	len_name;
+
+	len_name = ft_strlen(name);
 	while (env)
 	{
-		if (ft_strcmp(env->name, name) == 0)
+		if (len_name == env->len_name
+			&& ft_strcmp(env->name, name) == 0)
 			return(env);
 		env = env->next;
 	}

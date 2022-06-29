@@ -133,6 +133,7 @@ int		ft_pwd(void);
 int		ft_export_to_env(t_shell *shell, char *name, char *value);
 void	ft_display_export(t_env *env);
 int		ft_export(t_shell *shell, char *name, char *value);
+int		ft_unset(t_shell *shell, t_cmd cmd);
 
 /* parsing */
 int		fail(char *err);
