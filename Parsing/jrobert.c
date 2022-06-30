@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:48:31 by jrobert           #+#    #+#             */
-/*   Updated: 2022/06/29 14:46:18 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/06/30 17:55:25 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,8 @@ int	replace_var(t_shell *shell, t_token **head)
 	int		len;
 	char	*var_name;
 	char	*var_value;
-	char	*new_content;
+	char	*new_cont;
+	char	*bef;
 
 	tmp = *head;
 	while (tmp)
@@ -192,27 +193,31 @@ int	replace_var(t_shell *shell, t_token **head)
 			if (tmp->content[i] == '$')
 			{
 				len = 0;
-				while (tmp->content[i] && tmp->content[i] != '$' && tmp->content[i] != ' ')
+				while (tmp->content[i] && tmp->content[i] != '$')
 				{
 					i++;
 					len++;
 				}
+				bef = ft_substr(tmp->content, 0, i - len);
 				var_name = ft_substr(tmp->content, i - len, len);
-				var_value = ft_getenv(var_name, shell->env);
-				if (!var_value)
-					return (0);
-				
-					
-				
-				
+				var_value = ft_getenv(var_name, shell->env)->value;
+				free(var_name);
+				new_cont = ft_strjoin(bef, var_value);
+				free(bef);
+				bef = new_cont;
+				free(var_value);
+
+
 				// var = (char *)malloc(sizeof(char) * (len + 1));
 				// if (!var)	
 				// 	return (0);
 				
 				// free(tmp->content);
 				// tmp->content = var;
-				printf("len of var = %d\n", len);
 			}
+			new_cont = ft_strjoin(bef, var_value);
+			free(bef);
+			printf("NEW CONT = %s\n", new_cont);
 		}
 		tmp = tmp->next;
 	}
