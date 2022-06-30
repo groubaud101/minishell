@@ -18,6 +18,8 @@ static t_env	*ft_add_new_elem_env(t_env *env, char *name, char *value)
 	t_env	*start;
 
 	env_new = malloc(sizeof(*env_new));
+	if (!env_new)
+		return (NULL);
 	env_new->name = name;
 	env_new->len_name = ft_strlen(name);
 	env_new->value = value;
@@ -39,11 +41,19 @@ int		ft_export_to_env(t_shell *shell, char *name, char *value)
 
 	env_export = ft_getenv(name, shell->env);
 	if (env_export == NULL)
+	{
 		shell->env = ft_add_new_elem_env(shell->env, name, value);
+		if (!shell->env)
+		{
+			free(name);
+			free(value);
+			ft_exit(shell, 1);
+		}
+	}
 	else
 	{
 		free(env_export->value);
 		env_export->value = value;
 	}
-	return (CHECK_OK);
+	return (0);
 }

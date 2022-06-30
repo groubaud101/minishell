@@ -43,16 +43,17 @@ static int	ft_update_pwd_env(t_shell *shell, char *name, char *absolute_path)
 **
 ** man chdir
 ** Move the current working directory to 'path'
-** Set env_has_changed to 1 if 'path' is diff than '.' 
+** Set env_has_changed to 1 if 'path' is diff than '.'
+** return 0 in case of success, 1 otherwise 
 */
 
 int	ft_cd(t_shell *shell, char *path)
 {
 	ft_update_pwd_env(shell, "OLDPWD", ft_getcwd());
 	if (chdir(path) == -1)
-		return (CHECK_ERR);
+		return (1);
 	ft_update_pwd_env(shell, "PWD", ft_getcwd());
 	if (ft_strcmp(path, ".") != 0)
 		shell->env_has_changed = 1;
-	return (CHECK_OK);
+	return (0);
 }

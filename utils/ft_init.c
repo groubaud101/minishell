@@ -122,13 +122,21 @@ void	ft_init_mini(t_shell *shell, char **av, char **envp)
 	shell->binary_name = av[0];
 	shell->fd_in = STDIN;
 	shell->fd_out = STDOUT;
-	shell->env = ft_init_env(envp); //check malloc ?
-	//ft_aff_env(shell->env);
+	shell->env = ft_init_env(envp);
+	if (!shell->env)
+	{
+		ft_free_t_cmd(shell->cmds, shell->cmds_count);
+		free(shell);
+		exit(1); // ENOMEM ?
+	}
 	shell->env_has_changed = 1;
 	shell->envp_tab = NULL;
-	shell->var_bash = NULL;
-
+	shell->paths = NULL;
 	env_path = ft_getenv("PATH", shell->env); // a rajouter quand ya update
 	if (env_path)
+	{
 		shell->paths = ft_split(env_path->value, ':');
+		if (!shell->paths)
+			ft_exit(shell, 1); // ENOMEM ?
+	}
 }

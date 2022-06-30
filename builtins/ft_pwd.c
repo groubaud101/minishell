@@ -40,7 +40,7 @@ int	ft_pwd(void)
 
 	pwd = ft_getcwd();
 	if (pwd == NULL)
-		return (CHECK_ERR); // voir errno
+		return (1); // voir errno
 	printf("%s\n", pwd);
-	return (CHECK_OK);
+	return (0);
 }

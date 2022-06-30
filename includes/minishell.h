@@ -87,14 +87,6 @@ typedef struct s_env
 	struct s_env	*next;
 }t_env;
 
-typedef struct s_bash
-{
-	char			*name;
-	int				len_name;
-	char			*value;
-	struct s_bash	*next;
-}t_bash;
-
 typedef struct s_shell
 {
 	int		exit_status;
@@ -106,7 +98,6 @@ typedef struct s_shell
 	char	**paths;
 	t_env	*env;
 	bool	env_has_changed;
-	t_bash	*var_bash;
 	char	**envp_tab;
 }t_shell;
 
@@ -125,15 +116,25 @@ char	**ft_convert_env_list_to_tab(t_shell *shell);
 
 /* builtins */
 int		ft_exec_builtin(t_shell *shell, t_cmd cmd);
-void	ft_env(t_env *env);
-t_env	*ft_getenv(char *name, t_env *env);
+
 int		ft_cd(t_shell *shell, char *path);
+
 char	*ft_getcwd(void);
 int		ft_pwd(void);
+
+void	ft_env(t_env *env);
+t_env	*ft_getenv(char *name, t_env *env);
+
 int		ft_export_to_env(t_shell *shell, char *name, char *value);
 void	ft_display_export(t_env *env);
 int		ft_export(t_shell *shell, char *name, char *value);
+
 int		ft_unset(t_shell *shell, t_cmd cmd);
+
+void	ft_free_t_cmd(t_cmd *cmds, int nb_cmds);
+void	ft_free_t_env(t_env *env);
+void	ft_exit(t_shell *shell, int ret_value);
+int		ft_echo(char **next_args);
 
 /* parsing */
 int		fail(char *err);
