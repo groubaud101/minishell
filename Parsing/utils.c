@@ -19,7 +19,6 @@ void	clear_tknlst(t_token **head, void (*del)(void *))
 
 	if (!head || !del)
 		return ;
-	ptr = NULL;
 	temp = *head;
 	while (temp)
 	{

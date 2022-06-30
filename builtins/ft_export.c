@@ -15,11 +15,14 @@
 int	ft_export(t_shell *shell, char *name, char *value)
 {
 	if (name == NULL && value)
-		return (printf("-%s: export: '=%s': not a valid identifier\n",
-			shell->binary_name, value)); // erreur
+	{
+		printf("-%s: export: '=%s': not a valid identifier\n",
+			shell->binary_name, value);
+		return (1);
+	}
 	if (name == NULL && value == NULL)
 		ft_display_export(shell->env);
 	else
-		ft_export_to_env(shell, name, value);
-	return (CHECK_OK);
+		return (ft_export_to_env(shell, name, value));
+	return (0);
 }

@@ -61,7 +61,6 @@ int	ft_unset(t_shell *shell, t_cmd cmd)
 
 	i = 1;
 	all_unset = 1;
-	// a tester avec $? si 'unset same_name same_name' renvoie -1
 	while (cmd.args[i])
 	{
 		if (ft_unset_one(shell->env, cmd.args[i]) == CHECK_OK)
@@ -70,7 +69,7 @@ int	ft_unset(t_shell *shell, t_cmd cmd)
 			all_unset = 0;
 		i++;
 	}
-	if (all_unset == 1)
+	if (all_unset == 1) // faudra voir parce que ça me renvoie quand même 0 si non
 		return (0);
-	return (-1);
+	return (1);
 }

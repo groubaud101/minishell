@@ -34,20 +34,20 @@ int	ft_transi_export(t_shell *shell, t_cmd cmd)
 int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 {
 	if (!ft_strcmp(cmd.args[0], "echo"))
-		ft_puttab(cmd.args + 1, " "); // tmp
+		return (ft_echo(cmd.args + 1));
 	else if (!ft_strcmp(cmd.args[0], "cd"))
-		ft_cd(shell, cmd.args[1]);
+		return (ft_cd(shell, cmd.args[1]));
 	else if (!ft_strcmp(cmd.args[0], "pwd"))
-		ft_pwd();
+		return (ft_pwd());
 	else if (!ft_strcmp(cmd.args[0], "export"))
-		ft_transi_export(shell, cmd);
+		return (ft_transi_export(shell, cmd));
 	else if (!ft_strcmp(cmd.args[0], "unset"))
-		ft_unset(shell, cmd);
+		return (ft_unset(shell, cmd));
 	else if (!ft_strcmp(cmd.args[0], "env"))
 		ft_env(shell->env);
-	// else if (!ft_strcmp(cmd.args[0], "exit"))
-	// 	ft_exit(shell);
+	else if (!ft_strcmp(cmd.args[0], "exit"))
+		ft_exit(shell, 1);
 	else
-		return (CHECK_ERR);
-	return (CHECK_OK);
+		return (-1);
+	return (0);
 }

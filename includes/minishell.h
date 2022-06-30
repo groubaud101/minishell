@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/06/29 14:01:30 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/06/30 16:35:31 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ typedef struct s_shell
 	char	**paths;
 	t_env	*env;
 	bool	env_has_changed;
-	t_bash	*var_bash;
 	char	**envp_tab;
 }				t_shell;
 
@@ -125,15 +124,25 @@ char	**ft_convert_env_list_to_tab(t_shell *shell);
 
 /* builtins */
 int		ft_exec_builtin(t_shell *shell, t_cmd cmd);
-void	ft_env(t_env *env);
-t_env	*ft_getenv(char *name, t_env *env);
+
 int		ft_cd(t_shell *shell, char *path);
+
 char	*ft_getcwd(void);
 int		ft_pwd(void);
+
+void	ft_env(t_env *env);
+t_env	*ft_getenv(char *name, t_env *env);
+
 int		ft_export_to_env(t_shell *shell, char *name, char *value);
 void	ft_display_export(t_env *env);
 int		ft_export(t_shell *shell, char *name, char *value);
+
 int		ft_unset(t_shell *shell, t_cmd cmd);
+
+void	ft_free_t_cmd(t_cmd *cmds, int nb_cmds);
+void	ft_free_t_env(t_env *env);
+void	ft_exit(t_shell *shell, int ret_value);
+int		ft_echo(char **next_args);
 
 /* parsing */
 int		fail(char *err);
