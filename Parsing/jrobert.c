@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:48:31 by jrobert           #+#    #+#             */
-/*   Updated: 2022/06/28 12:09:03 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/06/29 14:46:18 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,14 +172,17 @@ int	remove_quotes(t_token **head)
 	return (1);
 }
 
+
+
 int	replace_var(t_shell *shell, t_token **head)
 {	
 	t_token	*tmp;
 	int		i;
 	int		len;
-	//char	*var;
+	char	*var_name;
+	char	*var_value;
+	char	*new_content;
 
-	(void)shell;
 	tmp = *head;
 	while (tmp)
 	{
@@ -189,11 +192,18 @@ int	replace_var(t_shell *shell, t_token **head)
 			if (tmp->content[i] == '$')
 			{
 				len = 0;
-				while (tmp->content[i] && tmp->content[i] != '$')
+				while (tmp->content[i] && tmp->content[i] != '$' && tmp->content[i] != ' ')
 				{
 					i++;
 					len++;
 				}
+				var_name = ft_substr(tmp->content, i - len, len);
+				var_value = ft_getenv(var_name, shell->env);
+				if (!var_value)
+					return (0);
+				
+					
+				
 				
 				// var = (char *)malloc(sizeof(char) * (len + 1));
 				// if (!var)	

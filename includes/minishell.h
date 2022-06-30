@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/06/27 11:39:24 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/06/29 14:01:30 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ typedef struct s_env
 	int				len_name;
 	char			*value;
 	struct s_env	*next;
-}t_env;
+}				t_env;
 
 typedef struct s_bash
 {
@@ -93,7 +93,7 @@ typedef struct s_bash
 	int				len_name;
 	char			*value;
 	struct s_bash	*next;
-}t_bash;
+}				t_bash;
 
 typedef struct s_shell
 {
@@ -108,7 +108,7 @@ typedef struct s_shell
 	bool	env_has_changed;
 	t_bash	*var_bash;
 	char	**envp_tab;
-}t_shell;
+}				t_shell;
 
 /* exec */
 int		ft_redir_in(t_shell *shell, char *infile);
