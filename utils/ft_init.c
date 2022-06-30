@@ -72,7 +72,6 @@ static t_env	*ft_attribute_elem_env(char *envp)
 	lst->len_name = ft_strlen(lst->name);
 	lst->value = name_value[1];
 	lst->next = NULL;
-	free(name_value);
 	return (lst);
 }
 
