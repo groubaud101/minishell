@@ -19,7 +19,6 @@ void	ft_free_t_cmd(t_cmd *cmds, int nb_cmds)
 	i = 0;
 	while (i < nb_cmds)
 	{
-		// free(cmds->cmd); // déja free
 		ft_free_tab(cmds->args);
 		i++;
 	}
