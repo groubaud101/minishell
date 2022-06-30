@@ -29,12 +29,12 @@ int	main(int ac, char **av, char **envp)
 		{
 			input = readline("\033[1;32mMiniShell >> \033[0m");
 			add_history(input);
-			if (!ft_strncmp(input, "exit", 4))
-				break ;
-			if (parse(&shell, input))
+			parse(&shell, input);
+			if (shell.cmds->cmd)
 				ft_choose_the_exec(&shell);
 		}
-		free_mallocs(&shell, shell.cmds_count);	
+		//ft_free_t_cmd(shell.cmds, shell.cmds_count);
+		//free_mallocs(&shell, shell.cmds_count);	
 	// }
 	// else
 	// 	waitpid(pid, NULL, 0);

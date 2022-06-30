@@ -19,7 +19,7 @@ void	ft_free_t_cmd(t_cmd *cmds, int nb_cmds)
 	i = 0;
 	while (i < nb_cmds)
 	{
-		free(cmds->cmd);
+		// free(cmds->cmd); // déja free
 		ft_free_tab(cmds->args);
 		i++;
 	}
@@ -42,11 +42,9 @@ void	ft_free_t_env(t_env *env)
 
 void	ft_exit(t_shell *shell, int ret_value)
 {
-	ft_free_t_cmd(shell->cmds, shell->cmds_count);
+	ft_free_t_cmd(shell->cmds, shell->cmds_count); // a check
 	ft_free_t_env(shell->env);
-	free(shell->binary_name);
 	ft_free_tab(shell->paths);
 	ft_free_tab(shell->envp_tab);
-	free(shell);
 	exit(ret_value);
 }

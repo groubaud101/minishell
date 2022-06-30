@@ -295,13 +295,13 @@ int	count_args(t_token *tkn)
 	return (n);
 }
 
-int	free_mallocs(t_shell *shell, int i)
-{
-	while (i--)
-		free(shell->cmds[i].args);
-	free(shell->cmds);
-	return (0);
-}
+// int	free_mallocs(t_shell *shell, int i)
+// {
+// 	while (i--)
+// 		free(shell->cmds[i].args);
+// 	free(shell->cmds);
+// 	return (0);
+// }
 
 int	init_parser(t_shell *shell, t_token *tkn)
 {
@@ -321,7 +321,11 @@ int	init_parser(t_shell *shell, t_token *tkn)
 		shell->cmds[i].argc = n;
 		shell->cmds[i].args = (char **)malloc(sizeof(char *) * (n + 1));
 		if (shell->cmds[i].args == NULL)
-			return (free_mallocs(shell, i));
+		{
+			ft_free_t_cmd(shell->cmds, shell->cmds_count);
+			return (0);
+		}
+		// return (free_mallocs(shell, i));
 		// printf("ARGC of CMD %d = %d\n", i, shell->cmds[i].argc);
 		while (tkn && ft_strncmp(tkn->type, "PIPE", 4))
 			tkn = tkn->next;

@@ -91,10 +91,10 @@ int	ft_exec_process(t_shell *shell, t_cmd cmd, bool to_exit)
 
 	ft_convert_env_list_to_tab(shell);
 	ret_value = 0;
-	if (ft_exec_builtin(shell, cmd) == CHECK_ERR)
+	if (ft_exec_builtin(shell, cmd) == -1)
 		ret_value = ft_execve(cmd.args, shell->paths, shell->envp_tab);
 	if (to_exit == TO_EXIT)
-		exit (1); // faudra changer cette valeur
+		exit (ret_value); // faudra changer cette valeur
 	return (ret_value); // ca aussi
 }
 
@@ -114,7 +114,6 @@ int ft_pipe(t_cmd *cmds, t_shell *shell)
 	i = 0;
 	if (shell->paths == NULL || cmds == NULL)
 		return (CHECK_ERR);
-	// while (cmds[i + 1] != NULL)
 	while (i + 1 < shell->cmds_count)
 	{
 		pid = ft_kind_of_pipe(shell);
