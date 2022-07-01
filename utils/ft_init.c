@@ -108,6 +108,9 @@ static t_env	*ft_init_env(char *envp[])
 ** envp : the tab of the environment given by the main
 **
 ** Create the master structure 'shell'
+**  'cmds_count' : nb of cmd in the expression, ex : 'ls | cat' -> 2 cmds
+**  'cmds' : tab of structure where the commands are set up
+**  'binary_name' : the name of the executable (should be minishell)
 **  'fd_in' : file descriptor input
 **  'fd_out' : file descriptor output
 **  'env' : chain list of the environment
@@ -120,13 +123,14 @@ void	ft_init_mini(t_shell *shell, char **av, char **envp)
 {
 	t_env	*env_path;
 
+	shell->cmds_count = 0;
+	shell->cmds = NULL;
 	shell->binary_name = av[0];
 	shell->fd_in = STDIN;
 	shell->fd_out = STDOUT;
 	shell->env = ft_init_env(envp);
 	if (!shell->env)
 	{
-		ft_free_t_cmd(shell->cmds, shell->cmds_count);
 		free(shell);
 		exit(1); // ENOMEM ?
 	}
