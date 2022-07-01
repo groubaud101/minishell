@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:48:31 by jrobert           #+#    #+#             */
-/*   Updated: 2022/06/30 17:55:25 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/06/30 20:07:36 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,44 +180,49 @@ int	replace_var(t_shell *shell, t_token **head)
 	int		i;
 	int		len;
 	char	*var_name;
-	char	*var_value;
+	char	*var_val;
 	char	*new_cont;
 	char	*bef;
 
+	bef = NULL;
+	new_cont = NULL;
 	tmp = *head;
 	while (tmp)
 	{
 		i = -1;
 		while (tmp->content[++i])
 		{
+		
 			if (tmp->content[i] == '$')
 			{
+				i++;
+				printf("i = %d\n", i);
+				printf("YES\n");
 				len = 0;
-				while (tmp->content[i] && tmp->content[i] != '$')
+				while (ft_isalnum(tmp->content[i]) && tmp->content[i + 1] != '$')
 				{
 					i++;
 					len++;
 				}
-				bef = ft_substr(tmp->content, 0, i - len);
+				printf("i = %d\n", i);
+				if (!bef)
+					bef = ft_substr(tmp->content, i, i - len);
+				printf("BEF = %s\n", bef);
 				var_name = ft_substr(tmp->content, i - len, len);
-				var_value = ft_getenv(var_name, shell->env)->value;
+				printf("VAR_NAME = %s\n", var_name);
+				var_val = ft_getenv(var_name, shell->env)->value;
+				printf("VAR_VAL = %s\n", var_val);
 				free(var_name);
-				new_cont = ft_strjoin(bef, var_value);
+				if (new_cont)
+					free(new_cont);
+				new_cont = ft_strjoin(bef, var_val);
+				printf("NEW_CONT = %s\n", new_cont);
+				free(var_val);
 				free(bef);
 				bef = new_cont;
-				free(var_value);
-
-
-				// var = (char *)malloc(sizeof(char) * (len + 1));
-				// if (!var)	
-				// 	return (0);
-				
-				// free(tmp->content);
-				// tmp->content = var;
+				free(tmp->content);
+				tmp->content = new_cont;
 			}
-			new_cont = ft_strjoin(bef, var_value);
-			free(bef);
-			printf("NEW CONT = %s\n", new_cont);
 		}
 		tmp = tmp->next;
 	}
