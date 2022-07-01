@@ -5,4 +5,8 @@ valgrind --leak-check=full \
          --track-origins=yes \
          --verbose \
          --log-file=valgrind-out.txt \
-         $1
+         --track-fds=yes \
+         --show-leak-kinds=all \
+         --suppressions=.ignore_readline \
+         -q \
+         ./minishell
