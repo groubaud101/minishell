@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:48:31 by jrobert           #+#    #+#             */
-/*   Updated: 2022/06/30 20:07:36 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/01 15:53:42 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,25 +190,22 @@ int	replace_var(t_shell *shell, t_token **head)
 	while (tmp)
 	{
 		i = -1;
+		while (ft_isalnum(tmp->content[i]) && tmp->content[i] != '$')
+			i++;
+		if (i)
+			bef = ft_substr(tmp->content, 0, i);
+		printf("BEF = %s\n", bef);
 		while (tmp->content[++i])
 		{
-		
 			if (tmp->content[i] == '$')
-			{
-				i++;
-				printf("i = %d\n", i);
-				printf("YES\n");
+			{	
 				len = 0;
-				while (ft_isalnum(tmp->content[i]) && tmp->content[i + 1] != '$')
+				while (ft_isalnum(tmp->content[i + 1]) && tmp->content[i + 1] != '$')
 				{
 					i++;
 					len++;
-				}
-				printf("i = %d\n", i);
-				if (!bef)
-					bef = ft_substr(tmp->content, i, i - len);
-				printf("BEF = %s\n", bef);
-				var_name = ft_substr(tmp->content, i - len, len);
+				}		
+				var_name = ft_substr(tmp->content, i + 1 - len, len);
 				printf("VAR_NAME = %s\n", var_name);
 				var_val = ft_getenv(var_name, shell->env)->value;
 				printf("VAR_VAL = %s\n", var_val);
@@ -220,6 +217,7 @@ int	replace_var(t_shell *shell, t_token **head)
 				free(var_val);
 				free(bef);
 				bef = new_cont;
+				printf("BEF = %s\n", bef);
 				free(tmp->content);
 				tmp->content = new_cont;
 			}
