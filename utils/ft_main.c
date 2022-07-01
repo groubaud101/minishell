@@ -12,40 +12,48 @@
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+int	ft_launch_minishell(t_shell *shell)
 {
-	t_shell	shell;
 	char	*input;
-	// int		pid;
 
-	ft_init_mini(&shell, av, envp);
-	(void)ac;
-	// if (!copy_envp(&shell, envp))
-	// 	return (fail("Error - Malloc Envp"));
-	// pid = fork();
-	// if (pid == 0)
-	// {
-		while (1)
-		{
-			input = readline("\033[1;32mMiniShell >> \033[0m");
-			add_history(input);
-			parse(&shell, input);
-			if (shell.cmds->cmd)
-				ft_choose_the_exec(&shell);
-		}
-		//ft_free_t_cmd(shell.cmds, shell.cmds_count);
-		//free_mallocs(&shell, shell.cmds_count);	
-	// }
-	// else
-	// 	waitpid(pid, NULL, 0);
+	// faudra un fork, le to_exit de execve sera toujours true
+	// les builtin auront un exit à la fin avec ret_value
+	input = readline("\033[1;32mMiniShell >> \033[0m");
+	// If EOF is encountered while reading a line,
+	//   and the line is empty, NULL is returned.
+	if (!input)
+		ft_exit(shell, 0);
+
+	// A voir si il faut free 'input'
+	if (input[0] == '\0')
+		return (0);
+	add_history(input);
+	parse(shell, input);
+	if (shell->cmds->cmd)
+		ft_choose_the_exec(shell);
+	ft_free_t_cmd(shell->cmds, shell->cmds_count);
 	return (0);
 }
 
-// /*
-// ** ac/av/envp : number of arg / tab of arg / tab of the environnement
-// **
-// ** Initialize the master structure mini
-// */
+/*
+** ac/av/envp : number of arg / tab of arg / tab of the environnement
+**
+** Initialize the master structure shell
+** Launch minishell in a infinite loupe
+*/
+
+int	main(int ac, char **av, char **envp)
+{
+	t_shell	shell;
+
+	ft_init_mini(&shell, av, envp);
+	(void)ac;
+	while (1)
+	{
+		ft_launch_minishell(&shell);
+	}
+	return (0);
+}
 
 // int main(int ac, char **av, char *envp[])
 // {

@@ -41,8 +41,10 @@ void	ft_free_t_env(t_env *env)
 
 void	ft_exit(t_shell *shell, int ret_value)
 {
-	ft_free_t_cmd(shell->cmds, shell->cmds_count); // a check
-	ft_free_t_env(shell->env);
+	if (shell->cmds)
+		ft_free_t_cmd(shell->cmds, shell->cmds_count); // a check
+	if (shell->env)
+		ft_free_t_env(shell->env);
 	ft_free_tab(shell->paths);
 	ft_free_tab(shell->envp_tab);
 	exit(ret_value);
