@@ -52,8 +52,12 @@ int		ft_export_to_env(t_shell *shell, char *name, char *value)
 	}
 	else
 	{
-		free(env_export->value);
-		env_export->value = value;
+		free(name);
+		if (value)
+		{
+			free(env_export->value);
+			env_export->value = value;
+		}
 	}
 	return (0);
 }

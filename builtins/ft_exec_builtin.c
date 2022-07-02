@@ -15,20 +15,26 @@
 int	ft_transi_export(t_shell *shell, t_cmd cmd)
 {
 	char	**name_value;
+	int		i;
 
-	// ft_puttab(cmd.args, "___");
-	if (shell->cmds && cmd.args[1])
+	i = 1;
+	if (cmd.args[1] == NULL)
+		ft_export(shell, NULL, NULL);
+	while (cmd.args[i])
 	{
-		name_value = ft_split_once(cmd.args[1], '='); // check malloc
+		// ft_puttab(cmd.args, "___");
+		name_value = ft_split_once(cmd.args[i], '='); // check malloc
+		if (name_value == NULL)
+			ft_exit(shell, 1);
 		// ft_puttab(name_value, "===");
 		if (name_value[1])
 			ft_export(shell, name_value[0], name_value[1]);
 		else
-			ft_export(shell, name_value[0], NULL);	
-		//ft_free_tab(name_value);
-		return (CHECK_OK);
+			ft_export(shell, name_value[0], NULL);
+		free(name_value);
+		i++;
 	}
-	return (ft_export(shell, NULL, NULL));
+	return (0);
 }
 
 int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
