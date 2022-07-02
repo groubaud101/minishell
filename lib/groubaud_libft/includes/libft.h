@@ -132,6 +132,7 @@ int		ft_the_min(int size, ...);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
 char	*ft_strndup(const char *s, size_t n);
+int		ft_free(int ret_value, char *str, ...);
 
 /*
 ** Mandatory part two

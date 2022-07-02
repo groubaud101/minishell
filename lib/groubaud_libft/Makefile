@@ -27,7 +27,7 @@ SLIB	=	abs add atoi_base atoi bzero calloc div isalnum isalpha isascii \
 			strndup putnstr putnstr_fd u_itoa_base u_ltoa_base \
 			u_lltoa_base put_int put_uint put_ulong put_ulonglong the_max \
 			the_min put_uchar atoi_no_overflow pow_int str_isdigit \
-			puterror free_tab
+			puterror free_tab free
 
 SPRINTF	=	printf printf_fd fill_tprintf conversion_cspmod conversion_diuxx \
 			aff
