@@ -39,21 +39,26 @@ int	ft_transi_export(t_shell *shell, t_cmd cmd)
 
 int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 {
+	int	ret_value;
+
+	ret_value = 0;
 	if (!ft_strcmp(cmd.args[0], "echo"))
-		return (ft_echo(cmd.args + 1));
+		ret_value = ft_echo(cmd.args + 1);
 	else if (!ft_strcmp(cmd.args[0], "cd"))
-		return (ft_cd(shell, cmd.args[1]));
+		ret_value = ft_cd(shell, cmd.args[1]);
 	else if (!ft_strcmp(cmd.args[0], "pwd"))
-		return (ft_pwd());
+		ret_value = ft_pwd();
 	else if (!ft_strcmp(cmd.args[0], "export"))
-		return (ft_transi_export(shell, cmd));
+		ret_value = ft_transi_export(shell, cmd);
 	else if (!ft_strcmp(cmd.args[0], "unset"))
-		return (ft_unset(shell, cmd));
+		ret_value = ft_unset(shell, cmd);
 	else if (!ft_strcmp(cmd.args[0], "env"))
 		ft_env(shell->env);
 	else if (!ft_strcmp(cmd.args[0], "exit"))
 		ft_exit(shell, 1);
 	else
 		return (-1);
-	return (0);
+	printf(COUCOU);
+	exit(ret_value);
+	return (ret_value);
 }
