@@ -59,5 +59,6 @@ int		ft_export_to_env(t_shell *shell, char *name, char *value)
 			env_export->value = value;
 		}
 	}
+	shell->env_has_changed = 1;
 	return (0);
 }

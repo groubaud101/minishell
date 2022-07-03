@@ -1,7 +1,12 @@
 #!/bin/bash
 
+echo "rm -f minishell"
+rm -f minishell
+
+echo "\nmake"
 make
 
+echo "\nvalgrind"
 valgrind --leak-check=full \
          --show-leak-kinds=all \
          --track-origins=yes \

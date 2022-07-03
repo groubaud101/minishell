@@ -20,9 +20,12 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-# include <stdbool.h>
 # include <stdint.h>
 # include <errno.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <termios.h>
+
 # include "libft.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
@@ -32,21 +35,19 @@
 # define TO_EXIT 1
 # define NO_EXIT 0
 
-# define ECHO 1
-# define CD 2
-# define PWD 3
-# define EXPORT 4
-# define UNSET 5
-# define ENV 6
-# define EXIT 7
+// # define ECHO 1
+// # define CD 2
+// # define PWD 3
+// # define EXPORT 4
+// # define UNSET 5
+// # define ENV 6
+// # define EXIT 7
 
 # define STDIN STDIN_FILENO
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
 
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <termios.h>
+# define COUCOU "%s : ligne %i in %s()\n", __FILE__, __LINE__, __func__
 
 typedef struct s_spec
 {
@@ -105,7 +106,7 @@ typedef struct s_shell
 	int		fd_out;
 	char	**paths;
 	t_env	*env;
-	bool	env_has_changed;
+	int		env_has_changed;
 	char	**envp_tab;
 }				t_shell;
 
@@ -114,7 +115,7 @@ int		ft_redir_in(t_shell *shell, char *infile);
 int		ft_redir_out(t_shell *shell, char *outfile);
 int		ft_double_redir_in(t_shell *shell, char *infile);
 int		ft_double_redir_out(t_shell *shell, char *outfile);
-int		ft_exec_process(t_shell *shell, t_cmd cmd, bool to_exit);
+int		ft_exec_process(t_shell *shell, t_cmd cmd, int to_exit);
 int		ft_pipe(t_cmd *cmds, t_shell *shell);
 
 /* utils */
@@ -151,7 +152,7 @@ void	clear_tknlst(t_token **head, void (*del)(void *));
 int		copy_envp(t_shell *shell, char **envp);
 int		parse(t_shell *shell, char *input);
 int		free_mallocs(t_shell *shell, int i);
-int		is_builtin(char *cmd);
+// int		is_builtin(char *cmd);
 char	*get_path(char *cmd);
 
 /* transition */
