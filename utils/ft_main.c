@@ -27,10 +27,12 @@ int	ft_launch_minishell(t_shell *shell)
 	// A voir si il faut free 'input'
 	if (input[0] == '\0')
 		return (0);
-	add_history(input);
 	parse(shell, input);
 	if (shell->cmds->cmd)
+	{
+		add_history(input);
 		ft_choose_the_exec(shell);
+	}
 	ft_free_t_cmd(shell->cmds, shell->cmds_count);
 	return (0);
 }
