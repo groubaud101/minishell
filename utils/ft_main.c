@@ -12,16 +12,6 @@
 
 #include "minishell.h"
 
-static volatile int sig_catch;
-
-void	signal_handler(int signum)
-{
-	sig_catch = signum;
-	if (signum == SIGINT)
-		ft_printf_fd(STDOUT, "\n");
-		// ft_printf_fd(STDIN, "\b\b  \n");// à voir si on garde ^C
-}
-
 /*
 ** shell : the master structure
 **
@@ -43,10 +33,10 @@ int	ft_launch_minishell(t_shell *shell)
 		ft_exit(shell, 1);
 
 	// A voir si il faut free 'input'
-	ft_printf_fd(1, "input : |%s|\n", input);
+	// ft_printf_fd(1, "input : |%s|\n", input);
 	if (input[0] == '\0')
 	{
-		ft_printf_fd(1, "read 0\n");
+		// ft_printf_fd(1, "read 0\n");
 		return (0);
 	}
 

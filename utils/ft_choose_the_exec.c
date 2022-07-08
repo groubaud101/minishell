@@ -59,8 +59,21 @@
 
 int	ft_choose_the_exec(t_shell *shell)
 {
+	int pid;
 
-	ft_pipe(shell->cmds, shell);
+	ft_convert_env_list_to_tab(shell);
+	if (shell->cmds_count == 1)
+		return (ft_execve(shell->cmds[0].args, shell->paths, shell->envp_tab));
 
-	return (1);
+	pid = fork();
+	if (pid == 0)
+	{
+		ft_pipe(shell, shell->cmds, 0);
+		return (1);
+	}
+	else
+	{
+		waitpid(pid, NULL, 0);
+		return (0);
+	}
 }

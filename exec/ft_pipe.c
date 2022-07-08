@@ -12,8 +12,45 @@
 
 #include "minishell.h"
 
-int	ft_pipe(t_cmd *cmds, t_shell *shell)
+int		ft_kind_of_pipe(void)
 {
-	ft_execve(cmds[0].args, shell->paths, shell->envp_tab);
-	return (0);
+	pid_t	pid;
+	int		pipefd[2];
+
+	pipe(pipefd);
+	pid = fork();
+	if (pid == 0) // fils
+	{
+		close(pipefd[1]); // close la sortie
+		dup2(pipefd[0], STDIN_FILENO); // redirige l'entrée std sur l'entrée du tuyau
+		return (pid);
+	}
+	else // père
+	{
+		close(pipefd[0]); // close l'entrée
+		dup2(pipefd[1], STDOUT_FILENO); // redirige la sortie std sur la sortie du tuyau
+		return (pid);
+	}
+}
+
+int	ft_pipe(t_shell *shell, t_cmd *cmds, int i)
+{
+	int		pid;
+
+	// dprintf(2, "coucou\n");
+	pid = ft_kind_of_pipe();
+	if (pid != 0) // process père
+	{
+		ft_execve(cmds[i].args, shell->paths, shell->envp_tab);
+	}
+	else if (i + 1 < shell->cmds_count)
+	{
+		if (i + 2 < shell->cmds_count)
+			ft_pipe(shell, cmds, i + 1);
+		ft_execve(cmds[i + 1].args, shell->paths, shell->envp_tab);
+	}
+	else
+		waitpid(pid, NULL, 0);
+	exit (1);
+	return (1);
 }
