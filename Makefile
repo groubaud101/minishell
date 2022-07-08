@@ -17,7 +17,7 @@ D_LIBFT	=	./lib/groubaud_libft/
 D_INC_L	=	$(D_LIBFT)/includes/
 D_INC	=	./includes/
 
-D_EXEC	=	./exec_bin/
+D_EXEC	=	./exec/
 D_UTILS	=	./utils/
 D_BUILT	=	./builtins/
 D_PARS	=	./parsing/
@@ -27,7 +27,7 @@ LIBFT	=	-L $(D_LIBFT) -lft
 INCLUDE	=	$(D_INC)minishell.h
 I_INC	=	-I $(D_INC_L) -I $(D_INC)
 
-S_EXEC	=	pipe redir_in_out
+S_EXEC	=	pipe redir_in_out execve
 S_UTILS	=	main init convert choose_the_exec
 S_BUILT	=	env getenv cd pwd export_to_env export display_export \
 			exec_builtin unset echo exit

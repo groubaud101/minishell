@@ -59,19 +59,8 @@
 
 int	ft_choose_the_exec(t_shell *shell)
 {
-	ft_pipe(shell->cmds, shell);
-	// int i;
-	// // int bi;
 
-	// i = -1;
-	// while (++i < shell->cmds_count)
-	// {
-	// 	ft_convert_env_list_to_tab(shell);
-	// 	// bi = is_builtin(shell->cmds[i].cmd);
-	// 	// if (bi)
-	// 	// if (ft_exec_builtin(shell, shell->cmds[i].args[0], i) == CHECK_ERR)
-	// 	ft_exec_process(shell, shell->cmds[i], NO_EXIT);
-	// 		// exec_other(shell, i, get_path(shell->cmds[i].cmd));
-	// }
+	ft_pipe(shell->cmds, shell);
+
 	return (1);
 }

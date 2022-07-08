@@ -35,14 +35,6 @@
 # define TO_EXIT 1
 # define NO_EXIT 0
 
-// # define ECHO 1
-// # define CD 2
-// # define PWD 3
-// # define EXPORT 4
-// # define UNSET 5
-// # define ENV 6
-// # define EXIT 7
-
 # define STDIN STDIN_FILENO
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
@@ -117,6 +109,7 @@ int		ft_double_redir_in(t_shell *shell, char *infile);
 int		ft_double_redir_out(t_shell *shell, char *outfile);
 int		ft_exec_process(t_shell *shell, t_cmd cmd, int to_exit);
 int		ft_pipe(t_cmd *cmds, t_shell *shell);
+int		ft_execve(char **cmd, char **paths, char *envp[]);
 
 /* utils */
 void	ft_init_mini(t_shell *shell, char **av, char **envp);

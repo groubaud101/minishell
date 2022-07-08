@@ -58,7 +58,6 @@ int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 		ft_exit(shell, 1);
 	else
 		return (-1);
-	printf(COUCOU);
-	exit(ret_value);
+	// printf(COUCOU);
 	return (ret_value);
 }
