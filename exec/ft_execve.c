@@ -48,7 +48,15 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 	}
 	else
 		waitpid(pid, NULL, 0);
-	// printf(COUCOU);		
-	// exit(1);
 	return (CHECK_ERR);
+}
+
+int	ft_exec(t_shell *shell, t_cmd cmd)
+{
+	int	ret;
+
+	ret = ft_exec_builtin(shell, cmd);
+	if (ret == -1)
+		ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
+	return (ret);
 }

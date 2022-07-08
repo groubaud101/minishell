@@ -107,9 +107,9 @@ int		ft_redir_in(t_shell *shell, char *infile);
 int		ft_redir_out(t_shell *shell, char *outfile);
 int		ft_double_redir_in(t_shell *shell, char *infile);
 int		ft_double_redir_out(t_shell *shell, char *outfile);
-int		ft_exec_process(t_shell *shell, t_cmd cmd, int to_exit);
-// int		ft_pipe(t_shell *shell, t_cmd *cmds);
+
 int		ft_pipe(t_shell *shell, t_cmd *cmds, int i);
+int		ft_exec(t_shell *shell, t_cmd cmd);
 int		ft_execve(char **cmd, char **paths, char *envp[]);
 
 /* utils */

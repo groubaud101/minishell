@@ -41,13 +41,13 @@ int	ft_pipe(t_shell *shell, t_cmd *cmds, int i)
 	pid = ft_kind_of_pipe();
 	if (pid != 0) // process père
 	{
-		ft_execve(cmds[i].args, shell->paths, shell->envp_tab);
+		ft_exec(shell, cmds[i]);
 	}
 	else if (i + 1 < shell->cmds_count)
 	{
 		if (i + 2 < shell->cmds_count)
 			ft_pipe(shell, cmds, i + 1);
-		ft_execve(cmds[i + 1].args, shell->paths, shell->envp_tab);
+		ft_exec(shell, cmds[i + 1]);
 	}
 	else
 		waitpid(pid, NULL, 0);
