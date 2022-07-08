@@ -51,6 +51,6 @@ int	ft_pipe(t_shell *shell, t_cmd *cmds, int i)
 	}
 	else
 		waitpid(pid, NULL, 0);
-	exit (1);
+	printf(COUCOU);
 	return (1);
 }
