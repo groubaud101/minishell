@@ -47,6 +47,7 @@ int	ft_pipe(t_shell *shell, t_cmd *cmds, int i)
 	{
 		if (i + 2 < shell->cmds_count)
 			ft_pipe(shell, cmds, i + 1);
+		printf(COUCOU);
 		ft_exec(shell, cmds[i + 1]);
 	}
 	else

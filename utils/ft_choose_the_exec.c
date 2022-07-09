@@ -59,23 +59,17 @@
 
 int	ft_choose_the_exec(t_shell *shell)
 {
-	int pid;
 
 	ft_convert_env_list_to_tab(shell);
-	
-	pid = fork();
-	if (pid == 0)
-	{
-		if (shell->cmds_count == 1)
-			return (ft_exec(shell, shell->cmds[0]));
 
-		ft_pipe(shell, shell->cmds, 0);
-		printf(COUCOU);
-		return (1);
-	}
+	if (shell->cmds_count == 1)
+		return (ft_exec(shell, shell->cmds[0]));
 	else
 	{
-		waitpid(pid, NULL, 0);
-		return (0);
+		ft_pipe(shell, shell->cmds, 0);
+		exit(0);
 	}
+	printf(COUCOU);
+	return (1);
+
 }

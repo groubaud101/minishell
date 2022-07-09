@@ -59,6 +59,6 @@ int	ft_exec(t_shell *shell, t_cmd cmd)
 	if (ret == -1)
 		ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
 	sleep(2);
-	exit(ret);
+	// exit(ret);
 	return (ret);
 }
