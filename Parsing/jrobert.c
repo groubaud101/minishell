@@ -450,26 +450,6 @@ int	parse_cmds(t_shell *shell, t_token *tkn)
 	return (1);
 }
 
-int	is_builtin(char *cmd)
-{
-	if (!ft_strncmp(cmd, "echo", 4))
-		return (ECHO);
-	else if (!ft_strncmp(cmd, "cd", 2))
-		return (CD);
-	else if (!ft_strncmp(cmd, "pwd", 3))
-		return (PWD);
-	else if (!ft_strncmp(cmd, "export", 6))
-		return (EXPORT);
-	else if (!ft_strncmp(cmd, "unset", 5))
-		return (UNSET);
-	else if (!ft_strncmp(cmd, "env", 3))
-		return (ENV);
-	else if (!ft_strncmp(cmd, "exit", 4))
-		return (EXIT);
-	else
-		return (0);
-}
-
 char	*get_path(char *cmd)
 {
 	char	**paths;
