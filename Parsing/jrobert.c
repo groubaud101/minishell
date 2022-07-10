@@ -194,7 +194,7 @@ int	replace_var(t_shell *shell, t_token **head)
 			i++;
 		if (i)
 			bef = ft_substr(tmp->content, 0, i);
-		printf("BEF = %s\n", bef);
+		// printf("BEF = %s\n", bef);
 		while (tmp->content[++i])
 		{
 			if (tmp->content[i] == '$')

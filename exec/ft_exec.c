@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_execve.c                                        :+:      :+:    :+:   */
+/*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/08 15:27:41 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/08 15:27:41 by groubaud         ###   ########.fr       */
+/*   Created: 2022/07/10 17:26:50 by groubaud          #+#    #+#             */
+/*   Updated: 2022/07/10 17:26:50 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 	pid_t	pid;
 
 	i = 0;
+	tmp_path = NULL;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -45,6 +46,7 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 			tmp_path = NULL;
 			i++;
 		}
+		exit(1);
 	}
 	else
 		waitpid(pid, NULL, 0);
@@ -58,7 +60,5 @@ int	ft_exec(t_shell *shell, t_cmd cmd)
 	ret = ft_exec_builtin(shell, cmd);
 	if (ret == -1)
 		ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
-	sleep(2);
-	// exit(ret);
 	return (ret);
 }

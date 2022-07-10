@@ -36,7 +36,6 @@ int	ft_launch_minishell(t_shell *shell)
 	// ft_printf_fd(1, "input : |%s|\n", input);
 	if (input[0] == '\0')
 	{
-		// ft_printf_fd(1, "read 0\n");
 		return (0);
 	}
 

@@ -67,9 +67,7 @@ int	ft_choose_the_exec(t_shell *shell)
 	else
 	{
 		ft_pipe(shell, shell->cmds, 0);
-		exit(0);
 	}
-	printf(COUCOU);
 	return (1);
 
 }

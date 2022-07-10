@@ -19,16 +19,16 @@ int		ft_kind_of_pipe(void)
 
 	pipe(pipefd);
 	pid = fork();
-	if (pid == 0) // fils
+	if (pid == 0)
 	{
-		close(pipefd[1]); // close la sortie
-		dup2(pipefd[0], STDIN_FILENO); // redirige l'entrée std sur l'entrée du tuyau
+		close(pipefd[1]);
+		dup2(pipefd[0], STDIN_FILENO);
 		return (pid);
 	}
-	else // père
+	else
 	{
-		close(pipefd[0]); // close l'entrée
-		dup2(pipefd[1], STDOUT_FILENO); // redirige la sortie std sur la sortie du tuyau
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
 		return (pid);
 	}
 }
@@ -37,21 +37,21 @@ int	ft_pipe(t_shell *shell, t_cmd *cmds, int i)
 {
 	int		pid;
 
-	// dprintf(2, "coucou\n");
 	pid = ft_kind_of_pipe();
-	if (pid != 0) // process père
+	if (pid < 0)
+		return (1);
+	if (pid != 0)
 	{
 		ft_exec(shell, cmds[i]);
 	}
-	else if (i + 1 < shell->cmds_count)
+	else
 	{
-		if (i + 2 < shell->cmds_count)
+		if (i + 1 < shell->cmds_count - 1)
+		{
 			ft_pipe(shell, cmds, i + 1);
-		printf(COUCOU);
+		}
 		ft_exec(shell, cmds[i + 1]);
 	}
-	else
-		waitpid(pid, NULL, 0);
-	printf(COUCOU);
+	exit(1);
 	return (1);
 }
