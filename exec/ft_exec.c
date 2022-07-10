@@ -27,29 +27,21 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 {
 	int		i;
 	char	*tmp_path;
-	pid_t	pid;
 
 	i = 0;
 	tmp_path = NULL;
-	pid = fork();
-	if (pid == 0)
+	if (access(cmd[0], X_OK) == 0)
+		execve(cmd[0], cmd, envp);
+	while (paths[i])
 	{
-		if (access(cmd[0], X_OK) == 0)
-			execve(cmd[0], cmd, envp);
-		while (paths[i])
-		{
-			tmp_path = ft_strjoin(paths[i], "/");
-			tmp_path = ft_strjoin_gnl(tmp_path, cmd[0]);
-			if (access(tmp_path, X_OK) == 0)
-				execve(tmp_path, cmd, envp);
-			free(tmp_path);
-			tmp_path = NULL;
-			i++;
-		}
-		exit(1);
+		tmp_path = ft_strjoin(paths[i], "/");
+		tmp_path = ft_strjoin_gnl(tmp_path, cmd[0]);
+		if (access(tmp_path, X_OK) == 0)
+			execve(tmp_path, cmd, envp);
+		free(tmp_path);
+		tmp_path = NULL;
+		i++;
 	}
-	else
-		waitpid(pid, NULL, 0);
 	return (CHECK_ERR);
 }
 

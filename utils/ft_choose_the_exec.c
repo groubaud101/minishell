@@ -62,12 +62,12 @@ int	ft_choose_the_exec(t_shell *shell)
 
 	ft_convert_env_list_to_tab(shell);
 
-	if (shell->cmds_count == 1)
-		return (ft_exec(shell, shell->cmds[0]));
-	else
+	if (shell->cmds_count == 1 && !ft_strcmp(shell->cmds[0].args[0], "exit"))
 	{
-		ft_pipe(shell, shell->cmds, 0);
+		printf("exit\n");
+		ft_exit(shell, 1);
 	}
+	ft_pipe(shell, shell->cmds, 0);
 	return (1);
 
 }

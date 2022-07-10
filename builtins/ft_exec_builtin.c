@@ -54,10 +54,7 @@ int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 		ret_value = ft_unset(shell, cmd);
 	else if (!ft_strcmp(cmd.args[0], "env"))
 		ft_env(shell->env);
-	else if (!ft_strcmp(cmd.args[0], "exit"))
-		ft_exit(shell, 1);
 	else
 		return (-1);
-	// printf(COUCOU);
 	return (ret_value);
 }
