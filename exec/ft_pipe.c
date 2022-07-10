@@ -19,6 +19,8 @@ int		ft_kind_of_pipe(void)
 
 	pipe(pipefd);
 	pid = fork();
+	if (pid < 0)
+		return (-1);
 	if (pid == 0)
 	{
 		close(pipefd[1]);
@@ -39,7 +41,7 @@ int	ft_pipe(t_shell *shell, t_cmd *cmds, int i)
 
 	pid = ft_kind_of_pipe();
 	if (pid < 0)
-		return (1);
+		return (-1);
 	if (pid != 0)
 	{
 		ft_exec(shell, cmds[i]);
