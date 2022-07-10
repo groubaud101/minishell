@@ -30,7 +30,7 @@ int	ft_launch_minishell(t_shell *shell)
 	// If EOF is encountered while reading a line,
 	//   and the line is empty, NULL is returned.
 	if (!input)
-		ft_exit(shell, 1);
+		ft_exit(shell);
 
 	// A voir si il faut free 'input'
 	// ft_printf_fd(1, "input : |%s|\n", input);

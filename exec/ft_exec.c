@@ -42,15 +42,13 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 		tmp_path = NULL;
 		i++;
 	}
-	return (CHECK_ERR);
+	return (-1);
 }
 
 int	ft_exec(t_shell *shell, t_cmd cmd)
 {
 	int	ret;
 
-	ret = ft_exec_builtin(shell, cmd);
-	if (ret == -1)
-		ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
+	ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
 	return (ret);
 }

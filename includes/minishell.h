@@ -100,6 +100,7 @@ typedef struct s_shell
 	t_env	*env;
 	int		env_has_changed;
 	char	**envp_tab;
+	int		ret_value;
 }				t_shell;
 
 /* exec */
@@ -136,7 +137,7 @@ int		ft_unset(t_shell *shell, t_cmd cmd);
 
 void	ft_free_t_cmd(t_cmd *cmds, int nb_cmds);
 void	ft_free_t_env(t_env *env);
-void	ft_exit(t_shell *shell, int ret_value);
+void	ft_exit(t_shell *shell);
 int		ft_echo(char **next_args);
 
 /* parsing */
