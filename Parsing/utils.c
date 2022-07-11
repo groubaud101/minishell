@@ -6,11 +6,13 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 15:10:43 by jrobert           #+#    #+#             */
-/*   Updated: 2022/03/16 19:01:02 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/10 17:14:43 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
 
 void	clear_tknlst(t_token **head, void (*del)(void *))
 {

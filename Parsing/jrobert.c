@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:48:31 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/01 15:53:42 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/11 11:11:34 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,56 +172,96 @@ int	remove_quotes(t_token **head)
 	return (1);
 }
 
+char	**init_vars(char *str, char **bef, int *i)
+{
+	char **vars;
 
+	*bef = NULL;
+	vars = ft_split(str, '$');
+	if (str[*i] == '$')
+		*bef = ft_strdup("");
+	else
+	{
+		*bef = ft_strdup(vars[0]);
+		++*i;
+	}
+	return (vars);
+}
 
-int	replace_var(t_shell *shell, t_token **head)
+char	*ft_strjoin_free(char *s1, char *s2)
+{
+	char	*ret;
+	size_t	i;
+	size_t	j;
+	size_t	s1_len;
+	size_t	s2_len;
+
+	if (!s1 || !s2)
+		return (NULL);
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	ret = malloc(sizeof(char) * (s1_len + s2_len + 1));
+	if (!ret)
+		return (NULL);
+	i = -1;
+	j = -1;
+	while (++i < s1_len)
+		ret[i] = s1[i];
+	while (++j < s2_len)
+		ret[i++] = s2[j];
+	ret[i] = '\0';
+	free(s1);
+	return (ret);
+}
+
+int	replace_var(t_shell *shell, char *str, char **bef)
+{
+	char	c;
+	int		i;
+	char	*tmp;
+	char	*val;
+
+	i = 0;
+	while (ft_isalnum(str[i]) || str[i] == '_')
+		i++;
+	c = str[i];
+	str[i] = '\0';
+	// write(1, "yes\n", 4);
+	// printf("STR = %s\n", str);
+	val = ft_getenv(str, shell->env)->value;
+	// write(1, "no\n", 3);
+	// printf("VAL = %s\n", val);
+	str[i] = c;
+	tmp = ft_strjoin_free(*bef, val);
+	*bef = ft_strjoin(tmp, str + i);
+	free(tmp);
+	if (str[ft_strlen(str) - 1] == '$')
+		*bef = ft_strjoin_free(*bef, "$");
+	return (1);
+}
+
+int	replace_env_var(t_shell *shell, t_token **head)
 {	
 	t_token	*tmp;
-	int		i;
-	int		len;
-	char	*var_name;
-	char	*var_val;
-	char	*new_cont;
+	char	*cpy;
 	char	*bef;
+	char	**vars;
+	int		i;
 
-	bef = NULL;
-	new_cont = NULL;
+	(void)shell;
 	tmp = *head;
 	while (tmp)
 	{
-		i = -1;
-		while (ft_isalnum(tmp->content[i]) && tmp->content[i] != '$')
-			i++;
-		if (i)
-			bef = ft_substr(tmp->content, 0, i);
-		printf("BEF = %s\n", bef);
-		while (tmp->content[++i])
+		i = 0;
+		vars = init_vars(tmp->content, &bef, &i);
+		while (vars[i])
 		{
-			if (tmp->content[i] == '$')
-			{	
-				len = 0;
-				while (ft_isalnum(tmp->content[i + 1]) && tmp->content[i + 1] != '$')
-				{
-					i++;
-					len++;
-				}		
-				var_name = ft_substr(tmp->content, i + 1 - len, len);
-				printf("VAR_NAME = %s\n", var_name);
-				var_val = ft_getenv(var_name, shell->env)->value;
-				printf("VAR_VAL = %s\n", var_val);
-				free(var_name);
-				if (new_cont)
-					free(new_cont);
-				new_cont = ft_strjoin(bef, var_val);
-				printf("NEW_CONT = %s\n", new_cont);
-				free(var_val);
-				free(bef);
-				bef = new_cont;
-				printf("BEF = %s\n", bef);
-				free(tmp->content);
-				tmp->content = new_cont;
-			}
+			replace_var(shell, vars[i], &bef);
+			i++;
 		}
+		cpy = tmp->content;
+		tmp->content = bef;
+		free(cpy);
 		tmp = tmp->next;
 	}
 	return (1);
@@ -256,7 +296,7 @@ int	tokenize(t_shell *shell, char *input, t_token **head)
 		tkn_add_back(head, new_tkn(input, i, "WORD"));
 	if (!remove_quotes(head))
 		return (0);
-	if (!replace_var(shell, head))
+	if (!replace_env_var(shell, head))
 		return (0);
 	// /* printer 4 test */
 	// i = 0;
