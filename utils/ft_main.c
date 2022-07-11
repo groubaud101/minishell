@@ -26,7 +26,7 @@ int	ft_launch_minishell(t_shell *shell)
 {
 	char	*input;
 
-	input = readline("\033[1;32mMiniShell >> \033[0m");
+	input = readline("\001\033[1;32m\002MiniShell >> \001\033[0m\002");
 	// If EOF is encountered while reading a line,
 	//   and the line is empty, NULL is returned.
 	if (!input)
