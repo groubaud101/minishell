@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 21:03:56 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/11 15:57:10 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/11 17:32:04 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_transi_exit(t_shell *shell, t_cmd cmd)
 	{
 		if (cmd.args[2])
 		{
-			ft_printf_fd(2, "minishell: exit: too many arguments\n");
+			ft_printf_fd(STDERR_FILENO, "bash: exit: too many arguments\n");
 			shell->ret_value = 1;
 			return ;
 		}

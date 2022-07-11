@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 13:04:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/05/30 13:04:05 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/11 17:36:38 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_pwd(void)
 
 	pwd = ft_getcwd();
 	if (pwd == NULL)
-		return (1); // voir errno
+		return (ENOMEM); // voir errno
 	printf("%s\n", pwd);
 	return (0);
 }
