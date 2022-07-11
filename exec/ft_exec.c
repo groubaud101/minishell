@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 17:26:50 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/11 17:32:13 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/11 18:44:44 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,43 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 	exit(127);
 }
 
+int	ft_redir(t_shell *shell, t_cmd cmd)
+{
+	int	fd;
+
+	(void)shell;
+	if (cmd.left.oflag != -1)
+	{
+		dprintf(2, COUCOU);
+		fd = open(cmd.left.target, cmd.left.oflag);
+		if (fd == -1)
+			return (0);
+		if (dup2(fd, STDIN_FILENO) == -1)
+		{
+			close(fd);
+			return (0);
+		}
+	}
+	if (cmd.right.oflag != -1)
+	{
+		dprintf(2, COUCOU);
+		fd = open(cmd.right.target, cmd.right.oflag);
+		if (fd == -1)
+			return (0);
+		if (dup2(fd, STDOUT_FILENO) == -1)
+		{
+			close(fd);
+			return (0);
+		}
+	}
+	return (fd);	
+}
+
 int	ft_exec(t_shell *shell, t_cmd cmd)
 {
 	int	ret;
 
+	ft_redir(shell, cmd);
 	ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
 	return (ret);
 }
