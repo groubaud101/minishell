@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:48:31 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/11 11:14:38 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/11 13:15:59 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,25 +219,65 @@ int	replace_var(t_shell *shell, char *str, char **bef)
 	char	c;
 	int		i;
 	char	*tmp;
-	char	*val;
+	t_env	*env;
 
 	i = 0;
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
 	c = str[i];
 	str[i] = '\0';
-	// write(1, "yes\n", 4);
-	// printf("STR = %s\n", str);
-	val = ft_getenv(str, shell->env)->value;
-	// write(1, "no\n", 3);
-	// printf("VAL = %s\n", val);
+	env = ft_getenv(str, shell->env);
 	str[i] = c;
-	tmp = ft_strjoin_free(*bef, val);
+	if (env == NULL)
+		tmp = *bef;
+	else
+		tmp = ft_strjoin_free(*bef, env->value);
 	*bef = ft_strjoin(tmp, str + i);
 	free(tmp);
 	if (str[ft_strlen(str) - 1] == '$')
 		*bef = ft_strjoin_free(*bef, "$");
 	return (1);
+}
+
+int	odd_quote_bef(char **strs, int i)
+{
+	int	n;
+	int j;
+
+	n = 0;
+	while (i--)
+	{
+		printf("STR = %s\n", strs[i]);
+		j = -1;
+		while (strs[i][++j])
+		{
+			if (strs[i][j] == '\'')
+				n++;
+		}
+	}
+	printf("n BEF = %d\n", n);
+	printf("OODD BEF = %d\n", n % 2);
+	return (n % 2);
+}
+
+int	odd_quote_aft(char **strs, int i)
+{
+	int	n;
+	int j;
+
+	n = 0;
+	while (strs[i])
+	{
+		j = -1;
+		while (strs[i][++j])
+		{
+			if (strs[i][j] == '\'')
+				n++;
+		}
+		i++;
+	}
+	printf("OODD AFTER = %d\n", n % 2);
+	return (n % 2);
 }
 
 int	replace_env_var(t_shell *shell, t_token **head)
@@ -255,7 +295,14 @@ int	replace_env_var(t_shell *shell, t_token **head)
 		vars = init_vars(tmp->content, &bef, &i);
 		while (vars[i])
 		{
-			replace_var(shell, vars[i], &bef);
+			if (odd_quote_bef(vars, i) && odd_quote_aft(vars, i))
+			{
+				cpy = ft_strjoin("$", vars[i]);
+				bef = ft_strjoin_free(bef, cpy);
+				free(cpy);
+			}
+			else
+				replace_var(shell, vars[i], &bef);
 			i++;
 		}
 		cpy = tmp->content;
