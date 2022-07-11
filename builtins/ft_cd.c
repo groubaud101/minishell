@@ -51,7 +51,10 @@ int	ft_cd(t_shell *shell, char *path)
 {
 	ft_update_pwd_env(shell, "OLDPWD", ft_getcwd());
 	if (chdir(path) == -1)
+	{
+		perror("minishell: cd");
 		return (1);
+	}
 	ft_update_pwd_env(shell, "PWD", ft_getcwd());
 	if (ft_strcmp(path, ".") != 0)
 		shell->env_has_changed = 1;

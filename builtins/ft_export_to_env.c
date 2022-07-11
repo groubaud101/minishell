@@ -47,7 +47,7 @@ int		ft_export_to_env(t_shell *shell, char *name, char *value)
 		{
 			free(name);
 			free(value);
-			ft_exit(shell, 1);
+			ft_exit(shell);
 		}
 	}
 	else

@@ -25,7 +25,7 @@ int	ft_transi_export(t_shell *shell, t_cmd cmd)
 		// ft_puttab(cmd.args, "___");
 		name_value = ft_split_once(cmd.args[i], '='); // check malloc
 		if (name_value == NULL)
-			ft_exit(shell, 1);
+			ft_exit(shell);
 		// ft_puttab(name_value, "===");
 		if (name_value[1])
 			ft_export(shell, name_value[0], name_value[1]);
@@ -37,11 +37,30 @@ int	ft_transi_export(t_shell *shell, t_cmd cmd)
 	return (0);
 }
 
+void	ft_transi_exit(t_shell *shell, t_cmd cmd)
+{
+	printf("exit\n");
+	if (cmd.args[1])
+	{
+		if (cmd.args[2])
+		{
+			ft_printf_fd(2, "minishell: exit: too many arguments\n");
+			shell->ret_value = 1;
+			return ;
+		}
+		if (ft_str_isdigit(cmd.args[1]) == 1)
+			shell->ret_value = ft_atoi_no_overflow(cmd.args[1]);
+		else
+			shell->ret_value = 2;
+	}
+	ft_exit(shell);
+}
+
 int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 {
 	int	ret_value;
 
-	ret_value = 0;
+	ret_value = shell->ret_value;
 	if (!ft_strcmp(cmd.args[0], "echo"))
 		ret_value = ft_echo(cmd.args + 1);
 	else if (!ft_strcmp(cmd.args[0], "cd"))
@@ -55,9 +74,10 @@ int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 	else if (!ft_strcmp(cmd.args[0], "env"))
 		ft_env(shell->env);
 	else if (!ft_strcmp(cmd.args[0], "exit"))
-		ft_exit(shell, 1);
+		ft_transi_exit(shell, cmd);
+	else if (!ft_strcmp(cmd.args[0], "ret_value")) // $?
+		printf("ret_value : %i\n", shell->ret_value);
 	else
-		return (-1);
-	// printf(COUCOU);
-	return (ret_value);
+		return (-19);
+	return(ret_value);
 }

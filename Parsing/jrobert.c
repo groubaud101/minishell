@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:48:31 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/11 11:11:34 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/11 11:14:38 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,6 @@ int	replace_env_var(t_shell *shell, t_token **head)
 	char	**vars;
 	int		i;
 
-	(void)shell;
 	tmp = *head;
 	while (tmp)
 	{

@@ -142,6 +142,7 @@ void	ft_init_mini(t_shell *shell, char **av, char **envp)
 	{
 		shell->paths = ft_split(env_path->value, ':');
 		if (!shell->paths)
-			ft_exit(shell, 1); // ENOMEM ?
+			ft_exit(shell); // ENOMEM ?
 	}
+	shell->ret_value = 0;
 }

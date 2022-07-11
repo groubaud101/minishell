@@ -19,10 +19,11 @@ void	ft_free_t_cmd(t_cmd *cmds, int nb_cmds)
 	i = 0;
 	while (i < nb_cmds)
 	{
-		ft_free_tab(cmds->args);
+		// ft_free_tab(cmds->args);
 		i++;
 	}
-	free(cmds);
+	// free(cmds);
+	(void)cmds;
 }
 
 void	ft_free_t_env(t_env *env)
@@ -39,13 +40,13 @@ void	ft_free_t_env(t_env *env)
 	}
 }
 
-void	ft_exit(t_shell *shell, int ret_value)
+void	ft_exit(t_shell *shell)
 {
-	if (shell->cmds)
-		ft_free_t_cmd(shell->cmds, shell->cmds_count); // a check
-	if (shell->env)
-		ft_free_t_env(shell->env);
-	ft_free_tab(shell->paths);
-	ft_free_tab(shell->envp_tab);
-	exit(ret_value);
+	// if (shell->cmds)
+	// 	ft_free_t_cmd(shell->cmds, shell->cmds_count); // a check
+	// if (shell->env)
+	// 	ft_free_t_env(shell->env);
+	// ft_free_tab(shell->paths);
+	// ft_free_tab(shell->envp_tab);
+	exit(shell->ret_value);
 }

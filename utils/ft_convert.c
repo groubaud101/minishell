@@ -39,7 +39,7 @@ static char	*ft_group_name_value(t_shell *shell, t_env *env)
 	str = ft_strjoin_gnl(str, "=");
 	str = ft_strjoin_gnl(str, env->value);
 	if (!str)
-		ft_exit(shell, 1);
+		ft_exit(shell);
 	return (str);
 }
 

@@ -12,46 +12,32 @@
 
 #include "minishell.h"
 
-int		ft_kind_of_pipe(void)
-{
-	pid_t	pid;
-	int		pipefd[2];
-
-	pipe(pipefd);
-	pid = fork();
-	if (pid == 0) // fils
-	{
-		close(pipefd[1]); // close la sortie
-		dup2(pipefd[0], STDIN_FILENO); // redirige l'entrée std sur l'entrée du tuyau
-		return (pid);
-	}
-	else // père
-	{
-		close(pipefd[0]); // close l'entrée
-		dup2(pipefd[1], STDOUT_FILENO); // redirige la sortie std sur la sortie du tuyau
-		return (pid);
-	}
-}
-
 int	ft_pipe(t_shell *shell, t_cmd *cmds, int i)
 {
-	int		pid;
+	int fd[2];
+    int fdp;
 
-	// dprintf(2, "coucou\n");
-	pid = ft_kind_of_pipe();
-	if (pid != 0) // process père
-	{
-		ft_exec(shell, cmds[i]);
-	}
-	else if (i + 1 < shell->cmds_count)
-	{
-		if (i + 2 < shell->cmds_count)
-			ft_pipe(shell, cmds, i + 1);
-		printf(COUCOU);
-		ft_exec(shell, cmds[i + 1]);
-	}
-	else
-		waitpid(pid, NULL, 0);
-	printf(COUCOU);
-	return (1);
+    for (i = 0; i < shell->cmds_count; i++) {
+        if (i < shell->cmds_count - 1) {
+            pipe(fd);
+        }
+        if (!fork()) {
+            if (i > 0)
+                dup2(fdp, STDIN_FILENO);
+            if (i < shell->cmds_count - 1) {
+                close(fd[0]);
+                dup2(fd[1], STDOUT_FILENO);
+            }
+            ft_exec(shell, cmds[i]);
+        }
+        if (i > 0)
+            close(fdp);
+        if (i < shell->cmds_count - 1) {
+            close(fd[1]);
+            fdp = fd[0];
+        }
+    }
+	ft_sleep(1000);
+    waitpid(-1, NULL, 0);
+	return (0);
 }

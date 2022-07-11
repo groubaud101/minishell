@@ -59,17 +59,11 @@
 
 int	ft_choose_the_exec(t_shell *shell)
 {
-
 	ft_convert_env_list_to_tab(shell);
-
 	if (shell->cmds_count == 1)
-		return (ft_exec(shell, shell->cmds[0]));
-	else
-	{
-		ft_pipe(shell, shell->cmds, 0);
-		exit(0);
-	}
-	printf(COUCOU);
+		shell->ret_value = ft_exec_builtin(shell, shell->cmds[0]);
+	if (shell->cmds_count > 1 || shell->ret_value == -19)
+		shell->ret_value = ft_pipe(shell, shell->cmds, 0);
 	return (1);
 
 }

@@ -183,6 +183,12 @@ t_read	*ft_lstnew_read(char *str, int rd);
 char	*ft_read_file(int fd);
 
 /*
+** Out of category
+*/
+
+void	ft_sleep(int len);
+
+/*
 ** **************
 ** * Chain list *
 ** **************
