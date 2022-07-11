@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 09:05:51 by groubaud          #+#    #+#             */
-/*   Updated: 2022/06/30 09:05:51 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/11 14:35:54 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int	ft_puttab_echo(char **tab)
 		return (1);
 	while (tab[index])
 	{
-		if (write(1, tab[index], ft_strlen(tab[index])) < 0)
+		if (write(STDIN_FILENO, tab[index], ft_strlen(tab[index])) < 0)
 			return (1);
 		index++;
 		if (tab[index])
-			if (write(1, " ", 1) < 0)
+			if (write(STDIN_FILENO, " ", 1) < 0)
 				return (1);
 	}
 	return (0);
@@ -40,7 +40,7 @@ int	ft_echo(char **next_args)
 	else
 	{
 		ret_value = ft_puttab_echo(next_args);
-		if (write(1, "\n", 1) < 0)
+		if (write(STDIN_FILENO, "\n", 1) < 0)
 			return (1);
 	}
 	return (ret_value);

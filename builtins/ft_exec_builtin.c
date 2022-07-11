@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 21:03:56 by groubaud          #+#    #+#             */
-/*   Updated: 2022/06/27 21:03:56 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/11 15:57:10 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,9 @@ int	ft_transi_export(t_shell *shell, t_cmd cmd)
 		ft_export(shell, NULL, NULL);
 	while (cmd.args[i])
 	{
-		// ft_puttab(cmd.args, "___");
 		name_value = ft_split_once(cmd.args[i], '='); // check malloc
 		if (name_value == NULL)
 			ft_exit(shell);
-		// ft_puttab(name_value, "===");
 		if (name_value[1])
 			ft_export(shell, name_value[0], name_value[1]);
 		else

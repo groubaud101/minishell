@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redir_in_out.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 10:59:12 by groubaud          #+#    #+#             */
-/*   Updated: 2022/02/16 10:59:12 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/11 15:39:35 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int	ft_redir_in(t_shell *shell, char *infile)
 		shell->fd_in = open(infile, O_RDONLY);
 	if (shell->fd_in == -1)
 	{
-		printf("could not open the infile blah blah blah\n");
-		return (CHECK_ERR);
+		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n", infile);
+		return (1);
 	}
-	return (CHECK_OK);	
+	return (0);	
 }
 
 /*
@@ -44,10 +44,10 @@ int	ft_double_redir_in(t_shell *shell, char *infile)
 	shell->fd_in = open(infile, O_RDONLY);
 	if (shell->fd_in == -1)
 	{
-		printf("could not open the infile blah blah blah\n");
-		return (CHECK_ERR);
+		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n", infile);
+		return (1);
 	}
-	return (CHECK_OK);	
+	return (0);	
 }
 
 /*
@@ -66,11 +66,10 @@ int	ft_redir_out(t_shell *shell, char *outfile)
 	shell->fd_out = open(outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (shell->fd_out == -1)
 	{
-		printf("could not open the outfile blah blah blah\n");
-		return (CHECK_ERR);
+		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n", outfile);
+		return (1);
 	}
-	// voir pour un fichier qui existe mais dont on a pas les droits
-	return (CHECK_OK);
+	return (0);	
 }
 
 /*
@@ -90,7 +89,8 @@ int	ft_double_redir_out(t_shell *shell, char *outfile)
 	if (shell->fd_out == -1)
 	{
 		printf("could not open the outfile blah blah blah\n");
-		return (CHECK_ERR);
+		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n", outfile);
+		return (1);
 	}
-	return (CHECK_OK);
+	return (0);	
 }

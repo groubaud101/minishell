@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 17:26:50 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/10 17:26:50 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/11 14:44:33 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 		tmp_path = NULL;
 		i++;
 	}
+	ft_printf_fd(2, "bash: %s: command not found\n", cmd[0]);
+	exit(127);
 	return (-1);
 }
 
