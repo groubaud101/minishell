@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/06/30 16:35:31 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/11 18:56:51 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,11 @@ typedef struct s_shell
 }				t_shell;
 
 /* exec */
-int		ft_redir_in(t_shell *shell, char *infile);
-int		ft_redir_out(t_shell *shell, char *outfile);
-int		ft_double_redir_in(t_shell *shell, char *infile);
-int		ft_double_redir_out(t_shell *shell, char *outfile);
+// int		ft_redir_in(t_shell *shell, char *infile);
+// int		ft_redir_out(t_shell *shell, char *outfile);
+// int		ft_double_redir_in(t_shell *shell, char *infile);
+// int		ft_double_redir_out(t_shell *shell, char *outfile);
+int		ft_redir(t_shell *shell, t_cmd cmd);
 
 int		ft_pipe(t_shell *shell, t_cmd *cmds, int i);
 int		ft_exec(t_shell *shell, t_cmd cmd);

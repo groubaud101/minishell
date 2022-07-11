@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 17:08:40 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/11 18:06:22 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/11 19:24:43 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_pipe(t_shell *shell, t_cmd *cmds, int i)
 		}
 		i++;
 	}
-	ft_sleep(5);
+	ft_sleep(50000);
 	waitpid(pid, &status, 0);
 	return (ft_wif_ret(status));
 }

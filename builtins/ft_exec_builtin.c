@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 21:03:56 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/11 17:32:04 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/11 19:43:07 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ void	ft_transi_exit(t_shell *shell, t_cmd cmd)
 int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 {
 	int	ret_value;
+	// int	fd;
 
+	// fd = ft_redir(shell, cmd);
 	ret_value = shell->ret_value;
 	if (!ft_strcmp(cmd.args[0], "echo"))
 		ret_value = ft_echo(cmd.args + 1);
@@ -76,6 +78,8 @@ int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 	else if (!ft_strcmp(cmd.args[0], "ret_value")) // $?
 		printf("ret_value : %i\n", shell->ret_value);
 	else
+	{
 		return (-19);
+	}
 	return(ret_value);
 }
