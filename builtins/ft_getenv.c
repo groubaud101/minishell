@@ -24,6 +24,8 @@ t_env	*ft_getenv(char *name, t_env *env)
 {
 	int	len_name;
 
+	if (!name)
+		return (NULL);
 	len_name = ft_strlen(name);
 	while (env)
 	{
