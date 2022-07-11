@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:48:31 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/11 18:35:38 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/11 18:56:45 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ char	**init_vars(char *str, char **bef, int *i)
 
 	*bef = NULL;
 	vars = ft_split(str, '$');
-	if (str[*i] == '$')
+	if (str[0] && str[0] == '$')
 		*bef = ft_strdup("");
 	else
 	{
@@ -247,7 +247,6 @@ int	odd_quote_bef(char **strs, int i)
 	n = 0;
 	while (i--)
 	{
-		printf("STR = %s\n", strs[i]);
 		j = -1;
 		while (strs[i][++j])
 		{
@@ -255,8 +254,6 @@ int	odd_quote_bef(char **strs, int i)
 				n++;
 		}
 	}
-	printf("n BEF = %d\n", n);
-	printf("OODD BEF = %d\n", n % 2);
 	return (n % 2);
 }
 
@@ -276,7 +273,6 @@ int	odd_quote_aft(char **strs, int i)
 		}
 		i++;
 	}
-	printf("OODD AFTER = %d\n", n % 2);
 	return (n % 2);
 }
 
@@ -302,7 +298,7 @@ int	replace_env_var(t_shell *shell, t_token **head)
 				free(cpy);
 			}
 			else
-				replace_var(shell, vars[i], &bef);
+			replace_var(shell, vars[i], &bef);
 			i++;
 		}
 		cpy = tmp->content;
@@ -340,9 +336,9 @@ int	tokenize(t_shell *shell, char *input, t_token **head)
 	}
 	if (&input[i] != input)
 		tkn_add_back(head, new_tkn(input, i, "WORD"));
-	if (!remove_quotes(head))
-		return (0);
 	if (!replace_env_var(shell, head))
+		return (0);
+	if (!remove_quotes(head))
 		return (0);
 	// /* printer 4 test */
 	// i = 0;
