@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 12:48:31 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/11 13:15:59 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/11 18:35:38 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -424,6 +424,8 @@ int	init_parser(t_shell *shell, t_token *tkn)
 		n = count_args(tkn);
 		shell->cmds[i].argc = n;
 		shell->cmds[i].args = (char **)malloc(sizeof(char *) * (n + 1));
+		shell->cmds[i].left.oflag = -1;
+		shell->cmds[i].right.oflag = -1;
 		if (shell->cmds[i].args == NULL)
 		{
 			ft_free_t_cmd(shell->cmds, shell->cmds_count);
