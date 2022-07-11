@@ -37,7 +37,7 @@ int	ft_pipe(t_shell *shell, t_cmd *cmds, int i)
             fdp = fd[0];
         }
     }
-	ft_sleep(1000);
+	ft_sleep(5000000);
     waitpid(-1, NULL, 0);
 	return (0);
 }
