@@ -6,40 +6,11 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 16:57:39 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/12 20:11:45 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/12 21:28:09 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_var(t_shell *shell, char **str, char **bef, int *i)
-{
-	char	*tmp;
-	char	*nbr;
-	t_env	*env;
-	char	c;
-
-	if ((*str[*i]) == '?')
-	{
-		++*str;
-		nbr = ft_itoa(shell->ret_value);
-		tmp = ft_strjoin_free(*bef, nbr);
-		free(nbr);
-	}
-	else
-	{
-		while (ft_isalnum((*str)[*i]) || (*str)[*i] == '_')
-			++*i;
-		c = (*str)[*i];
-		(*str)[*i] = '\0';
-		env = ft_getenv(*str, shell->env);
-		if (env == NULL)
-			tmp = *bef;
-		else
-			tmp = ft_strjoin_free(*bef, env->value);
-	}
-	return (tmp);
-}
 
 char	**init_vars(char *str, char **bef, int *i)
 {
@@ -59,17 +30,43 @@ char	**init_vars(char *str, char **bef, int *i)
 	return (vars);
 }
 
-int	replace_var(t_shell *shell, char *str, char **bef)
+char	*get_var(t_shell *shell, char **str, char **bef, int *j)
 {
-	int		i;
+	char	*tmp;
+	char	*nbr;
+	t_env	*env;
+	char	c;
+
+	if ((*str[*j]) == '?')
+	{
+		++*str;
+		nbr = ft_itoa(shell->ret_value);
+		tmp = ft_strjoin_free(*bef, nbr);
+		free(nbr);
+	}
+	else
+	{
+		while (ft_isalnum((*str)[*j]) || (*str)[*j] == '_')
+			++*j;
+		c = (*str)[*j];
+		(*str)[*j] = '\0';
+		env = ft_getenv(*str, shell->env);
+		(*str)[*j] = c;
+		if (env == NULL)
+			tmp = *bef;
+		else
+			tmp = ft_strjoin_free(*bef, env->value);
+	}
+	return (tmp);
+}
+
+
+int	replace_var(t_shell *shell, char *str, char **bef, int *j)
+{
 	char	*tmp;
 
-	i = 0;
-	printf("STR = %s\n", str);
-	tmp = get_var(shell, &str, bef, &i);
-	printf("tmp = %s\n", tmp);
-	*bef = ft_strjoin(tmp, str + i);
-	printf("bef = %s\n", *bef);
+	tmp = get_var(shell, &str, bef, j);
+	*bef = ft_strjoin(tmp, str + *j);
 	free(tmp);
 	if (str[ft_strlen(str) - 1] == '$')
 		*bef = ft_strjoin_free(*bef, "$");
@@ -79,22 +76,17 @@ int	replace_var(t_shell *shell, char *str, char **bef)
 int	replace(t_shell *shell, char **vars, int i, char **bef)
 {
 	char	*tmp;
+	int		j;
 
-	printf("vars i = %s\n", vars[i]);
+	j = 0;
 	if (odd_quote_bef(vars, i, '\'') && odd_quote_aft(vars, i, '\''))
 	{
 		tmp = ft_strjoin("$", vars[i]);
 		*bef = ft_strjoin_free(*bef, tmp);
 		free(tmp);
 	}
-	else if (odd_quote_bef(vars, i, '\"') && odd_quote_aft(vars, i, '\"'))
-	{
-		vars[i][ft_strlen(vars[i]) - 1] = '\0';
-		printf("vars i INSIDE = %s\n", vars[i]);
-		replace_var(shell, vars[i], bef);
-	}
 	else
-		replace_var(shell, vars[i], bef);
+		replace_var(shell, vars[i], bef, &j);
 	return (1);
 }
 

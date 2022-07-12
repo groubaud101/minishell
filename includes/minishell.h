@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 20:14:28 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/12 21:17:09 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int		ft_echo(t_shell *shell, char **next_args);
 /* parsing */
 char	*get_var(t_shell *shell, char **str, char **bef, int *i);
 char	**init_vars(char *str, char **bef, int *i);
-int		replace_var(t_shell *shell, char *str, char **bef);
+int		replace_var(t_shell *shell, char *str, char **bef, int *j);
 int		replace(t_shell *shell, char **vars, int i, char **bef);
 int		replace_env_var(t_shell *shell, t_token **head);
 
