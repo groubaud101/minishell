@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 16:15:50 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 10:51:28 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 15:12:52 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,6 @@ int	ft_choose_the_exec(t_shell *shell)
 	if (shell->ret_value == -19 || shell->cmds_count > 1)
 		shell->ret_value = ft_pipe(shell, shell->cmds, 0);
 	ft_close(shell);
-	printf(COUCOU);
+	// dprintf(2, COUCOU);
 	return (1);
 }
