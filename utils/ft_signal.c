@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 11:01:34 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 14:24:58 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 14:45:56 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	handle_ctrl_c(int sig)
 {
 	if (sig != SIGINT)
 		return ;
+	printf(COUCOU);
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
