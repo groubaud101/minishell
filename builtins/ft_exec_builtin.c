@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 21:03:56 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/11 19:43:07 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 09:53:29 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,14 @@ void	ft_transi_exit(t_shell *shell, t_cmd cmd)
 int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 {
 	int	ret_value;
-	// int	fd;
 
-	// fd = ft_redir(shell, cmd);
 	ret_value = shell->ret_value;
 	if (!ft_strcmp(cmd.args[0], "echo"))
-		ret_value = ft_echo(cmd.args + 1);
+	{
+		ft_redir(shell, shell->cmds[0]);
+		ret_value = ft_echo(shell, cmd.args + 1);
+		ft_close(shell);
+	}
 	else if (!ft_strcmp(cmd.args[0], "cd"))
 		ret_value = ft_cd(shell, cmd.args[1]);
 	else if (!ft_strcmp(cmd.args[0], "pwd"))

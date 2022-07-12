@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 08:56:29 by groubaud          #+#    #+#             */
-/*   Updated: 2022/06/30 08:56:29 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 10:07:20 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ void	ft_exit(t_shell *shell)
 	// 	ft_free_t_env(shell->env);
 	// ft_free_tab(shell->paths);
 	// ft_free_tab(shell->envp_tab);
+	clear_history();
 	exit(shell->ret_value);
 }

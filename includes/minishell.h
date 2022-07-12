@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/11 18:56:51 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 09:40:00 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int		ft_execve(char **cmd, char **paths, char *envp[]);
 void	ft_init_mini(t_shell *shell, char **av, char **envp);
 char	**ft_split_once(char *str, char c);
 char	**ft_convert_env_list_to_tab(t_shell *shell);
+void	ft_close(t_shell *shell);
 
 /* builtins */
 int		ft_exec_builtin(t_shell *shell, t_cmd cmd);
@@ -139,7 +140,7 @@ int		ft_unset(t_shell *shell, t_cmd cmd);
 void	ft_free_t_cmd(t_cmd *cmds, int nb_cmds);
 void	ft_free_t_env(t_env *env);
 void	ft_exit(t_shell *shell);
-int		ft_echo(char **next_args);
+int		ft_echo(t_shell *shell, char **next_args);
 
 /* parsing */
 int		fail(char *err);

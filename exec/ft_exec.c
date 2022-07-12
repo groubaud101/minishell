@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 17:26:50 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/11 19:46:07 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 09:28:41 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 int	ft_exec(t_shell *shell, t_cmd cmd)
 {
 	int	ret;
-	int	fd;
 
-	fd = ft_redir(shell, cmd);
-	ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
-
+	if (!ft_redir(shell, cmd))
+		ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
+	else
+		exit(1);
 	return (ret);
 }

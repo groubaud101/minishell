@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 16:08:55 by groubaud          #+#    #+#             */
-/*   Updated: 2022/05/25 16:08:55 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 09:18:38 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ void	ft_init_mini(t_shell *shell, char **av, char **envp)
 	shell->cmds_count = 0;
 	shell->cmds = NULL;
 	shell->binary_name = av[0];
-	shell->fd_in = STDIN;
-	shell->fd_out = STDOUT;
+	shell->fd_in = STDIN_FILENO;
+	shell->fd_out = STDOUT_FILENO;
 	shell->env = ft_init_env(envp);
 	if (!shell->env)
 	{

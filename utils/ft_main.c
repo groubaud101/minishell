@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 05:20:19 by groubaud          #+#    #+#             */
-/*   Updated: 2022/05/07 05:20:19 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 09:33:36 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	ft_launch_minishell(t_shell *shell)
 {
 	char	*input;
 
-	input = readline("\001\033[1;32m\002MiniShell >> \001\033[0m\002");
+	// input = readline("\001\033[1;32m\002MiniShell >> \001\033[0m\002");
+	input = readline("G ");
 	// If EOF is encountered while reading a line,
 	//   and the line is empty, NULL is returned.
 	if (!input)
@@ -40,7 +41,6 @@ int	ft_launch_minishell(t_shell *shell)
 	}
 
 	parse(shell, input);
-
 	if (shell->cmds->cmd)
 	{
 		add_history(input);
