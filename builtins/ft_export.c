@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 15:55:20 by groubaud          #+#    #+#             */
-/*   Updated: 2022/06/01 15:55:20 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 15:26:58 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ int	ft_export(t_shell *shell, char *name, char *value)
 {
 	if (name == NULL && value)
 	{
-		printf("-%s: export: '=%s': not a valid identifier\n",
-			shell->binary_name, value);
+		printf("bash: export: '=%s': not a valid identifier\n", value);
 		return (1);
 	}
 	if (name == NULL && value == NULL)

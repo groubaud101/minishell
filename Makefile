@@ -6,7 +6,7 @@
 #    By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/31 15:34:29 by user42            #+#    #+#              #
-#    Updated: 2022/07/12 14:36:24 by groubaud         ###   ########.fr        #
+#    Updated: 2022/07/12 15:17:08 by groubaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,12 +39,12 @@ S_PARS	=	jrobert utils
 SRCS	=	$(addprefix $(D_EXEC)ft_, $(addsuffix .c, $(S_EXEC))) \
 			$(addprefix $(D_UTILS)ft_, $(addsuffix .c, $(S_UTILS))) \
 			$(addprefix $(D_BUILT)ft_, $(addsuffix .c, $(S_BUILT))) \
-			$(addprefix $(D_PARS), $(addsuffix .c, $(S_PARS))) \
+			$(addprefix $(D_PARS), $(addsuffix .c, $(S_PARS)))
 
 OBJS	=	$(addprefix $(D_EXEC)ft_, $(addsuffix .o, $(S_EXEC))) \
 			$(addprefix $(D_UTILS)ft_, $(addsuffix .o, $(S_UTILS))) \
 			$(addprefix $(D_BUILT)ft_, $(addsuffix .o, $(S_BUILT))) \
-			$(addprefix $(D_PARS), $(addsuffix .o, $(S_PARS))) \
+			$(addprefix $(D_PARS), $(addsuffix .o, $(S_PARS)))
 
 CFLAGS	=	-Wall -Wextra -Werror
 

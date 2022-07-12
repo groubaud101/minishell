@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 11:36:48 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 15:49:04 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,6 @@ typedef struct s_shell
 }				t_shell;
 
 /* exec */
-// int		ft_redir_in(t_shell *shell, char *infile);
-// int		ft_redir_out(t_shell *shell, char *outfile);
-// int		ft_double_redir_in(t_shell *shell, char *infile);
-// int		ft_double_redir_out(t_shell *shell, char *outfile);
-int		ft_redir(t_shell *shell, t_cmd cmd);
-
 int		ft_pipe(t_shell *shell, t_cmd *cmds, int i);
 int		ft_exec(t_shell *shell, t_cmd cmd);
 int		ft_execve(char **cmd, char **paths, char *envp[]);
@@ -121,8 +115,12 @@ void	ft_init_mini(t_shell *shell, char **av, char **envp);
 char	**ft_split_once(char *str, char c);
 char	**ft_convert_env_list_to_tab(t_shell *shell);
 void	ft_close(t_shell *shell);
-void	ft_init_signal(void);
 int		ft_choose_the_exec(t_shell *shell);
+int		ft_redir(t_shell *shell, t_cmd cmd);
+
+void	handle_ctrl_bs(int sig);
+void	handle_ctrl_c(int sig);
+void	ft_attribute_signal(void (*sig_int)(int), void (*sig_quit)(int));
 
 /* builtins */
 int		ft_exec_builtin(t_shell *shell, t_cmd cmd);
@@ -154,8 +152,5 @@ int		copy_envp(t_shell *shell, char **envp);
 int		parse(t_shell *shell, char *input);
 int		free_mallocs(t_shell *shell, int i);
 char	*get_path(char *cmd);
-
-/* transition */
-
 
 #endif
