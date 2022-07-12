@@ -178,7 +178,9 @@ char	**init_vars(char *str, char **bef, int *i)
 
 	*bef = NULL;
 	vars = ft_split(str, '$');
-	if (str[0] && str[0] == '$')
+	if (str[0] && str[0] == '$' && !str[1])
+		*bef = ft_strdup("$");
+	else if (str[0] && str[0] == '$')
 		*bef = ft_strdup("");
 	else
 	{
@@ -220,22 +222,34 @@ int	replace_var(t_shell *shell, char *str, char **bef)
 	int		i;
 	char	*tmp;
 	t_env	*env;
+	char	*nbr;
 
 	i = 0;
-	while (ft_isalnum(str[i]) || str[i] == '_')
-		i++;
-	c = str[i];
-	str[i] = '\0';
-	env = ft_getenv(str, shell->env);
-	str[i] = c;
-	if (env == NULL)
-		tmp = *bef;
+	if (str[i] == '?')
+	{
+		str++;
+		dprintf(2, COUCOU);
+		nbr = ft_itoa(shell->ret_value);
+		tmp = ft_strjoin_free(*bef, nbr);
+		free(nbr);
+	}
 	else
-		tmp = ft_strjoin_free(*bef, env->value);
-	*bef = ft_strjoin(tmp, str + i);
-	free(tmp);
-	if (str[ft_strlen(str) - 1] == '$')
-		*bef = ft_strjoin_free(*bef, "$");
+	{
+		while (ft_isalnum(str[i]) || str[i] == '_')
+			i++;
+		c = str[i];
+		str[i] = '\0';
+		env = ft_getenv(str, shell->env);
+		str[i] = c;
+		if (env == NULL)
+			tmp = *bef;
+		else
+			tmp = ft_strjoin_free(*bef, env->value);
+	}
+		*bef = ft_strjoin(tmp, str + i);
+		free(tmp);
+		if (str[ft_strlen(str) - 1] == '$')
+			*bef = ft_strjoin_free(*bef, "$");
 	return (1);
 }
 
@@ -288,6 +302,7 @@ int	replace_env_var(t_shell *shell, t_token **head)
 	while (tmp)
 	{
 		i = 0;
+		if (tmp->content)
 		vars = init_vars(tmp->content, &bef, &i);
 		while (vars[i])
 		{
@@ -298,7 +313,7 @@ int	replace_env_var(t_shell *shell, t_token **head)
 				free(cpy);
 			}
 			else
-			replace_var(shell, vars[i], &bef);
+				replace_var(shell, vars[i], &bef);
 			i++;
 		}
 		cpy = tmp->content;
