@@ -1,27 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export.c                                        :+:      :+:    :+:   */
+/*   quotes_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/01 15:55:20 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 17:26:47 by jrobert          ###   ########.fr       */
+/*   Created: 2022/07/12 18:11:23 by jrobert           #+#    #+#             */
+/*   Updated: 2022/07/12 19:06:35 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_export(t_shell *shell, char *name, char *value)
+int	odd_quote_bef(char **strs, int i)
 {
-	if (name == NULL && value)
+	int	n;
+	int	j;
+
+	n = 0;
+	while (i--)
 	{
-		printf("bash: export: '=%s': not a valid identifier\n", value);
-		return (1);
+		j = -1;
+		while (strs[i][++j])
+		{
+			if (strs[i][j] == '\'')
+				n++;
+		}
 	}
-	if (name == NULL && value == NULL)
-		ft_display_export(shell->env);
-	else
-		return (ft_export_to_env(shell, name, value));
-	return (0);
+	return (n % 2);
+}
+
+int	odd_quote_aft(char **strs, int i)
+{
+	int	n;
+	int	j;
+
+	n = 0;
+	while (strs[i])
+	{
+		j = -1;
+		while (strs[i][++j])
+		{
+			if (strs[i][j] == '\'')
+				n++;
+		}
+		i++;
+	}
+	return (n % 2);
 }

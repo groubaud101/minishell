@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 15:49:04 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 18:45:56 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,12 +145,45 @@ void	ft_exit(t_shell *shell);
 int		ft_echo(t_shell *shell, char **next_args);
 
 /* parsing */
-int		fail(char *err);
-int		free_all(t_token **head);
-void	clear_tknlst(t_token **head, void (*del)(void *));
-int		copy_envp(t_shell *shell, char **envp);
+char	*get_var(t_shell *shell, char **str, char **bef, int *i);
+int		replace_var(t_shell *shell, char *str, char **bef);
+char	**init_vars(char *str, char **bef, int *i);
+int		replace(t_shell *shell, char **vars, int i, char **bef);
+int		replace_env_var(t_shell *shell, t_token **head);
+
+int		count_cmds(t_token *tkn);
+int		count_args(t_token *tkn);
+void	init_cmd(t_shell *shell, int i, int n);
+int		init_parser(t_shell *shell, t_token *tkn);
+
 int		parse(t_shell *shell, char *input);
-int		free_mallocs(t_shell *shell, int i);
-char	*get_path(char *cmd);
+int		odd_quote_bef(char **strs, int i);
+int		odd_quote_aft(char **strs, int i);
+
+void	cpy_in_quotes(char *content, int *i, int *j, char *new);
+int		len_wo_quotes(char *str);
+int		remove_quotes(t_token **head);
+int		valid_quotes(char *input);
+void	handle_quotes(char **input, int *i);
+
+int		trim_tkn(t_token **tkn);
+int		save_chev_l(t_shell *shell, t_token **tkn, int i);
+int		save_chev_r(t_shell *shell, t_token **tkn, int i);
+int		save_chev_rr(t_shell *shell, t_token **tkn, int i);
+
+int		save_arg(t_shell *shell, t_token **tkn, int i, int *j);
+int		end_save(t_shell *shell, t_token **tkn, int i, int j);
+int		save_cmds(t_shell *shell, t_token *tkn);
+
+t_spec	find_spec(char *s);
+void	tkn_add_back(t_token **alst, t_token *new);
+t_token	*new_tkn(char *content, int size, char *type);
+void	handle_input(t_token **head, char **input, int *i);
+int		tokenize(t_shell *shell, char *input, t_token **head);
+
+void	clear_tknlst(t_token **head, void (*del)(void *));
+int		free_all(t_token **head);
+int		fail(char *err);
+char	*ft_strjoin_free(char *s1, char *s2);
 
 #endif
