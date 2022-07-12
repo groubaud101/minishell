@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:17:34 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 18:27:20 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 20:05:08 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	ft_update_pwd_env(t_shell *shell, char *name, char *absolute_path)
 	else
 		tmp_pwd = ft_strdup(name);
 	if (tmp_pwd == NULL)
-		exit(ENOMEM);
+		ft_exit_error(shell, ENOMEM);
 	ft_export_to_env(shell, tmp_pwd, absolute_path);
 	return (CHECK_OK);
 }
@@ -49,14 +49,14 @@ static int	ft_update_pwd_env(t_shell *shell, char *name, char *absolute_path)
 
 int	ft_cd(t_shell *shell, char *path)
 {
-	ft_update_pwd_env(shell, "OLDPWD", ft_getcwd());
+	ft_update_pwd_env(shell, "OLDPWD", ft_getcwd(shell));
 	if (chdir(path) == -1)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: cd: %s: ", path);
 		perror(NULL);
 		return (1);
 	}
-	ft_update_pwd_env(shell, "PWD", ft_getcwd());
+	ft_update_pwd_env(shell, "PWD", ft_getcwd(shell));
 	if (ft_strcmp(path, ".") != 0)
 		shell->env_has_changed = 1;
 	return (0);

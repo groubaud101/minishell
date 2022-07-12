@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_to_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:00:08 by groubaud          #+#    #+#             */
-/*   Updated: 2022/05/31 14:00:09 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 19:28:34 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,13 @@ static t_env	*ft_add_new_elem_env(t_env *env, char *name, char *value)
 	if (env == NULL)
 		return (env_new);
 	start = env;
-
 	while (env->next)
 		env = env->next;
-	
 	env->next = env_new;
 	return (start);
 }
 
-int		ft_export_to_env(t_shell *shell, char *name, char *value) 
+int	ft_export_to_env(t_shell *shell, char *name, char *value)
 {
 	t_env	*env_export;
 

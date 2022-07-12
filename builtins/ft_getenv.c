@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 23:02:45 by groubaud          #+#    #+#             */
-/*   Updated: 2022/05/25 23:02:45 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 19:29:08 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ t_env	*ft_getenv(char *name, t_env *env)
 	{
 		if (len_name == env->len_name
 			&& ft_strcmp(env->name, name) == 0)
-			return(env);
+			return (env);
 		env = env->next;
 	}
-	return (NULL); // not found
+	return (NULL);
 }

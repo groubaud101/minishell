@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_display_export.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 17:58:57 by groubaud          #+#    #+#             */
-/*   Updated: 2022/06/01 17:58:57 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 19:26:05 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,6 @@ static t_env	*ft_last_env(t_env *env)
 ** Display env view by export (alphanum sort and "value") 
 */
 
-// Peut-être que je vais faire une liste t_export
-//  si je trouve une différence notable entre export et env
-//
-// Il me semblait avoir vu des variables dans export mais pas dans env
-//  mais je ne suis pas arriver à reproduire le phénomène donc pour le moment c'est un myth
 void	ft_display_export(t_env *env)
 {
 	t_env	*start;
@@ -91,5 +86,5 @@ void	ft_display_export(t_env *env)
 		}
 		previous = your_turn;
 	}
-	printf("declare -x %s=\"%s\"\n", your_turn->name, your_turn->value);	
+	printf("declare -x %s=\"%s\"\n", your_turn->name, your_turn->value);
 }

@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 19:15:27 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 20:03:34 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
 
-# define COUCOU "%s : ligne %i in %s()\n", __FILE__, __LINE__, __func__
+//# define COUCOU "%s : ligne %i in %s()\n", __FILE__, __LINE__, __func__
 
 typedef struct s_spec
 {
@@ -115,7 +115,7 @@ char	**ft_split_once(char *str, char c);
 char	**ft_convert_env_list_to_tab(t_shell *shell);
 void	ft_close(t_shell *shell);
 int		ft_redir(t_shell *shell, t_cmd cmd);
-void	ft_exit_malloc(t_shell *shell);
+void	ft_exit_error(t_shell *shell, int ret_value);
 
 void	handle_ctrl_bs(int sig);
 void	handle_ctrl_c(int sig);
@@ -126,8 +126,8 @@ int		ft_exec_builtin(t_shell *shell, t_cmd cmd);
 
 int		ft_cd(t_shell *shell, char *path);
 
-char	*ft_getcwd(void);
-int		ft_pwd(void);
+char	*ft_getcwd(t_shell *shell);
+int		ft_pwd(t_shell *shell);
 
 void	ft_env(t_env *env);
 t_env	*ft_getenv(char *name, t_env *env);

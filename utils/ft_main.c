@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 05:20:19 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 17:51:04 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 19:52:05 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ int	ft_launch_minishell(t_shell *shell)
 	char	*input;
 
 	input = readline("\001\033[1;32m\002MiniShell >> \001\033[0m\002");
-	// input = readline("G ");
-	// If EOF is encountered while reading a line,
-	//   and the line is empty, NULL is returned.
 	if (!input)
 	{
 		printf("exit\n");

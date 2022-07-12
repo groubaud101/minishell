@@ -6,11 +6,17 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 16:08:55 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 09:18:38 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 19:50:54 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	**ft_split_norm(char **tab)
+{
+	ft_free_tab(tab);
+	return (NULL);
+}
 
 /*
 ** str :  the string to split
@@ -33,6 +39,8 @@ char	**ft_split_once(char *str, char c)
 	while (str[i] && str[i] != c)
 		i++;
 	tab[0] = ft_strndup(str, i);
+	if (!tab[0])
+		return (ft_split_norm(tab));
 	tab[1] = NULL;
 	tab[2] = NULL;
 	if (str[i] == '\0')
@@ -42,8 +50,10 @@ char	**ft_split_once(char *str, char c)
 		tab[1] = ft_calloc(sizeof(*tab[1]), 1);
 	else
 		tab[1] = ft_strdup(str);
+	if (!tab[1])
+		return (ft_split_norm(tab));
 	return (tab);
-}// a voir pour les fail malloc
+}
 
 /*
 ** envp : tab[i] of the environment ('name=value') 
@@ -55,20 +65,18 @@ char	**ft_split_once(char *str, char c)
 **  'value' the right part of the '=' (ex : /home/user)
 */
 
-static t_env	*ft_attribute_elem_env(char *envp)
+static t_env	*ft_attribute_elem_env(t_shell *shell, char *envp)
 {
 	t_env	*lst;
 	char	**name_value;
 
 	lst = malloc(sizeof(t_env));
 	if (lst == NULL)
-		exit (0); // malloc fail
+		ft_exit_error(shell, ENOMEM);
 	name_value = ft_split_once(envp, '=');
 	if (!name_value)
-		exit (0); // malloc fail
+		ft_exit_error(shell, ENOMEM);
 	lst->name = name_value[0];
-	if (!name_value[0])
-		exit (0); // malloc fail ou pas de name ??
 	lst->len_name = ft_strlen(lst->name);
 	lst->value = name_value[1];
 	lst->next = NULL;
@@ -82,7 +90,7 @@ static t_env	*ft_attribute_elem_env(char *envp)
 ** Create the chain list 't_env' of the environment 
 */
 
-static t_env	*ft_init_env(char *envp[])
+static t_env	*ft_init_env(t_shell *shell, char *envp[])
 {
 	t_env	*start;
 	t_env	*lst;
@@ -95,7 +103,7 @@ static t_env	*ft_init_env(char *envp[])
 	i--;
 	while (i >= 0)
 	{
-		lst = ft_attribute_elem_env(envp[i]);
+		lst = ft_attribute_elem_env(shell, envp[i]);
 		lst->next = start;
 		start = lst;
 		i--;
@@ -128,21 +136,18 @@ void	ft_init_mini(t_shell *shell, char **av, char **envp)
 	shell->binary_name = av[0];
 	shell->fd_in = STDIN_FILENO;
 	shell->fd_out = STDOUT_FILENO;
-	shell->env = ft_init_env(envp);
+	shell->env = ft_init_env(shell, envp);
 	if (!shell->env)
-	{
-		free(shell);
-		exit(1); // ENOMEM ?
-	}
+		ft_exit_error(shell, ENOMEM);
 	shell->env_has_changed = 1;
 	shell->envp_tab = NULL;
 	shell->paths = NULL;
-	env_path = ft_getenv("PATH", shell->env); // a rajouter quand ya update
+	env_path = ft_getenv("PATH", shell->env);
 	if (env_path)
 	{
 		shell->paths = ft_split(env_path->value, ':');
 		if (!shell->paths)
-			ft_exit(shell); // ENOMEM ?
+			ft_exit_error(shell, ENOMEM);
 	}
 	shell->ret_value = 0;
 }

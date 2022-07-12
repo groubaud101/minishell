@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 11:00:18 by groubaud          #+#    #+#             */
-/*   Updated: 2022/06/29 11:00:18 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 19:37:30 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_del_first(t_env *env)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = env;
 	env = env->next;
@@ -26,7 +26,7 @@ static int	ft_del_first(t_env *env)
 
 static int	ft_del_next(t_env *env)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = env->next;
 	env->next = env->next->next;
@@ -69,7 +69,7 @@ int	ft_unset(t_shell *shell, t_cmd cmd)
 			all_unset = 0;
 		i++;
 	}
-	if (all_unset == 1) // faudra voir parce que ça me renvoie quand même 0 si non
+	if (all_unset == 1)
 		return (0);
-	return (1);
+	return (0);
 }
