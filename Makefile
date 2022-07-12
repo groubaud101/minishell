@@ -6,7 +6,7 @@
 #    By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/31 15:34:29 by user42            #+#    #+#              #
-#    Updated: 2022/07/12 11:17:56 by groubaud         ###   ########.fr        #
+#    Updated: 2022/07/12 14:33:04 by groubaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,10 @@ D_UTILS	=	./utils/
 D_BUILT	=	./builtins/
 D_PARS	=	./parsing/
 
-LIBFT	=	-L $(D_LIBFT) -lft
+LIBFT	=	-L $(D_LIBFT) -lft -L $(shell brew --prefix readline)/lib
 
 INCLUDE	=	$(D_INC)minishell.h
-I_INC	=	-I $(D_INC_L) -I $(D_INC)
+I_INC	=	-I $(D_INC_L) -I $(D_INC) -I $(shell brew --prefix readline)/include
 
 S_EXEC	=	pipe redir_in_out exec
 S_UTILS	=	main init convert choose_the_exec signal
