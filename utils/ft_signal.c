@@ -16,11 +16,11 @@ void	handle_ctrl_c(int sig)
 {
 	if (sig != SIGINT)
 		return ;
-	g_go = 0;
-	write(STDOUT_FILENO, "\n", 1);
+	write(STDOUT_FILENO, "\b\b  \n", 5);
 	rl_on_new_line();
 	// rl_replace_line("", 0);
 	rl_redisplay();
+
 }
 
 void	handle_ctrl_bs(int sig)

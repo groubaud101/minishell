@@ -50,7 +50,11 @@ int	ft_exec(t_shell *shell, t_cmd cmd)
 {
 	int	ret;
 
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGQUIT, SIG_DFL);
+	
+	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, SIG_DFL);
 	if (!ft_redir(shell, cmd))
 		ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
 	else

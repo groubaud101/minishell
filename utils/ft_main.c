@@ -26,31 +26,22 @@ int	ft_launch_minishell(t_shell *shell)
 {
 	char	*input;
 
-	// input = readline("\001\033[1;32m\002MiniShell >> \001\033[0m\002");
-	input = readline("G ");
+	input = readline("\001\033[1;32m\002MiniShell >> \001\033[0m\002");
+	// input = readline("G ");
 	// If EOF is encountered while reading a line,
 	//   and the line is empty, NULL is returned.
 	if (!input)
 	{
-		printf("\b\bexit\n");
+		printf("exit\n");
 		ft_exit(shell);
 	}
-
-	// ft_printf_fd(2, "input : |%s|\n", input);
 	if (input[0] == '\0')
 	{
 		free(input);
 		return (0);
 	}
-
 	parse(shell, input);
-	printf("g_go : %i\n", g_go);
-	if (g_go == 0)
-	{
-		printf(COUCOU);
-		return (1);
-	}
-	if (g_go && shell->cmds->cmd)
+	if (shell->cmds->cmd)
 	{
 		add_history(input);
 		ft_choose_the_exec(shell);
@@ -76,7 +67,6 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	while (1)
 	{
-		g_go = 1;
 		ft_launch_minishell(&shell);
 	}
 	return (0);
