@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 16:58:47 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/12 18:14:30 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/12 19:49:27 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	cpy_in_quotes(char *content, int *i, int *j, char *new)
 	if (content[*i] == '\'' || content[*i] == '\"')
 	{
 		c = content[(*i)++];
-		while (content[*i] != c)
+		while (content[*i] && content[*i] != c)
 			new[(*j)++] = content[(*i)++];
 	}
 	else
@@ -39,7 +39,7 @@ int	len_wo_quotes(char *str)
 		if (str[i] == '\'' || str[i] == '\"')
 		{
 			c = str[i++];
-			while (str[i] != c)
+			while (str[i] && str[i] != c)
 				i++;
 			len -= 2;
 		}

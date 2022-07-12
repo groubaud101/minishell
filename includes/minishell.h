@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 20:03:34 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 20:14:28 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,8 @@ int		ft_echo(t_shell *shell, char **next_args);
 
 /* parsing */
 char	*get_var(t_shell *shell, char **str, char **bef, int *i);
-int		replace_var(t_shell *shell, char *str, char **bef);
 char	**init_vars(char *str, char **bef, int *i);
+int		replace_var(t_shell *shell, char *str, char **bef);
 int		replace(t_shell *shell, char **vars, int i, char **bef);
 int		replace_env_var(t_shell *shell, t_token **head);
 
@@ -156,8 +156,8 @@ void	init_cmd(t_shell *shell, int i, int n);
 int		init_parser(t_shell *shell, t_token *tkn);
 
 int		parse(t_shell *shell, char *input);
-int		odd_quote_bef(char **strs, int i);
-int		odd_quote_aft(char **strs, int i);
+int		odd_quote_bef(char **strs, int i, char c);
+int		odd_quote_aft(char **strs, int i, char c);
 
 void	cpy_in_quotes(char *content, int *i, int *j, char *new);
 int		len_wo_quotes(char *str);

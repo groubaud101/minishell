@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 16:57:39 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/12 18:50:50 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/12 20:11:45 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,6 @@ char	*get_var(t_shell *shell, char **str, char **bef, int *i)
 	return (tmp);
 }
 
-int	replace_var(t_shell *shell, char *str, char **bef)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	tmp = get_var(shell, &str, bef, &i);
-	*bef = ft_strjoin(tmp, str + i);
-	free(tmp);
-	if (str[ft_strlen(str) - 1] == '$')
-		*bef = ft_strjoin_free(*bef, "$");
-	return (1);
-}
-
 char	**init_vars(char *str, char **bef, int *i)
 {
 	char	**vars;
@@ -73,15 +59,39 @@ char	**init_vars(char *str, char **bef, int *i)
 	return (vars);
 }
 
+int	replace_var(t_shell *shell, char *str, char **bef)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	printf("STR = %s\n", str);
+	tmp = get_var(shell, &str, bef, &i);
+	printf("tmp = %s\n", tmp);
+	*bef = ft_strjoin(tmp, str + i);
+	printf("bef = %s\n", *bef);
+	free(tmp);
+	if (str[ft_strlen(str) - 1] == '$')
+		*bef = ft_strjoin_free(*bef, "$");
+	return (1);
+}
+
 int	replace(t_shell *shell, char **vars, int i, char **bef)
 {
 	char	*tmp;
 
-	if (odd_quote_bef(vars, i) && odd_quote_aft(vars, i))
+	printf("vars i = %s\n", vars[i]);
+	if (odd_quote_bef(vars, i, '\'') && odd_quote_aft(vars, i, '\''))
 	{
 		tmp = ft_strjoin("$", vars[i]);
 		*bef = ft_strjoin_free(*bef, tmp);
 		free(tmp);
+	}
+	else if (odd_quote_bef(vars, i, '\"') && odd_quote_aft(vars, i, '\"'))
+	{
+		vars[i][ft_strlen(vars[i]) - 1] = '\0';
+		printf("vars i INSIDE = %s\n", vars[i]);
+		replace_var(shell, vars[i], bef);
 	}
 	else
 		replace_var(shell, vars[i], bef);
