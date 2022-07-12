@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 17:26:50 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 09:28:41 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 11:17:40 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	ft_exec(t_shell *shell, t_cmd cmd)
 {
 	int	ret;
 
+	signal(SIGQUIT, SIG_DFL);
 	if (!ft_redir(shell, cmd))
 		ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
 	else

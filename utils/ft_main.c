@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 05:20:19 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 09:33:36 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 11:42:35 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,26 @@ int	ft_launch_minishell(t_shell *shell)
 	// If EOF is encountered while reading a line,
 	//   and the line is empty, NULL is returned.
 	if (!input)
+	{
+		printf("\b\bexit\n");
 		ft_exit(shell);
+	}
 
-	// A voir si il faut free 'input'
-	// ft_printf_fd(1, "input : |%s|\n", input);
+	// ft_printf_fd(2, "input : |%s|\n", input);
 	if (input[0] == '\0')
 	{
+		free(input);
 		return (0);
 	}
 
 	parse(shell, input);
-	if (shell->cmds->cmd)
+	printf("g_go : %i\n", g_go);
+	if (g_go == 0)
+	{
+		printf(COUCOU);
+		return (1);
+	}
+	if (g_go && shell->cmds->cmd)
 	{
 		add_history(input);
 		ft_choose_the_exec(shell);
@@ -63,10 +72,11 @@ int	main(int ac, char **av, char **envp)
 
 	ft_init_mini(&shell, av, envp);
 	// sig_catch = -1;
-
+	ft_init_signal();
 	(void)ac;
 	while (1)
 	{
+		g_go = 1;
 		ft_launch_minishell(&shell);
 	}
 	return (0);

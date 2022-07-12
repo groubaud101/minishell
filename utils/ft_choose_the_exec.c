@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 16:15:50 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 10:45:05 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 10:51:28 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@
 
 void	ft_close(t_shell *shell)
 {
-	dup2(shell->fd_in, STDIN);
-	dup2(shell->fd_out, STDOUT);
+	dup2(shell->fd_in, STDIN_FILENO);
+	dup2(shell->fd_out, STDOUT_FILENO);
 	if (shell->fd_in > 0)
 		close(shell->fd_in);
 	if (shell->fd_out > 1)
 		close(shell->fd_out);
-	shell->fd_in = STDIN;
-	shell->fd_out = STDOUT;
+	shell->fd_in = STDIN_FILENO;
+	shell->fd_out = STDOUT_FILENO;
 }
 
 int	ft_choose_the_exec(t_shell *shell)

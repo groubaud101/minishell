@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 09:40:00 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 11:36:48 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@
 # define STDERR STDERR_FILENO
 
 # define COUCOU "%s : ligne %i in %s()\n", __FILE__, __LINE__, __func__
+
+volatile int	g_go;
 
 typedef struct s_spec
 {
@@ -119,6 +121,8 @@ void	ft_init_mini(t_shell *shell, char **av, char **envp);
 char	**ft_split_once(char *str, char c);
 char	**ft_convert_env_list_to_tab(t_shell *shell);
 void	ft_close(t_shell *shell);
+void	ft_init_signal(void);
+int		ft_choose_the_exec(t_shell *shell);
 
 /* builtins */
 int		ft_exec_builtin(t_shell *shell, t_cmd cmd);
@@ -149,10 +153,9 @@ void	clear_tknlst(t_token **head, void (*del)(void *));
 int		copy_envp(t_shell *shell, char **envp);
 int		parse(t_shell *shell, char *input);
 int		free_mallocs(t_shell *shell, int i);
-// int		is_builtin(char *cmd);
 char	*get_path(char *cmd);
 
 /* transition */
-int	ft_choose_the_exec(t_shell *shell);
+
 
 #endif

@@ -1,39 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_signal.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/11 17:37:55 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 11:44:54 by groubaud         ###   ########.fr       */
+/*   Created: 2022/07/12 11:01:34 by groubaud          #+#    #+#             */
+/*   Updated: 2022/07/12 11:49:54 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "unistd.h"
+#include "minishell.h"
 
-void	ft_bus_error()
+void	handle_ctrl_c(int sig)
 {
-	char *str = "coucou";
-
-	str[0] = 'a';
+	if (sig != SIGINT)
+		return ;
+	g_go = 0;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-void	ft_seg_fault()
+void	handle_ctrl_bs(int sig)
 {
-	char *str;
-	int		i = 0;
-
-	str[0] = 'a';
+	if (sig != SIGQUIT)
+		return ;
 }
 
-void	ft_infinite_loop()
+void	ft_init_signal()
 {
-	while (1)
-		;
-}
-
-int main()
-{
-	ft_infinite_loop();
+	signal(SIGINT, handle_ctrl_c);
+	signal(SIGQUIT, handle_ctrl_bs);
 }

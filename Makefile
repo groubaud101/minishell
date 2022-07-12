@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+         #
+#    By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/31 15:34:29 by user42            #+#    #+#              #
-#    Updated: 2022/06/27 11:46:45 by jrobert          ###   ########.fr        #
+#    Updated: 2022/07/12 11:17:56 by groubaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ INCLUDE	=	$(D_INC)minishell.h
 I_INC	=	-I $(D_INC_L) -I $(D_INC)
 
 S_EXEC	=	pipe redir_in_out exec
-S_UTILS	=	main init convert choose_the_exec
+S_UTILS	=	main init convert choose_the_exec signal
 S_BUILT	=	env getenv cd pwd export_to_env export display_export \
 			exec_builtin unset echo exit
 S_PARS	=	jrobert utils
