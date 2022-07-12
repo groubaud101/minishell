@@ -6,7 +6,7 @@
 /*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 16:57:39 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/12 21:28:09 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/12 21:47:40 by jrobert          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,14 @@ char	*get_var(t_shell *shell, char **str, char **bef, int *j)
 }
 
 
-int	replace_var(t_shell *shell, char *str, char **bef, int *j)
+int	replace_var(t_shell *shell, char *str, char **bef)
 {
 	char	*tmp;
+	int		j;
 
-	tmp = get_var(shell, &str, bef, j);
-	*bef = ft_strjoin(tmp, str + *j);
+	j = 0;
+	tmp = get_var(shell, &str, bef, &j);
+	*bef = ft_strjoin(tmp, str + j);
 	free(tmp);
 	if (str[ft_strlen(str) - 1] == '$')
 		*bef = ft_strjoin_free(*bef, "$");
@@ -76,9 +78,7 @@ int	replace_var(t_shell *shell, char *str, char **bef, int *j)
 int	replace(t_shell *shell, char **vars, int i, char **bef)
 {
 	char	*tmp;
-	int		j;
 
-	j = 0;
 	if (odd_quote_bef(vars, i, '\'') && odd_quote_aft(vars, i, '\''))
 	{
 		tmp = ft_strjoin("$", vars[i]);
@@ -86,7 +86,7 @@ int	replace(t_shell *shell, char **vars, int i, char **bef)
 		free(tmp);
 	}
 	else
-		replace_var(shell, vars[i], bef, &j);
+		replace_var(shell, vars[i], bef);
 	return (1);
 }
 
