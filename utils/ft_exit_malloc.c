@@ -1,35 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_signal.c                                        :+:      :+:    :+:   */
+/*   ft_exit_malloc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/12 11:01:34 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 17:48:50 by groubaud         ###   ########.fr       */
+/*   Created: 2022/07/12 18:45:25 by groubaud          #+#    #+#             */
+/*   Updated: 2022/07/12 18:46:51 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_ctrl_c(int sig)
+void	ft_exit_malloc(t_shell *shell)
 {
-	if (sig != SIGINT)
-		return ;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-void	handle_ctrl_bs(int sig)
-{
-	if (sig != SIGQUIT)
-		return ;
-}
-
-void	ft_attribute_signal(void (*sig_int)(int), void (*sig_quit)(int))
-{
-	signal(SIGINT, sig_int);
-	signal(SIGQUIT, sig_quit);
+	shell->ret_value = ENOMEM;
+	ft_exit(shell);
 }

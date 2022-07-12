@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: groubaud <groubaud@student.s19.be >        +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:17:34 by groubaud          #+#    #+#             */
-/*   Updated: 2022/05/30 09:17:34 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 18:27:20 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	ft_update_pwd_env(t_shell *shell, char *name, char *absolute_path)
 	else
 		tmp_pwd = ft_strdup(name);
 	if (tmp_pwd == NULL)
-		exit (0); // error malloc
+		exit(ENOMEM);
 	ft_export_to_env(shell, tmp_pwd, absolute_path);
 	return (CHECK_OK);
 }
@@ -52,7 +52,8 @@ int	ft_cd(t_shell *shell, char *path)
 	ft_update_pwd_env(shell, "OLDPWD", ft_getcwd());
 	if (chdir(path) == -1)
 	{
-		perror("minishell: cd");
+		ft_printf_fd(STDERR_FILENO, "bash: cd: %s: ", path);
+		perror(NULL);
 		return (1);
 	}
 	ft_update_pwd_env(shell, "PWD", ft_getcwd());

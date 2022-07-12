@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 21:03:56 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 09:53:29 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 19:17:24 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	ft_transi_export(t_shell *shell, t_cmd cmd)
 		ft_export(shell, NULL, NULL);
 	while (cmd.args[i])
 	{
-		name_value = ft_split_once(cmd.args[i], '='); // check malloc
+		name_value = ft_split_once(cmd.args[i], '=');
 		if (name_value == NULL)
-			ft_exit(shell);
+			ft_exit_malloc(shell);
 		if (name_value[1])
 			ft_export(shell, name_value[0], name_value[1]);
 		else
@@ -60,11 +60,7 @@ int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 
 	ret_value = shell->ret_value;
 	if (!ft_strcmp(cmd.args[0], "echo"))
-	{
-		ft_redir(shell, shell->cmds[0]);
 		ret_value = ft_echo(shell, cmd.args + 1);
-		ft_close(shell);
-	}
 	else if (!ft_strcmp(cmd.args[0], "cd"))
 		ret_value = ft_cd(shell, cmd.args[1]);
 	else if (!ft_strcmp(cmd.args[0], "pwd"))
@@ -77,11 +73,7 @@ int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 		ft_env(shell->env);
 	else if (!ft_strcmp(cmd.args[0], "exit"))
 		ft_transi_exit(shell, cmd);
-	else if (!ft_strcmp(cmd.args[0], "ret_value")) // $?
-		printf("ret_value : %i\n", shell->ret_value);
 	else
-	{
 		return (-19);
-	}
-	return(ret_value);
+	return (ret_value);
 }

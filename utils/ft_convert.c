@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 23:05:41 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 12:17:36 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 18:53:01 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static char	*ft_group_name_value(t_shell *shell, t_env *env)
 	str = ft_strjoin_gnl(str, env->value);
 	if (!str)
 		ft_exit(shell);
+		// ft_exit_malloc(shell);
 	return (str);
 }
 
@@ -56,7 +57,8 @@ int		ft_stock_paths(t_shell *shell)
 		if (!shell->paths)
 		{
 			shell->ret_value = ENOMEM;
-			ft_exit(shell); // ENOMEM ?
+			ft_exit(shell);
+		// ft_exit_malloc(shell);
 		}
 	}
 	return (0);

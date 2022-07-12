@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 18:45:56 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/12 19:15:27 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@
 # define STDERR STDERR_FILENO
 
 # define COUCOU "%s : ligne %i in %s()\n", __FILE__, __LINE__, __func__
-
-volatile int	g_go;
 
 typedef struct s_spec
 {
@@ -106,17 +104,18 @@ typedef struct s_shell
 }				t_shell;
 
 /* exec */
-int		ft_pipe(t_shell *shell, t_cmd *cmds, int i);
+int		ft_pipe(t_shell *shell, int i);
 int		ft_exec(t_shell *shell, t_cmd cmd);
 int		ft_execve(char **cmd, char **paths, char *envp[]);
+int		ft_choose_the_exec(t_shell *shell);
 
 /* utils */
 void	ft_init_mini(t_shell *shell, char **av, char **envp);
 char	**ft_split_once(char *str, char c);
 char	**ft_convert_env_list_to_tab(t_shell *shell);
 void	ft_close(t_shell *shell);
-int		ft_choose_the_exec(t_shell *shell);
 int		ft_redir(t_shell *shell, t_cmd cmd);
+void	ft_exit_malloc(t_shell *shell);
 
 void	handle_ctrl_bs(int sig);
 void	handle_ctrl_c(int sig);

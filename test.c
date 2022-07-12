@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 17:37:55 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 11:44:54 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 17:54:26 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,5 @@ void	ft_infinite_loop()
 
 int main()
 {
-	ft_infinite_loop();
+	ft_bus_error();
 }

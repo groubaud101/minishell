@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 10:59:12 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 15:01:03 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/12 17:24:55 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	ft_redir(t_shell *shell, t_cmd cmd)
 	if (cmd.left.oflag != -1)
 	{
 		// dprintf(STDERR_FILENO, COUCOU);
-		if (shell->fd_in > 0)
-			close(shell->fd_in);
+		// if (shell->fd_in > 0)
+		// 	close(shell->fd_in);
 		shell->fd_in = open(cmd.left.target, cmd.left.oflag);
 		if (shell->fd_in == -1)
 		{
@@ -27,15 +27,17 @@ int	ft_redir(t_shell *shell, t_cmd cmd)
 		}
 		if (dup2(shell->fd_in, STDIN_FILENO) == -1)
 		{
-			close(shell->fd_in); // message d erreur
+			perror("bash: dup2: ");
+			if (close(shell->fd_in) == -1)
+				perror("bash: close: ");
 			return (-1);
 		}
 	}
 	if (cmd.right.oflag != -1)
 	{
 		// dprintf(STDERR_FILENO, COUCOU);
-		if (shell->fd_out > 1)
-			close(shell->fd_out);
+		// if (shell->fd_out > 1)
+		// 	close(shell->fd_out);
 		shell->fd_out = open(cmd.right.target, cmd.right.oflag);
 		if (shell->fd_out == -1)
 		{
@@ -46,7 +48,9 @@ int	ft_redir(t_shell *shell, t_cmd cmd)
 		if (dup2(shell->fd_out, STDOUT_FILENO) == -1)
 		{
 			// dprintf(STDERR_FILENO, COUCOU);
-			close(shell->fd_out); // message d erreur
+			perror("bash: dup2: ");
+			if (close(shell->fd_out) == -1)
+				perror("bash: close: ");
 			return (-1);
 		}
 	}
