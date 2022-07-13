@@ -22,13 +22,13 @@ D_UTILS	=	./utils/
 D_BUILT	=	./builtins/
 D_PARS	=	./parsing/
 
-LIBFT	=	-L $(D_LIBFT) -lft
+LIBFT	=	-L $(D_LIBFT) -lft -lreadline
 
 INCLUDE	=	$(D_INC)minishell.h
 I_INC	=	-I $(D_INC_L) -I $(D_INC) -I.
 
-LIBFT	+=	-L $(shell brew --prefix readline)/lib -lreadline
-I_INC	+=	-I $(shell brew --prefix readline)/include
+# LIBFT	+=	-L $(shell brew --prefix readline)/lib -lreadline
+# I_INC	+=	-I $(shell brew --prefix readline)/include
 
 S_EXEC	=	pipe redir_in_out exec choose_the_exec
 S_UTILS	=	main init convert signal exit_error

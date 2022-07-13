@@ -23,5 +23,6 @@ int	parse(t_shell *shell, char *input)
 		return (free_all(&tkn) && fail("Error - Init Parser"));
 	if (!save_cmds(shell, tkn))
 		return (free_all(&tkn) && fail("Error - Save Cmds"));
+	free_all(&tkn);
 	return (1);
 }

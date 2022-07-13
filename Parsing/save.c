@@ -15,8 +15,20 @@
 int	save_arg(t_shell *shell, t_token **tkn, int i, int *j)
 {
 	shell->cmds[i].args[++*j] = ft_strdup((*tkn)->content);
+	if (!shell->cmds[i].args[*j])
+	{
+		free_all(tkn);
+		ft_exit_error(shell, errno);
+	}
 	if (!shell->cmds[i].cmd)
+	{
 		shell->cmds[i].cmd = ft_strdup((*tkn)->content);
+		if (!shell->cmds[i].cmd)
+		{
+			free_all(tkn);
+			ft_exit_error(shell, errno);
+		}
+	}
 	return (1);
 }
 

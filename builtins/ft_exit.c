@@ -23,7 +23,7 @@ void	ft_free_t_cmd(t_cmd *cmds, int nb_cmds)
 			free(cmds[i].left.target);
 		if (cmds[i].right.oflag != -1)
 			free(cmds[i].right.target);
-		ft_free_tab(cmds->args);
+		ft_free_tab(cmds[i].args);
 		i++;
 	}
 	free(cmds);
