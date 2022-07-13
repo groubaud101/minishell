@@ -12,48 +12,6 @@
 
 #include "minishell.h"
 
-// int	exec_other(t_shell *shell, int i, char *path)
-// {
-// 	int	fd;
-// 	int pid;
-
-// 	if (!path)
-// 		return (0);
-// 	pid = fork();
-// 	if (pid == -1)
-// 		return (0);
-// 	if (pid == 0)
-// 	{
-// 		if (shell->cmds[i].left.target)
-// 		{
-// 			fd = open(shell->cmds[i].left.target, shell->cmds[i].left.oflag);
-// 			if (fd == -1)
-// 				return (0);
-// 			if (dup2(fd, STDIN_FILENO) == -1)
-// 			{
-// 				close(fd);
-// 				return (0);
-// 			}
-// 		}
-// 		if (shell->cmds[i].right.target)
-// 		{
-// 			fd = open(shell->cmds[i].right.target, shell->cmds[i].right.oflag);
-// 			if (fd == -1)
-// 				return (0);
-// 			if (dup2(fd, STDOUT_FILENO) == -1)
-// 			{
-// 				close(fd);
-// 				return (0);
-// 			}
-// 		}
-// 		close(fd);
-// 		execve(path, shell->cmds[i].args, shell->envp_tab);
-// 	}
-// 	wait(NULL);
-// 	free(path);
-// 	return (1);
-// }
-
 void	ft_close(t_shell *shell)
 {
 	dup2(shell->fd_in, STDIN_FILENO);
@@ -78,6 +36,6 @@ int	ft_choose_the_exec(t_shell *shell)
 		ft_printf_fd(STDERR_FILENO, "Segmentation fault: 11\n");
 	else if (shell->ret_value == 10)
 		ft_printf_fd(STDERR_FILENO, "Bus error: 10\n");
-	ft_close(shell);
+	// ft_close(shell);
 	return (1);
 }

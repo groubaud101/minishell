@@ -20,16 +20,16 @@ char	*ft_getcwd(t_shell *shell)
 	size = 128;
 	buff = malloc(sizeof(*buff) * (size + 1));
 	if (buff == NULL)
-		ft_exit_error(shell, ENOMEM);
+		ft_exit_error(shell, errno);
 	while (getcwd(buff, size) == NULL && errno == ERANGE)
 	{
 		free(buff);
 		size *= 2;
 		if (size >= SIZE_MAX / 2)
-			exit(1);
+			ft_exit_error(shell, errno);
 		buff = malloc(sizeof(*buff) * (size + 1));
 		if (buff == NULL)
-			ft_exit_error(shell, ENOMEM);
+			ft_exit_error(shell, errno);
 	}
 	return (buff);
 }
@@ -40,7 +40,8 @@ int	ft_pwd(t_shell *shell)
 
 	pwd = ft_getcwd(shell);
 	if (pwd == NULL)
-		ft_exit_error(shell, ENOMEM);
+		ft_exit_error(shell, errno);
 	printf("%s\n", pwd);
+	free(pwd);
 	return (0);
 }

@@ -39,7 +39,7 @@
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
 
-# include "wraloc.h"
+// # include "wraloc.h"
 # define COUCOU "%s : ligne %i in %s()\n", __FILE__, __LINE__, __func__
 
 typedef struct s_spec

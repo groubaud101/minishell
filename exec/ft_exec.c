@@ -51,9 +51,9 @@ int	ft_exec(t_shell *shell, t_cmd cmd)
 	int	ret;
 
 	ft_attribute_signal(SIG_DFL, SIG_DFL);
-	if (!ft_redir(shell, cmd))
+	// if (!ft_redir(shell, cmd))
 		ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
-	else
-		exit(1);
+	// else
+	// 	exit(1);
 	return (ret);
 }

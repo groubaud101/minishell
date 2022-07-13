@@ -24,7 +24,7 @@ int	ft_transi_export(t_shell *shell, t_cmd cmd)
 	{
 		name_value = ft_split_once(cmd.args[i], '=');
 		if (name_value == NULL)
-			ft_exit_error(shell, ENOMEM);
+			ft_exit_error(shell, errno);
 		if (name_value[1])
 			ft_export(shell, name_value[0], name_value[1]);
 		else
