@@ -6,7 +6,7 @@
 #    By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/31 15:34:29 by user42            #+#    #+#              #
-#    Updated: 2022/07/12 19:33:39 by groubaud         ###   ########.fr        #
+#    Updated: 2022/07/13 17:02:25 by groubaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ D_PARS	=	./parsing/
 LIBFT	=	-L $(D_LIBFT) -lft
 
 INCLUDE	=	$(D_INC)minishell.h
-I_INC	=	-I $(D_INC_L) -I $(D_INC)
+I_INC	=	-I $(D_INC_L) -I $(D_INC) -I.
 
 LIBFT	+=	-L $(shell brew --prefix readline)/lib -lreadline
 I_INC	+=	-I $(shell brew --prefix readline)/include
