@@ -66,20 +66,30 @@ void	handle_input(t_token **head, char **input, int *i)
 	t_spec	spec;
 
 	spec = (t_spec){0};
+	printf(COUCOU);
+	printf("input1 : |%s|, i : %i\n", *input, *i);
 	if ((*input)[*i] == '\'' || (*input)[*i] == '\"')
 		handle_quotes(input, i);
 	spec = find_spec(&((*input)[*i]));
 	if (spec.spec)
 	{
+		printf(COUCOU);
+		printf("input2 : |%s|, i : %i\n", *input, *i);
 		if (input[*i] != *input)
 		{
+			printf(COUCOU);
 			tkn_add_back(head, new_tkn(*input, *i, "WORD"));
 			*input += *i;
 		}
+		printf(COUCOU);
+		printf("input4 : |%s|, i : %i, spec.size : %i\n",
+		*input, *i, spec.size);
 		tkn_add_back(head, new_tkn(spec.spec, spec.size, spec.type));
 		*input += spec.size;
 		*i = -1;
 	}
+		printf(COUCOU);
+		printf("input_final : |%s|, i : %i\n", *input, *i);
 }
 
 int	tokenize(t_shell *shell, char *input, t_token **head)
