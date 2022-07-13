@@ -6,7 +6,7 @@
 #    By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/31 15:34:29 by user42            #+#    #+#              #
-#    Updated: 2022/07/13 21:05:40 by groubaud         ###   ########.fr        #
+#    Updated: 2022/07/14 00:50:51 by groubaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,8 @@ LIBFT	=	-L $(D_LIBFT) -lft -lreadline
 INCLUDE	=	$(D_INC)minishell.h
 I_INC	=	-I $(D_INC_L) -I $(D_INC) -I.
 
-# LIBFT	+=	-L $(shell brew --prefix readline)/lib
-# I_INC	+=	-I $(shell brew --prefix readline)/include
+LIBFT	+=	-L $(shell brew --prefix readline)/lib
+I_INC	+=	-I $(shell brew --prefix readline)/include
 
 S_EXEC	=	pipe exec choose_the_exec
 S_UTILS	=	main init convert signal exit_error check_syntax
@@ -65,7 +65,7 @@ $(NAME)	:	$(OBJS) $(INCLUDE)
 
 clean	:
 			rm -rf $(OBJS)
-#			make -C $(D_LIBFT) clean
+			make -C $(D_LIBFT) clean
 
 fclean	:	clean
 			rm -f $(NAME)

@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 21:03:56 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 20:07:00 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/14 01:21:00 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ int	ft_transi_export(t_shell *shell, t_cmd cmd)
 		name_value = ft_split_once(cmd.args[i], '=');
 		if (name_value == NULL)
 			ft_exit_error(shell, errno);
+		if (!name_value[0][0])
+		{
+			ft_printf_fd(STDERR, "bash: export: `=%s': not a valid "\
+				"identifier\n", name_value[1]);
+			return (1);
+		}
 		if (name_value[1])
 			ft_export(shell, name_value[0], name_value[1]);
 		else
@@ -65,7 +71,7 @@ int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 		ret_value = ft_cd(shell, cmd.args[1]);
 	else if (!ft_strcmp(cmd.args[0], "pwd"))
 		ret_value = ft_pwd(shell);
-	else if (!ft_strcmp(cmd.args[0], "xport"))
+	else if (!ft_strcmp(cmd.args[0], "export"))
 		ret_value = ft_transi_export(shell, cmd);
 	else if (!ft_strcmp(cmd.args[0], "unset"))
 		ret_value = ft_unset(shell, cmd);

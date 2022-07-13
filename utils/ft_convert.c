@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 23:05:41 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/13 17:21:56 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/14 01:03:20 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ char	**ft_convert_env_list_to_tab(t_shell *shell)
 	i = 0;
 	while (env)
 	{
-		envp_tab[i] = ft_group_name_value(shell, env);
-		i++;
+		if (env->value)
+			envp_tab[i++] = ft_group_name_value(shell, env);
 		env = env->next;
 	}
 	envp_tab[i] = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 15:55:20 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 17:26:47 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/14 01:20:05 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	ft_export(t_shell *shell, char *name, char *value)
 {
 	if (name == NULL && value)
 	{
-		ft_printf_fd(STDERR_FILENO, "bash: export: '=%s': not a valid identifier\n", value);
+		ft_printf_fd(STDERR_FILENO, "bash: export: '=%s': "\
+			"not a valid identifier\n", value);
 		return (1);
 	}
 	if (name == NULL && value == NULL)

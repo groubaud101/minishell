@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 17:58:57 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 19:26:05 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/14 00:59:41 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,14 @@ static t_env	*ft_last_env(t_env *env)
 	return (last);
 }
 
+void	ft_print_export(t_env *your_turn)
+{
+	if (your_turn->value)
+		printf("declare -x %s=\"%s\"\n", your_turn->name, your_turn->value);
+	else
+		printf("declare -x %s\n", your_turn->name);
+}
+
 /*
 ** env : first node of the environment chain list
 **
@@ -73,7 +81,7 @@ void	ft_display_export(t_env *env)
 	your_turn = previous;
 	while (your_turn != last)
 	{
-		printf("declare -x %s=\"%s\"\n", your_turn->name, your_turn->value);
+		ft_print_export(your_turn);
 		your_turn = last;
 		env = start;
 		while (env)
@@ -86,5 +94,5 @@ void	ft_display_export(t_env *env)
 		}
 		previous = your_turn;
 	}
-	printf("declare -x %s=\"%s\"\n", your_turn->name, your_turn->value);
+	ft_print_export(your_turn);
 }

@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 16:57:39 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/13 18:39:16 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/14 01:22:49 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,6 @@ char	*get_var(t_shell *shell, char **str, char **bef, int *j)
 		(*str)[*j] = '\0';
 		env = ft_getenv(*str, shell->env);
 		(*str)[*j] = c;
-		// if (env == NULL)
-		// 	tmp = *bef;
-		// else
-		// 	tmp = ft_strjoin_free(*bef, env->value);
 		tmp = *bef;
 		if (env)
 			tmp = ft_strjoin_free(*bef, env->value);
