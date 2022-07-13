@@ -127,18 +127,17 @@ static t_env	*ft_init_env(t_shell *shell, char *envp[])
 **  'paths' : a tab of every paths in the env variable PATH
 */
 
-void	ft_init_mini(t_shell *shell, char **av, char **envp)
+void	ft_init_mini(t_shell *shell, char **envp)
 {
 	t_env	*env_path;
 
 	shell->cmds_count = 0;
 	shell->cmds = NULL;
-	shell->binary_name = av[0];
 	shell->fd_in = STDIN_FILENO;
 	shell->fd_out = STDOUT_FILENO;
 	shell->env = ft_init_env(shell, envp);
 	if (!shell->env)
-		ft_exit_error(shell, ENOMEM);
+		ft_exit_error(shell, errno);
 	shell->env_has_changed = 1;
 	shell->envp_tab = NULL;
 	shell->paths = NULL;
@@ -147,7 +146,7 @@ void	ft_init_mini(t_shell *shell, char **av, char **envp)
 	{
 		shell->paths = ft_split(env_path->value, ':');
 		if (!shell->paths)
-			ft_exit_error(shell, ENOMEM);
+			ft_exit_error(shell, errno);
 	}
 	shell->ret_value = 0;
 }

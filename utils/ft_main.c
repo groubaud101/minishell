@@ -41,9 +41,11 @@ int	ft_launch_minishell(t_shell *shell)
 	if (shell->cmds->cmd)
 	{
 		add_history(input);
+		free(input);
 		ft_choose_the_exec(shell);
 	}
 	ft_free_t_cmd(shell->cmds, shell->cmds_count);
+	shell->cmds = NULL;
 	return (0);
 }
 
@@ -58,7 +60,8 @@ int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
 
-	ft_init_mini(&shell, av, envp);
+	(void)av;
+	ft_init_mini(&shell, envp);
 	while (ac > -1)
 	{
 		ft_attribute_signal(handle_ctrl_c, handle_ctrl_bs);

@@ -94,7 +94,6 @@ typedef struct s_shell
 	int		exit_status;
 	int		cmds_count;
 	t_cmd	*cmds;
-	char	*binary_name;
 	int		fd_in;
 	int		fd_out;
 	char	**paths;
@@ -111,7 +110,7 @@ int		ft_execve(char **cmd, char **paths, char *envp[]);
 int		ft_choose_the_exec(t_shell *shell);
 
 /* utils */
-void	ft_init_mini(t_shell *shell, char **av, char **envp);
+void	ft_init_mini(t_shell *shell, char **envp);
 char	**ft_split_once(char *str, char c);
 char	**ft_convert_env_list_to_tab(t_shell *shell);
 void	ft_close(t_shell *shell);

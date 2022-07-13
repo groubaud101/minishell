@@ -65,6 +65,7 @@ void	handle_input(t_token **head, char **input, int *i)
 {
 	t_spec	spec;
 
+	spec = (t_spec){0};
 	if ((*input)[*i] == '\'' || (*input)[*i] == '\"')
 		handle_quotes(input, i);
 	spec = find_spec(&((*input)[*i]));

@@ -23,11 +23,11 @@ void	ft_free_t_cmd(t_cmd *cmds, int nb_cmds)
 			free(cmds[i].left.target);
 		if (cmds[i].right.oflag != -1)
 			free(cmds[i].right.target);
+		free(cmds[i].cmd);
 		ft_free_tab(cmds[i].args);
 		i++;
 	}
 	free(cmds);
-	cmds = NULL;
 }
 
 void	ft_free_t_env(t_env *env)
@@ -42,15 +42,16 @@ void	ft_free_t_env(t_env *env)
 		free(tmp->value);
 		free(tmp);
 	}
-	env = NULL;
 }
 
 void	ft_exit(t_shell *shell)
 {
 	if (shell->cmds)
 		ft_free_t_cmd(shell->cmds, shell->cmds_count);
+	shell->cmds = NULL;
 	if (shell->env)
 		ft_free_t_env(shell->env);
+	shell->env = NULL;
 	ft_free_tab(shell->paths);
 	shell->paths = NULL;
 	ft_free_tab(shell->envp_tab);
