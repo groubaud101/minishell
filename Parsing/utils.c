@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 17:48:16 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/12 18:04:40 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/13 18:30:46 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	free_all(t_token **head)
 
 int	fail(char *err)
 {
-	ft_putstr_fd("Minishell: ", 2);
+	ft_putstr_fd("bash: ", 2);
 	ft_putendl_fd(err, 2);
 	return (0);
 }
@@ -66,5 +66,6 @@ char	*ft_strjoin_free(char *s1, char *s2)
 		ret[i++] = s2[j];
 	ret[i] = '\0';
 	free(s1);
+	s1 = NULL;
 	return (ret);
 }

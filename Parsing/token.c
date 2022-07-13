@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 18:38:07 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/12 19:38:55 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/13 18:33:20 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -87,15 +86,15 @@ int	tokenize(t_shell *shell, char *input, t_token **head)
 	int		i;
 
 	if (!valid_quotes(input))
-		return (0);
+		ft_exit_error(shell, errno);
 	i = -1;
 	while (input[++i])
 		handle_input(head, &input, &i);
 	if (&input[i] != input)
 		tkn_add_back(head, new_tkn(input, i, "WORD"));
 	if (!replace_env_var(shell, head))
-		return (0);
+		ft_exit_error(shell, errno);
 	if (!remove_quotes(head))
-		return (0);
+		ft_exit_error(shell, errno);
 	return (1);
 }

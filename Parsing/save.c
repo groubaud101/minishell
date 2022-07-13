@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 17:10:48 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/12 18:22:47 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/13 18:12:42 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	save_arg(t_shell *shell, t_token **tkn, int i, int *j)
 {
-	shell->cmds[i].args[++*j] = (*tkn)->content;
+	shell->cmds[i].args[++*j] = ft_strdup((*tkn)->content);
 	if (!shell->cmds[i].cmd)
-		shell->cmds[i].cmd = (*tkn)->content;
+		shell->cmds[i].cmd = ft_strdup((*tkn)->content);
 	return (1);
 }
 

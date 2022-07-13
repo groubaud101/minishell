@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/13 17:30:52 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/13 18:22:42 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
 
-// # include "wraloc.h"
+# include "wraloc.h"
 # define COUCOU "%s : ligne %i in %s()\n", __FILE__, __LINE__, __func__
 
 typedef struct s_spec
@@ -61,7 +61,7 @@ typedef struct s_chevron
 {
 	char	*target;
 	int		oflag;
-	char	*heredoc;
+	//char	*heredoc;
 }				t_chevron;
 
 typedef struct s_cmd

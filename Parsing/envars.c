@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envars.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 16:57:39 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/12 21:47:40 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/13 18:39:16 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,16 @@ char	*get_var(t_shell *shell, char **str, char **bef, int *j)
 		(*str)[*j] = '\0';
 		env = ft_getenv(*str, shell->env);
 		(*str)[*j] = c;
-		if (env == NULL)
-			tmp = *bef;
-		else
+		// if (env == NULL)
+		// 	tmp = *bef;
+		// else
+		// 	tmp = ft_strjoin_free(*bef, env->value);
+		tmp = *bef;
+		if (env)
 			tmp = ft_strjoin_free(*bef, env->value);
 	}
 	return (tmp);
 }
-
 
 int	replace_var(t_shell *shell, char *str, char **bef)
 {
@@ -103,12 +105,13 @@ int	replace_env_var(t_shell *shell, t_token **head)
 	{
 		i = 0;
 		if (tmp->content)
-		vars = init_vars(tmp->content, &bef, &i);
+			vars = init_vars(tmp->content, &bef, &i);
 		while (vars[i])
 		{
 			replace(shell, vars, i, &bef);
 			i++;
 		}
+		ft_free_tab(vars);
 		cpy = tmp->content;
 		tmp->content = bef;
 		free(cpy);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 17:06:11 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/12 17:59:34 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/13 18:22:18 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ int	init_parser(t_shell *shell, t_token *tkn)
 	shell->cmds_count = count_cmds(tkn);
 	shell->cmds = (t_cmd *)malloc(sizeof(t_cmd) * shell->cmds_count);
 	if (shell->cmds == NULL)
-		return (0);
-	n = 0;
+		ft_exit_error(shell, errno);
 	i = -1;
 	while (++i < shell->cmds_count)
 	{
@@ -74,10 +73,7 @@ int	init_parser(t_shell *shell, t_token *tkn)
 		init_cmd(shell, i, n);
 		shell->cmds[i].args = (char **)malloc(sizeof(char *) * (n + 1));
 		if (shell->cmds[i].args == NULL)
-		{
-			ft_free_t_cmd(shell->cmds, shell->cmds_count);
-			return (0);
-		}
+			ft_exit_error(shell, errno);
 		while (tkn && ft_strncmp(tkn->type, "PIPE", 4))
 			tkn = tkn->next;
 		if (tkn)

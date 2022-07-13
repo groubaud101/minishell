@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 08:56:29 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/13 17:29:58 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/13 18:28:51 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ void	ft_free_t_cmd(t_cmd *cmds, int nb_cmds)
 	i = 0;
 	while (i < nb_cmds)
 	{
+		if (cmds[i].left.oflag != -1)
+			free(cmds[i].left.target);
+		if (cmds[i].right.oflag != -1)
+			free(cmds[i].right.target);
 		ft_free_tab(cmds->args);
 		i++;
 	}
