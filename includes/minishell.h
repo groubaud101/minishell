@@ -112,8 +112,7 @@ int		ft_choose_the_exec(t_shell *shell);
 void	ft_init_mini(t_shell *shell, char **envp);
 char	**ft_split_once(char *str, char c);
 char	**ft_convert_env_list_to_tab(t_shell *shell);
-void	ft_close(t_shell *shell);
-int		ft_redir(t_shell *shell, t_cmd cmd);
+int		ft_check_syntax(t_shell *shell);
 void	ft_exit_error(t_shell *shell, int ret_value);
 
 void	handle_ctrl_bs(int sig);

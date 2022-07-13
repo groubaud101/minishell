@@ -72,15 +72,15 @@ static t_env	*ft_attribute_elem_env(t_shell *shell, char *envp)
 
 	lst = malloc(sizeof(t_env));
 	if (lst == NULL)
-		ft_exit_error(shell, ENOMEM);
+		ft_exit_error(shell, errno);
 	name_value = ft_split_once(envp, '=');
 	if (!name_value)
-		ft_exit_error(shell, ENOMEM);
-	lst->name = name_value[0];
+		ft_exit_error(shell, errno);
+	lst->name = ft_strdup(name_value[0]);
 	lst->len_name = ft_strlen(lst->name);
-	lst->value = name_value[1];
+	lst->value = ft_strdup(name_value[1]);
 	lst->next = NULL;
-	free(name_value);
+	ft_free_tab(name_value);
 	return (lst);
 }
 

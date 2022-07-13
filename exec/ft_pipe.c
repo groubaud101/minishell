@@ -21,7 +21,7 @@ static int	ft_wif_ret(int status)
 	else if (WIFSTOPPED(status))
 		return (WSTOPSIG(status));
 	else
-		return (1);
+		return (status);
 }
 
 int	ft_child(t_shell *shell, int i, int fd_save, int *fd)
@@ -32,14 +32,14 @@ int	ft_child(t_shell *shell, int i, int fd_save, int *fd)
 	if (pid < 0)
 	{
 		perror("bash: fork: ");
-		exit(1);
+		ft_exit_error(shell, errno);
 	}
 	if (pid == 0)
 	{
 		if (i > 0 && dup2(fd_save, STDIN_FILENO) == -1)
 		{
 			perror("bash: fork: ");
-			exit(1);
+			ft_exit_error(shell, errno);
 		}
 		if (i < shell->cmds_count - 1)
 		{

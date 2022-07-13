@@ -65,7 +65,7 @@ int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 		ret_value = ft_cd(shell, cmd.args[1]);
 	else if (!ft_strcmp(cmd.args[0], "pwd"))
 		ret_value = ft_pwd(shell);
-	else if (!ft_strcmp(cmd.args[0], "export"))
+	else if (!ft_strcmp(cmd.args[0], "xport"))
 		ret_value = ft_transi_export(shell, cmd);
 	else if (!ft_strcmp(cmd.args[0], "unset"))
 		ret_value = ft_unset(shell, cmd);

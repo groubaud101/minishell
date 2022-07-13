@@ -43,7 +43,7 @@ int	ft_execve(char **cmd, char **paths, char *envp[])
 		i++;
 	}
 	ft_printf_fd(STDERR_FILENO, "bash: %s: command not found\n", cmd[0]);
-	exit(127);
+	return (1);
 }
 
 int	ft_exec(t_shell *shell, t_cmd cmd)
@@ -52,7 +52,9 @@ int	ft_exec(t_shell *shell, t_cmd cmd)
 
 	ft_attribute_signal(SIG_DFL, SIG_DFL);
 	// if (!ft_redir(shell, cmd))
-		ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
+	ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
+	if (ret == 1)
+		ft_exit_error(shell, ret);
 	// else
 	// 	exit(1);
 	return (ret);

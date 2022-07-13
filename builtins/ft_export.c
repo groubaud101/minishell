@@ -16,7 +16,7 @@ int	ft_export(t_shell *shell, char *name, char *value)
 {
 	if (name == NULL && value)
 	{
-		printf("bash: export: '=%s': not a valid identifier\n", value);
+		ft_printf_fd(STDERR_FILENO, "bash: export: '=%s': not a valid identifier\n", value);
 		return (1);
 	}
 	if (name == NULL && value == NULL)

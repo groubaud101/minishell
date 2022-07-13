@@ -38,7 +38,7 @@ int	ft_launch_minishell(t_shell *shell)
 		return (0);
 	}
 	parse(shell, input);
-	if (shell->cmds->cmd)
+	if (shell->cmds->cmd && ft_check_syntax(shell) == CHECK_OK)
 	{
 		add_history(input);
 		free(input);
