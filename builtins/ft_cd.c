@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 09:17:34 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 20:05:08 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/13 21:24:19 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ static int	ft_update_pwd_env(t_shell *shell, char *name, char *absolute_path)
 
 	tmp_env = ft_getenv(name, shell->env);
 	if (tmp_env)
-		tmp_pwd = tmp_env->name;
+		tmp_pwd = ft_strdup(tmp_env->name);
 	else
 		tmp_pwd = ft_strdup(name);
 	if (tmp_pwd == NULL)
-		ft_exit_error(shell, ENOMEM);
+		ft_exit_error(shell, errno);
 	ft_export_to_env(shell, tmp_pwd, absolute_path);
 	return (CHECK_OK);
 }
@@ -49,7 +49,15 @@ static int	ft_update_pwd_env(t_shell *shell, char *name, char *absolute_path)
 
 int	ft_cd(t_shell *shell, char *path)
 {
+	t_env	*env_home;
+
 	ft_update_pwd_env(shell, "OLDPWD", ft_getcwd(shell));
+	if (!path)
+	{
+		env_home = ft_getenv("HOME", shell->env);
+		if (env_home)
+			path = env_home->value;
+	}
 	if (chdir(path) == -1)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: cd: %s: ", path);
