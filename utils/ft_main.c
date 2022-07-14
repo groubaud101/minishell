@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 05:20:19 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 19:52:05 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/14 01:55:51 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	main(int ac, char **av, char **envp)
 	ft_init_mini(&shell, envp);
 	while (ac > -1)
 	{
-		ft_attribute_signal(handle_ctrl_c, handle_ctrl_bs);
+		ft_attribute_signal(handle_ctrl_c, SIG_IGN);
 		ft_launch_minishell(&shell);
 	}
 	return (0);

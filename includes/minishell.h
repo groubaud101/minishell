@@ -6,25 +6,18 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/14 01:24:48 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/14 11:52:49 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <unistd.h>
 # include <stdio.h>
-# include <stdlib.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
 # include <fcntl.h>
-# include <stdint.h>
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <termios.h>
 
 # include "libft.h"
 # include "get_next_line.h"
@@ -32,14 +25,10 @@
 
 # define CHECK_OK 0
 # define CHECK_ERR -1
-# define TO_EXIT 1
-# define NO_EXIT 0
 
 # define STDIN STDIN_FILENO
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
-
-# define COUCOU "%s : ligne %i in %s()\n", __FILE__, __LINE__, __func__
 
 typedef struct s_spec
 {
@@ -79,25 +68,18 @@ typedef struct s_env
 	struct s_env	*next;
 }				t_env;
 
-typedef struct s_bash
-{
-	char			*name;
-	int				len_name;
-	char			*value;
-	struct s_bash	*next;
-}				t_bash;
-
 typedef struct s_shell
 {
-	int		exit_status;
 	int		cmds_count;
 	t_cmd	*cmds;
-	int		fd_in;
-	int		fd_out;
 	char	**paths;
 	t_env	*env;
 	int		env_has_changed;
 	char	**envp_tab;
+	int		fd_in;
+	int		fd_out;
+	int		save_stdin;
+	int		save_stdout;
 	int		ret_value;
 }				t_shell;
 
@@ -106,6 +88,8 @@ int		ft_pipe(t_shell *shell, int i);
 int		ft_exec(t_shell *shell, t_cmd cmd);
 int		ft_execve(char **cmd, char **paths, char *envp[]);
 int		ft_choose_the_exec(t_shell *shell);
+int		ft_back_to_std(t_shell *shell, t_cmd cmd);
+int		ft_redir(t_shell *shell, t_cmd cmd);
 
 /* utils */
 void	ft_init_mini(t_shell *shell, char **envp);
@@ -114,7 +98,6 @@ char	**ft_convert_env_list_to_tab(t_shell *shell);
 int		ft_check_syntax(t_shell *shell);
 void	ft_exit_error(t_shell *shell, int ret_value);
 
-void	handle_ctrl_bs(int sig);
 void	handle_ctrl_c(int sig);
 void	ft_attribute_signal(void (*sig_int)(int), void (*sig_quit)(int));
 

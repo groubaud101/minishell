@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 10:59:12 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 20:02:23 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/14 11:52:16 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	ft_redir_in(t_shell *shell, t_cmd cmd)
 {
-	shell->fd_in = open(cmd.left.target, cmd.left.oflag);
+	shell->fd_in = open(cmd.left.target, cmd.left.oflag, 644);
+	shell->save_stdin = dup(STDIN_FILENO);
 	if (shell->fd_in == -1)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
@@ -33,7 +34,8 @@ static int	ft_redir_in(t_shell *shell, t_cmd cmd)
 
 static int	ft_redir_out(t_shell *shell, t_cmd cmd)
 {
-	shell->fd_out = open(cmd.right.target, cmd.right.oflag);
+	shell->fd_out = open(cmd.right.target, cmd.right.oflag, 0644);
+	shell->save_stdout = dup(STDOUT_FILENO);
 	if (shell->fd_out == -1)
 	{
 		ft_printf_fd(STDERR_FILENO, "bash: %s: Permission denied\n",
@@ -56,14 +58,19 @@ int	ft_redir(t_shell *shell, t_cmd cmd)
 
 	ret = 0;
 	if (cmd.left.oflag != -1)
-	{
-		if (ft_redir_in(shell, cmd) == 1)
-			ret = 1;
-	}
+		ret = ft_redir_in(shell, cmd);
 	if (cmd.right.oflag != -1)
-	{
-		if (ft_redir_out(shell, cmd) == -1)
-			ret = 1;
-	}
+		ret = ft_redir_out(shell, cmd);
 	return (ret);
+}
+
+int	ft_back_to_std(t_shell *shell, t_cmd cmd)
+{
+	if (cmd.left.oflag != -1
+		&& dup2(shell->save_stdin, STDIN_FILENO) == -1)
+		return (1);
+	if (cmd.right.oflag != -1
+		&& dup2(shell->save_stdout, STDOUT_FILENO) == -1)
+		return (1);
+	return (0);
 }

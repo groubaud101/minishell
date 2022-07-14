@@ -6,7 +6,7 @@
 #    By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/31 15:34:29 by user42            #+#    #+#              #
-#    Updated: 2022/07/14 00:50:51 by groubaud         ###   ########.fr        #
+#    Updated: 2022/07/14 11:52:35 by groubaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ I_INC	=	-I $(D_INC_L) -I $(D_INC) -I.
 LIBFT	+=	-L $(shell brew --prefix readline)/lib
 I_INC	+=	-I $(shell brew --prefix readline)/include
 
-S_EXEC	=	pipe exec choose_the_exec
+S_EXEC	=	pipe exec choose_the_exec redir_in_out
 S_UTILS	=	main init convert signal exit_error check_syntax
 S_BUILT	=	env getenv cd pwd export_to_env export display_export \
 			exec_builtin unset echo exit

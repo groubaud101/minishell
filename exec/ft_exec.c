@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 17:26:50 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/14 01:21:50 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/14 09:59:33 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ int	ft_exec(t_shell *shell, t_cmd cmd)
 	int	ret;
 
 	ft_attribute_signal(SIG_DFL, SIG_DFL);
-	ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
+	ret = 1;
+	if (ft_redir(shell, cmd) == 0)
+		ret = ft_execve(cmd.args, shell->paths, shell->envp_tab);
 	if (ret == 1)
 		ft_exit_error(shell, ret);
 	return (ret);

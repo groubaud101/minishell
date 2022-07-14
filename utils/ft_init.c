@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 16:08:55 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/12 19:50:54 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/14 11:57:05 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,13 @@ static t_env	*ft_init_env(t_shell *shell, char *envp[])
 ** Create the master structure 'shell'
 **  'cmds_count' : nb of cmd in the expression, ex : 'ls | cat' -> 2 cmds
 **  'cmds' : tab of structure where the commands are set up
-**  'binary_name' : the name of the executable (should be minishell)
-**  'fd_in' : file descriptor input
-**  'fd_out' : file descriptor output
 **  'env' : chain list of the environment
 **  'env_has_changed' : a bool to know if it's needed to remake envp_tab
 **  'envp_tab' : a tab version of 'env' (== envp)
 **  'paths' : a tab of every paths in the env variable PATH
+**  'fd_in' : file descriptor input
+**  'fd_out' : file descriptor output
+**  'ret_value' : value for $?
 */
 
 void	ft_init_mini(t_shell *shell, char **envp)
@@ -133,8 +133,6 @@ void	ft_init_mini(t_shell *shell, char **envp)
 
 	shell->cmds_count = 0;
 	shell->cmds = NULL;
-	shell->fd_in = STDIN_FILENO;
-	shell->fd_out = STDOUT_FILENO;
 	shell->env = ft_init_env(shell, envp);
 	if (!shell->env)
 		ft_exit_error(shell, errno);
@@ -148,5 +146,7 @@ void	ft_init_mini(t_shell *shell, char **envp)
 		if (!shell->paths)
 			ft_exit_error(shell, errno);
 	}
+	shell->fd_in = STDIN_FILENO;
+	shell->fd_out = STDOUT_FILENO;
 	shell->ret_value = 0;
 }
