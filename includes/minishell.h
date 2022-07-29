@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/14 11:52:49 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/29 08:10:47 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # define STDIN STDIN_FILENO
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
+
+# define COUCOU "%s : ligne %i in %s()\n", __FILE__, __LINE__, __func__
 
 typedef struct s_spec
 {
@@ -146,7 +148,7 @@ void	cpy_in_quotes(char *content, int *i, int *j, char *new);
 int		len_wo_quotes(char *str);
 int		remove_quotes(t_token **head);
 int		valid_quotes(char *input);
-void	handle_quotes(char **input, int *i);
+void	handle_quotes(char *input, int *i);
 
 int		trim_tkn(t_token **tkn);
 int		save_chev_l(t_shell *shell, t_token **tkn, int i);
@@ -160,7 +162,7 @@ int		save_cmds(t_shell *shell, t_token *tkn);
 t_spec	find_spec(char *s);
 void	tkn_add_back(t_token **alst, t_token *new);
 t_token	*new_tkn(char *content, int size, char *type);
-void	handle_input(t_token **head, char **input, int *i);
+void	handle_input(t_token **head, char *input, int *i, int *j);
 int		tokenize(t_shell *shell, char *input, t_token **head);
 
 void	clear_tknlst(t_token **head, void (*del)(void *));

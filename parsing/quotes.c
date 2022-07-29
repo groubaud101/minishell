@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 16:58:47 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/12 19:49:27 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/29 08:05:54 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ int	valid_quotes(char *input)
 	return (1);
 }
 
-void	handle_quotes(char **input, int *i)
+void	handle_quotes(char *input, int *i)
 {
 	char	c;
 
-	c = (*input)[(*i)++];
-	while ((*input)[*i] && (*input)[*i] != c)
+	c = (input)[(*i)++];
+	while ((input)[*i] && (input)[*i] != c)
 		++*i;
 	++*i;
 }
