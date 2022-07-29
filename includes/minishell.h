@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 04:46:05 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/29 11:59:11 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/29 12:43:15 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@
 # define STDIN STDIN_FILENO
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
-
-# define COUCOU "%s : ligne %i in %s()\n", __FILE__, __LINE__, __func__
 
 typedef struct s_spec
 {
@@ -170,7 +168,5 @@ void	clear_tknlst(t_token **head, void (*del)(void *));
 int		free_all(t_token **head);
 int		fail(char *err);
 char	*ft_strjoin_free(char *s1, char *s2);
-
-void	ft_aff_list(t_token *list);
 
 #endif

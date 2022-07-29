@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 18:38:07 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/29 12:24:48 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/29 12:45:47 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,6 @@ void	handle_input(t_token **head, char *input, int *i, int *j)
 	(*i)++;
 }
 
-void	ft_aff_list(t_token *list)
-{
-	dprintf(2, "\nTKN list :\n");
-	while (list)
-	{
-		dprintf(2, "content : |%s|, size : %i, type : |%s|\n",
-			list->content, list->size, list->type);
-		list = list->next;
-	}
-	dprintf(2, "END token list\n\n");
-}
-
 int	tokenize(t_shell *shell, char *input, t_token **head)
 {
 	int		i;
@@ -106,7 +94,6 @@ int	tokenize(t_shell *shell, char *input, t_token **head)
 	if (!valid_quotes(input))
 		ft_exit_error(shell, errno);
 	i = 0;
-	// dprintf(2, COUCOU);
 	while (input[i])
 	{
 		j = 0;
@@ -115,20 +102,13 @@ int	tokenize(t_shell *shell, char *input, t_token **head)
 		if (!input[i])
 			break ;
 	}
-
-	// dprintf(2, COUCOU);
 	if (input[0] && &(input[i]) != input)
 		tkn_add_back(head, new_tkn(input, i, "WORD"));
-	// dprintf(2, COUCOU);
-	// ft_aff_list(*head);
 	if (ft_check_no_word(*head) == CHECK_ERR)
 		return (0);
-	// dprintf(2, COUCOU);
-
 	if (!replace_env_var(shell, head))
 		ft_exit_error(shell, errno);
 	if (!remove_quotes(head))
 		ft_exit_error(shell, errno);
-	// dprintf(2, COUCOU);
 	return (1);
 }

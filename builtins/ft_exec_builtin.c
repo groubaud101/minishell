@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 21:03:56 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/29 11:41:46 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/29 12:44:27 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	ft_transi_exit(t_shell *shell, t_cmd cmd)
 			shell->ret_value = ft_atoi_no_overflow(cmd.args[1]);
 		else
 		{
-			ft_printf_fd(STDERR_FILENO, "bash: exit: %s: numeric argument required\n",
-			cmd.args[1]);
+			ft_printf_fd(STDERR_FILENO, "bash: exit: %s: numeric argument"
+				" required\n", cmd.args[1]);
 			shell->ret_value = 255;
 		}
 	}

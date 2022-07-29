@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 18:21:28 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/29 10:52:43 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/29 12:44:58 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	save_chev_r(t_shell *shell, t_token **tkn, int i)
 int	save_chev_rr(t_shell *shell, t_token **tkn, int i)
 {
 	int	fd;
-	
+
 	trim_tkn(tkn);
 	shell->cmds[i].right.target = ft_strdup((*tkn)->content);
 	if (!shell->cmds[i].right.target)

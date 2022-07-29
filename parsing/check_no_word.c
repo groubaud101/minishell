@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 12:33:31 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/29 12:40:29 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/29 12:44:49 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 int	ft_is_chevr_pipe(char *str)
 {
 	if (ft_strcmp(str, ">") == 0
-	|| ft_strcmp(str, ">>") == 0
-	|| ft_strcmp(str, "<") == 0
-	|| ft_strcmp(str, "<<") == 0
-	|| ft_strcmp(str, "|") == 0)
+		|| ft_strcmp(str, ">>") == 0
+		|| ft_strcmp(str, "<") == 0
+		|| ft_strcmp(str, "<<") == 0
+		|| ft_strcmp(str, "|") == 0)
 		return (CHECK_OK);
 	return (CHECK_ERR);
 }
@@ -42,14 +42,11 @@ int	ft_check_no_word(t_token *list)
 	if (ctrl == 0)
 		return (CHECK_OK);
 	tmp = list;
-	// ft_aff_list(tmp);
-	// dprintf(2, "ctrl : %i\n", ctrl);
 	while (tmp)
 	{
 		if (ctrl == 1 && ft_strcmp(tmp->type, "WORD") == 0)
 			return (CHECK_OK);
 		tmp = tmp->next;
 	}
-	// dprintf(2, COUCOU);
 	return (CHECK_ERR);
 }
