@@ -6,7 +6,7 @@
 #    By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/31 15:34:29 by user42            #+#    #+#              #
-#    Updated: 2022/07/14 11:52:35 by groubaud         ###   ########.fr        #
+#    Updated: 2022/07/29 12:34:02 by groubaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ S_UTILS	=	main init convert signal exit_error check_syntax
 S_BUILT	=	env getenv cd pwd export_to_env export display_export \
 			exec_builtin unset echo exit
 S_PARS	=	envars init parse quotes_utils quotes save_chev save \
-			token utils
+			token utils check_no_word
 
 SRCS	=	$(addprefix $(D_EXEC)ft_, $(addsuffix .c, $(S_EXEC))) \
 			$(addprefix $(D_UTILS)ft_, $(addsuffix .c, $(S_UTILS))) \

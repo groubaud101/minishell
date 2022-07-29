@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrobert <jrobert@student.s19.be>           +#+  +:+       +#+        */
+/*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 16:49:33 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/12 18:04:33 by jrobert          ###   ########.fr       */
+/*   Updated: 2022/07/29 12:07:58 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,21 @@ int	parse(t_shell *shell, char *input)
 
 	tkn = NULL;
 	if (!tokenize(shell, input, &tkn))
-		return (free_all(&tkn) && fail("Error - Syntax"));
+	{
+		shell->ret_value = 258;
+		free_all(&tkn);
+		return (fail("syntax error"));
+	}
 	if (!init_parser(shell, tkn))
-		return (free_all(&tkn) && fail("Error - Init Parser"));
+	{
+		free_all(&tkn);
+		return (fail("Error - Init Parser"));
+	}
 	if (!save_cmds(shell, tkn))
-		return (free_all(&tkn) && fail("Error - Save Cmds"));
+	{
+		free_all(&tkn);
+		return (fail("Error - Save commands"));
+	}
 	free_all(&tkn);
-	return (1);
+	return (0);
 }

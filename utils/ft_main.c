@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 05:20:19 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/14 01:55:51 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/29 12:07:38 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,17 @@ int	ft_launch_minishell(t_shell *shell)
 		free(input);
 		return (0);
 	}
-	parse(shell, input);
-	if (shell->cmds->cmd && ft_check_syntax(shell) == CHECK_OK)
+	add_history(input);
+	// dprintf(2, COUCOU);
+	if (parse(shell, input) == 1)
 	{
-		add_history(input);
 		free(input);
-		ft_choose_the_exec(shell);
+		return (1);
 	}
+	// dprintf(2, COUCOU);
+	free(input);
+	if (shell->cmds->cmd && ft_check_syntax(shell) == CHECK_OK)
+		ft_choose_the_exec(shell);
 	ft_free_t_cmd(shell->cmds, shell->cmds_count);
 	shell->cmds = NULL;
 	return (0);

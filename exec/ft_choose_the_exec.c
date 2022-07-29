@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 16:15:50 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/14 12:01:24 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/29 11:35:46 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,14 @@ int	ft_choose_the_exec(t_shell *shell)
 	if (shell->ret_value == -19 || shell->cmds_count > 1)
 		shell->ret_value = ft_pipe(shell, 0);
 	if (shell->ret_value == 11)
+	{
+		shell->ret_value = 139;
 		ft_printf_fd(STDERR_FILENO, "Segmentation fault: 11\n");
+	}
 	else if (shell->ret_value == 10)
+	{
+		shell->ret_value = 138;
 		ft_printf_fd(STDERR_FILENO, "Bus error: 10\n");
+	}
 	return (1);
 }

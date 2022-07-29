@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 17:48:16 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/13 18:30:46 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/29 12:33:03 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	fail(char *err)
 {
 	ft_putstr_fd("bash: ", 2);
 	ft_putendl_fd(err, 2);
-	return (0);
+	return (1);
 }
 
 char	*ft_strjoin_free(char *s1, char *s2)

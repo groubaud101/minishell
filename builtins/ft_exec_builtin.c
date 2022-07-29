@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 21:03:56 by groubaud          #+#    #+#             */
-/*   Updated: 2022/07/14 12:02:41 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/29 11:41:46 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_transi_export(t_shell *shell, t_cmd cmd)
 	return (0);
 }
 
-void	ft_transi_exit(t_shell *shell, t_cmd cmd)
+int	ft_transi_exit(t_shell *shell, t_cmd cmd)
 {
 	printf("exit\n");
 	if (cmd.args[1])
@@ -49,15 +49,19 @@ void	ft_transi_exit(t_shell *shell, t_cmd cmd)
 		if (cmd.args[2])
 		{
 			ft_printf_fd(STDERR_FILENO, "bash: exit: too many arguments\n");
-			shell->ret_value = 1;
-			return ;
+			return (1);
 		}
 		if (ft_str_isdigit(cmd.args[1]) == 1)
 			shell->ret_value = ft_atoi_no_overflow(cmd.args[1]);
 		else
-			shell->ret_value = 2;
+		{
+			ft_printf_fd(STDERR_FILENO, "bash: exit: %s: numeric argument required\n",
+			cmd.args[1]);
+			shell->ret_value = 255;
+		}
 	}
 	ft_exit(shell);
+	return (shell->ret_value);
 }
 
 int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
@@ -78,7 +82,7 @@ int	ft_exec_builtin(t_shell *shell, t_cmd cmd)
 	else if (!ft_strcmp(cmd.args[0], "env"))
 		ft_env(shell->env);
 	else if (!ft_strcmp(cmd.args[0], "exit"))
-		ft_transi_exit(shell, cmd);
+		ret_value = ft_transi_exit(shell, cmd);
 	else
 		return (-19);
 	return (ret_value);

@@ -6,7 +6,7 @@
 /*   By: groubaud <groubaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 18:21:28 by jrobert           #+#    #+#             */
-/*   Updated: 2022/07/13 18:10:33 by groubaud         ###   ########.fr       */
+/*   Updated: 2022/07/29 10:52:43 by groubaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	save_chev_l(t_shell *shell, t_token **tkn, int i)
 
 int	save_chev_r(t_shell *shell, t_token **tkn, int i)
 {
+	int	fd;
+
 	trim_tkn(tkn);
 	shell->cmds[i].right.target = ft_strdup((*tkn)->content);
 	if (!shell->cmds[i].right.target)
@@ -44,11 +46,16 @@ int	save_chev_r(t_shell *shell, t_token **tkn, int i)
 		ft_exit_error(shell, errno);
 	}
 	shell->cmds[i].right.oflag = O_CREAT | O_TRUNC | O_RDWR;
+	fd = open(shell->cmds[i].right.target, shell->cmds[i].right.oflag, 0644);
+	if (fd > 0)
+		close(fd);
 	return (1);
 }
 
 int	save_chev_rr(t_shell *shell, t_token **tkn, int i)
 {
+	int	fd;
+	
 	trim_tkn(tkn);
 	shell->cmds[i].right.target = ft_strdup((*tkn)->content);
 	if (!shell->cmds[i].right.target)
@@ -57,5 +64,8 @@ int	save_chev_rr(t_shell *shell, t_token **tkn, int i)
 		ft_exit_error(shell, errno);
 	}
 	shell->cmds[i].right.oflag = O_CREAT | O_APPEND | O_RDWR;
+	fd = open(shell->cmds[i].right.target, shell->cmds[i].right.oflag, 0644);
+	if (fd > 0)
+		close(fd);
 	return (1);
 }
